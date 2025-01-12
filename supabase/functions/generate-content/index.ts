@@ -21,32 +21,104 @@ serve(async (req) => {
     })
 
     let prompt = ''
-    let systemPrompt = `You are an expert content writer for an accounting firm. 
+    let systemPrompt = `You are an expert content writer for Cloudkeepers Accountants. 
     Create professional, SEO-optimized content that demonstrates expertise and authority.
     Include specific details about ${city} and its business environment.
     Focus on how ${service} services can benefit local businesses.
-    Use a professional yet approachable tone.`
+    Use a professional yet approachable tone.
+    Do not mention specific pricing or phone numbers.
+    Focus on value proposition and expertise.`
 
     switch (type) {
       case 'meta_title':
         prompt = `Create an SEO-optimized title for ${service} services in ${city}. 
-        Include the location and service type. Keep it under 60 characters.`
+        Include the location and service type. Keep it under 60 characters.
+        Brand name is Cloudkeepers Accountants.`
         break
       case 'meta_description':
         prompt = `Write an engaging meta description for ${service} services in ${city}. 
-        Highlight key benefits and include a call to action. Keep it under 160 characters.`
+        Highlight key benefits and include a call to action. Keep it under 160 characters.
+        Brand name is Cloudkeepers Accountants.`
         break
       case 'main_content':
-        prompt = `Create comprehensive content about ${service} services in ${city}. Include:
-        1. Introduction to the local business environment
+        prompt = `Create comprehensive content about ${service} services in ${city} for Cloudkeepers Accountants. Include:
+        1. Introduction to the local business environment in ${city}
         2. Specific ${service} challenges faced by businesses in ${city}
         3. How our services help local businesses
         4. Industry expertise and qualifications
         5. Local compliance requirements
-        6. Case studies or success stories
+        6. Benefits of choosing Cloudkeepers Accountants
         7. Call to action
-        Make it engaging, informative, and optimized for SEO.`
+        Make it engaging, informative, and optimized for SEO. Format in Markdown.`
         break
+      case 'all':
+        const titleResponse = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Create an SEO-optimized title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
+          ],
+          temperature: 0.7,
+        })
+
+        const descResponse = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Write an engaging meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
+          ],
+          temperature: 0.7,
+        })
+
+        const contentResponse = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Create comprehensive content about ${service} services in ${city}. Include local business environment, challenges, solutions, and benefits. Format in Markdown.` }
+          ],
+          temperature: 0.7,
+          max_tokens: 2000,
+        })
+
+        // Store in Supabase
+        const supabaseClient = createClient(
+          Deno.env.get('SUPABASE_URL') ?? '',
+          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+        )
+
+        const title = titleResponse.choices[0]?.message?.content || ''
+        const description = descResponse.choices[0]?.message?.content || ''
+        const mainContent = contentResponse.choices[0]?.message?.content || ''
+
+        await Promise.all([
+          supabaseClient.from('content_cache').upsert({
+            city,
+            service,
+            type: 'meta_title',
+            content: title,
+          }),
+          supabaseClient.from('content_cache').upsert({
+            city,
+            service,
+            type: 'meta_description',
+            content: description,
+          }),
+          supabaseClient.from('content_cache').upsert({
+            city,
+            service,
+            type: 'main_content',
+            content: mainContent,
+          })
+        ])
+
+        return new Response(
+          JSON.stringify({ 
+            title,
+            description,
+            mainContent
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
       default:
         throw new Error('Invalid content type')
     }
@@ -76,7 +148,6 @@ serve(async (req) => {
         service,
         type,
         content: generatedContent,
-        created_at: new Date().toISOString(),
       })
 
     return new Response(

@@ -44,21 +44,16 @@ export function DynamicPage() {
 
         if (!titleData || !descData || !mainData) {
           // Generate new content if any is missing
-          const response = await fetch('/api/generate-content', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ city, service, type: 'all' }),
+          const { data, error } = await supabase.functions.invoke('generate-content', {
+            body: { city, service, type: 'all' }
           })
 
-          if (!response.ok) throw new Error('Failed to generate content')
+          if (error) throw error
 
-          const newContent = await response.json()
           setContent({
-            title: newContent.title,
-            description: newContent.description,
-            mainContent: newContent.mainContent
+            title: data.title,
+            description: data.description,
+            mainContent: data.mainContent
           })
         } else {
           setContent({
@@ -70,9 +65,9 @@ export function DynamicPage() {
       } catch (error) {
         console.error('Error fetching content:', error)
         setContent({
-          title: `${service} Services in ${city}`,
-          description: `Professional ${service} services in ${city}. Get in touch for a free consultation.`,
-          mainContent: `# Welcome to our ${service} services in ${city}\n\nWe provide professional assistance tailored to your needs.`
+          title: `${service} Services in ${city} | Cloudkeepers Accountants`,
+          description: `Professional ${service} services in ${city} by Cloudkeepers Accountants. Get in touch for expert financial guidance.`,
+          mainContent: `# Welcome to Cloudkeepers Accountants ${service} services in ${city}\n\nWe provide professional assistance tailored to your needs.`
         })
       } finally {
         setLoading(false)
