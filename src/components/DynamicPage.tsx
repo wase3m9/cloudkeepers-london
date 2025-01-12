@@ -23,7 +23,7 @@ export function DynamicPage() {
           .eq('city', city)
           .eq('service', service)
           .eq('type', 'meta_title')
-          .single()
+          .maybeSingle()
 
         const { data: descData } = await supabase
           .from('content_cache')
@@ -31,7 +31,7 @@ export function DynamicPage() {
           .eq('city', city)
           .eq('service', service)
           .eq('type', 'meta_description')
-          .single()
+          .maybeSingle()
 
         const { data: mainData } = await supabase
           .from('content_cache')
@@ -39,15 +39,21 @@ export function DynamicPage() {
           .eq('city', city)
           .eq('service', service)
           .eq('type', 'main_content')
-          .single()
+          .maybeSingle()
 
         setContent({
           title: titleData?.content || `${service} Services in ${city}`,
           description: descData?.content || `Professional ${service} services in ${city}. Get in touch for a free consultation.`,
-          mainContent: mainData?.content || 'Loading content...'
+          mainContent: mainData?.content || `<p>Welcome to our ${service} services in ${city}. We provide professional assistance tailored to your needs.</p>`
         })
       } catch (error) {
         console.error('Error fetching content:', error)
+        // Set default content in case of error
+        setContent({
+          title: `${service} Services in ${city}`,
+          description: `Professional ${service} services in ${city}. Get in touch for a free consultation.`,
+          mainContent: `<p>Welcome to our ${service} services in ${city}. We provide professional assistance tailored to your needs.</p>`
+        })
       } finally {
         setLoading(false)
       }
