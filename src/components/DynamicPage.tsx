@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { LeadForm } from './LeadForm'
 import { supabase } from '@/lib/supabase'
 import ReactMarkdown from 'react-markdown'
 import { Header } from './Header'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 
 export function DynamicPage() {
   const { city = 'london', service = 'accounting' } = useParams()
@@ -15,6 +16,7 @@ export function DynamicPage() {
   })
   const [niches, setNiches] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
     const fetchNiches = async () => {
@@ -27,6 +29,7 @@ export function DynamicPage() {
 
   useEffect(() => {
     const fetchContent = async () => {
+      setLoading(true)
       try {
         // Try to fetch from cache first
         const { data: titleData } = await supabase
@@ -55,6 +58,7 @@ export function DynamicPage() {
 
         if (!titleData || !descData || !mainData) {
           // Generate new content if any is missing
+          setGenerating(true)
           const { data, error } = await supabase.functions.invoke('generate-content', {
             body: { city, service, type: 'all' }
           })
@@ -66,6 +70,7 @@ export function DynamicPage() {
             description: data.description,
             mainContent: data.mainContent
           })
+          setGenerating(false)
         } else {
           setContent({
             title: titleData.content,
@@ -89,7 +94,11 @@ export function DynamicPage() {
   }, [city, service])
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    )
   }
 
   return (
@@ -102,8 +111,25 @@ export function DynamicPage() {
       <Header niches={niches} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="mb-8">
+          <Link
+            to={`/services/${service}`}
+            className="inline-flex items-center text-blue-600 hover:text-blue-800"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to {service} Services
+          </Link>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
+            {generating ? (
+              <div className="flex items-center space-x-2 text-blue-600 mb-4">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Generating content...</span>
+              </div>
+            ) : null}
+            
             <div className="prose lg:prose-lg">
               <ReactMarkdown>{content.mainContent}</ReactMarkdown>
             </div>
