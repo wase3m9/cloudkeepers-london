@@ -105,12 +105,7 @@ export function ServicePage() {
                   >
                     <div className="flex items-center space-x-3">
                       <MapPin className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <h3 className="font-medium text-gray-900">{location.name}</h3>
-                        <p className="text-sm text-gray-500">
-                          {location.population ? `Population: ${location.population.toLocaleString()}` : 'Greater London Area'}
-                        </p>
-                      </div>
+                      <h3 className="font-medium text-gray-900">{location.name}</h3>
                     </div>
                   </Link>
                 ))}
