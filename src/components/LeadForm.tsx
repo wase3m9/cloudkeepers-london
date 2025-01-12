@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from '@/lib/supabase'
 
@@ -25,15 +24,27 @@ export function LeadForm() {
     try {
       const { error } = await supabase
         .from('leads')
-        .insert([formData])
+        .insert([{
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          website: formData.website,
+          company_size: formData.companySize,
+          service_interest: formData.serviceInterest,
+          current_software: formData.currentSoftware
+        }])
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
 
       toast({
         title: "Success!",
         description: "Thank you for your interest. We'll be in touch soon!",
       })
 
+      // Reset form after successful submission
       setFormData({
         firstName: '',
         lastName: '',
@@ -43,10 +54,10 @@ export function LeadForm() {
         serviceInterest: '',
         currentSoftware: ''
       })
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       })
     } finally {
