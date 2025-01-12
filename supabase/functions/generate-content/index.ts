@@ -15,7 +15,7 @@ async function retryWithBackoff(fn: () => Promise<any>, maxRetries = 3) {
       return await fn();
     } catch (error) {
       if (error.status === 429 && i < maxRetries - 1) {
-        const delay = Math.pow(2, i) * 1000; // Exponential backoff: 1s, 2s, 4s
+        const delay = Math.pow(2, i) * 1000;
         console.log(`Rate limited. Retrying in ${delay}ms...`);
         await new Promise(resolve => setTimeout(resolve, delay));
         continue;
@@ -26,18 +26,19 @@ async function retryWithBackoff(fn: () => Promise<any>, maxRetries = 3) {
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    const { city, service, type } = await req.json()
+    const { city, service, type } = await req.json();
     console.log(`Generating content for ${city}/${service} - Type: ${type}`);
 
     // Initialize OpenAI
     const openai = new OpenAI({
       apiKey: Deno.env.get('OPENAI_API_KEY'),
-    })
+    });
 
     // Fallback content in case of API issues
     const fallbackContent = {
@@ -60,39 +61,31 @@ Cloudkeepers Accountants provides expert ${service} services tailored to busines
 Contact us today to learn how we can help your business thrive.`
     };
 
-    let systemPrompt = `You are an expert content writer for Cloudkeepers Accountants. 
-    Create professional, SEO-optimized content that demonstrates expertise and authority.
-    Include specific details about ${city} and its business environment.
-    Focus on how ${service} services can benefit local businesses.
-    Use a professional yet approachable tone.
-    Do not mention specific pricing or phone numbers.
-    Focus on value proposition and expertise.`
-
     try {
       switch (type) {
         case 'all':
           const generateContent = async () => {
             const [titleResponse, descResponse, contentResponse] = await Promise.all([
               openai.chat.completions.create({
-                model: "gpt-4o-mini",
+                model: "gpt-3.5-turbo",
                 messages: [
-                  { role: "system", content: systemPrompt },
+                  { role: "system", content: `You are an expert content writer for Cloudkeepers Accountants. Create professional, SEO-optimized content that demonstrates expertise and authority. Include specific details about ${city} and its business environment. Focus on how ${service} services can benefit local businesses. Use a professional yet approachable tone. Do not mention specific pricing or phone numbers. Focus on value proposition and expertise.` },
                   { role: "user", content: `Create an SEO-optimized title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
                 ],
                 temperature: 0.7,
               }),
               openai.chat.completions.create({
-                model: "gpt-4o-mini",
+                model: "gpt-3.5-turbo",
                 messages: [
-                  { role: "system", content: systemPrompt },
+                  { role: "system", content: `You are an expert content writer for Cloudkeepers Accountants. Create professional, SEO-optimized content that demonstrates expertise and authority. Include specific details about ${city} and its business environment. Focus on how ${service} services can benefit local businesses. Use a professional yet approachable tone. Do not mention specific pricing or phone numbers. Focus on value proposition and expertise.` },
                   { role: "user", content: `Write an engaging meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
                 ],
                 temperature: 0.7,
               }),
               openai.chat.completions.create({
-                model: "gpt-4o-mini",
+                model: "gpt-3.5-turbo",
                 messages: [
-                  { role: "system", content: systemPrompt },
+                  { role: "system", content: `You are an expert content writer for Cloudkeepers Accountants. Create professional, SEO-optimized content that demonstrates expertise and authority. Include specific details about ${city} and its business environment. Focus on how ${service} services can benefit local businesses. Use a professional yet approachable tone. Do not mention specific pricing or phone numbers. Focus on value proposition and expertise.` },
                   { role: "user", content: `Create comprehensive content about ${service} services in ${city}. Include local business environment, challenges, solutions, and benefits. Format in Markdown.` }
                 ],
                 temperature: 0.7,
@@ -113,7 +106,7 @@ Contact us today to learn how we can help your business thrive.`
           const supabaseClient = createClient(
             Deno.env.get('SUPABASE_URL') ?? '',
             Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-          )
+          );
 
           try {
             await Promise.all([
@@ -144,10 +137,10 @@ Contact us today to learn how we can help your business thrive.`
           return new Response(
             JSON.stringify(result),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-          )
+          );
 
         default:
-          throw new Error('Invalid content type')
+          throw new Error('Invalid content type');
       }
     } catch (error) {
       console.error('OpenAI API Error:', error);
@@ -155,20 +148,16 @@ Contact us today to learn how we can help your business thrive.`
       return new Response(
         JSON.stringify(fallbackContent),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
+      );
     }
   } catch (error) {
     console.error('Error in generate-content function:', error);
     return new Response(
-      JSON.stringify({ 
-        error: error.message,
-        fallback: true,
-        content: fallbackContent
-      }),
+      JSON.stringify({ error: error.message }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: error.status || 500
       }
-    )
+    );
   }
-})
+});
