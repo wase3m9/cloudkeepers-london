@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase'
 import { LeadForm } from './LeadForm'
 import { Helmet } from 'react-helmet'
 import { CloudIcon, ArrowRight, Building2, Calculator, FileText, PiggyBank, Users } from 'lucide-react'
+import { Header } from './Header'
 
 export function HomePage() {
   const [niches, setNiches] = useState<any[]>([])
@@ -43,6 +44,8 @@ export function HomePage() {
         <title>Cloudkeepers Accountants | Making Accounting Simple</title>
         <meta name="description" content="Professional accounting services in the UK. Xero and Quickbooks specialists making tax digital ready." />
       </Helmet>
+
+      <Header niches={niches} />
 
       {/* Hero Section */}
       <div className="relative h-[600px] bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
@@ -119,28 +122,6 @@ export function HomePage() {
                   Learn more <ArrowRight className="ml-2 w-4 h-4" />
                 </span>
               </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Popular Locations */}
-      <div className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Where We Serve</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {popularLocations.map((location) => (
-              <div key={location.id} className="space-y-2">
-                {niches.map((niche) => (
-                  <Link
-                    key={`${location.id}-${niche.id}`}
-                    to={`/${location.slug}/${niche.slug}`}
-                    className="block text-gray-600 hover:text-blue-600"
-                  >
-                    {niche.name} in {location.name}
-                  </Link>
-                ))}
-              </div>
             ))}
           </div>
         </div>

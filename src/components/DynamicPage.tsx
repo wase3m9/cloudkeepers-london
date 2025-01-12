@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 import { LeadForm } from './LeadForm'
 import { supabase } from '@/lib/supabase'
 import ReactMarkdown from 'react-markdown'
+import { Header } from './Header'
 
 export function DynamicPage() {
   const { city = 'london', service = 'accounting' } = useParams()
@@ -12,7 +13,17 @@ export function DynamicPage() {
     description: '',
     mainContent: ''
   })
+  const [niches, setNiches] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchNiches = async () => {
+      const { data } = await supabase.from('niches').select('*')
+      if (data) setNiches(data)
+    }
+
+    fetchNiches()
+  }, [])
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -45,7 +56,7 @@ export function DynamicPage() {
         if (!titleData || !descData || !mainData) {
           // Generate new content if any is missing
           const { data, error } = await supabase.functions.invoke('generate-content', {
-            body: { city, service, type: 'all' }
+            body: { city, service }
           })
 
           if (error) throw error
@@ -82,26 +93,29 @@ export function DynamicPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
       <Helmet>
         <title>{content.title}</title>
         <meta name="description" content={content.description} />
       </Helmet>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <h1 className="text-4xl font-bold mb-8">{content.title}</h1>
-          <div className="prose lg:prose-lg">
-            <ReactMarkdown>{content.mainContent}</ReactMarkdown>
+      <Header niches={niches} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <div className="prose lg:prose-lg">
+              <ReactMarkdown>{content.mainContent}</ReactMarkdown>
+            </div>
           </div>
-        </div>
-        
-        <div className="lg:col-span-1">
-          <div className="sticky top-8">
-            <LeadForm />
+          
+          <div className="lg:col-span-1">
+            <div className="sticky top-8">
+              <LeadForm />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
