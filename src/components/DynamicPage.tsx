@@ -1,67 +1,53 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import { LeadForm } from './LeadForm'
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useToast } from "@/hooks/use-toast"
-import ReactMarkdown from 'react-markdown'
 import { supabase } from '@/lib/supabase'
 
 export function DynamicPage() {
-  const { city = 'London', service = 'Accounting' } = useParams()
+  const { city = 'london', service = 'accounting' } = useParams()
   const [content, setContent] = useState({
-    metaTitle: '',
-    metaDescription: '',
-    mainContent: '',
+    title: '',
+    description: '',
+    mainContent: ''
   })
   const [loading, setLoading] = useState(true)
-  const { toast } = useToast()
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const [metaTitle, metaDescription, mainContent] = await Promise.all([
-          fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-content`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({ city, service, type: 'meta_title' }),
-          }).then(res => res.json()),
-          fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-content`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({ city, service, type: 'meta_description' }),
-          }).then(res => res.json()),
-          fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-content`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({ city, service, type: 'main_content' }),
-          }).then(res => res.json()),
-        ])
+        // Try to fetch from cache first
+        const { data: titleData } = await supabase
+          .from('content_cache')
+          .select('content')
+          .eq('city', city)
+          .eq('service', service)
+          .eq('type', 'meta_title')
+          .single()
+
+        const { data: descData } = await supabase
+          .from('content_cache')
+          .select('content')
+          .eq('city', city)
+          .eq('service', service)
+          .eq('type', 'meta_description')
+          .single()
+
+        const { data: mainData } = await supabase
+          .from('content_cache')
+          .select('content')
+          .eq('city', city)
+          .eq('service', service)
+          .eq('type', 'main_content')
+          .single()
 
         setContent({
-          metaTitle: metaTitle.content,
-          metaDescription: metaDescription.content,
-          mainContent: mainContent.content,
+          title: titleData?.content || `${service} Services in ${city}`,
+          description: descData?.content || `Professional ${service} services in ${city}. Get in touch for a free consultation.`,
+          mainContent: mainData?.content || 'Loading content...'
         })
-
-        // Update meta tags
-        document.title = metaTitle.content
-        document.querySelector('meta[name="description"]')?.setAttribute('content', metaDescription.content)
       } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to load content. Please refresh the page.",
-          variant: "destructive",
-        })
+        console.error('Error fetching content:', error)
       } finally {
         setLoading(false)
       }
@@ -71,23 +57,30 @@ export function DynamicPage() {
   }, [city, service])
 
   if (loading) {
-    return (
-      <div className="container mx-auto py-8 space-y-6">
-        <Skeleton className="h-12 w-3/4" />
-        <Skeleton className="h-48 w-full" />
-        <Skeleton className="h-96 w-full" />
-      </div>
-    )
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <article className="prose lg:prose-xl mx-auto">
-        <ReactMarkdown>{content.mainContent}</ReactMarkdown>
-      </article>
-      
-      <div className="mt-12">
-        <LeadForm />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Helmet>
+        <title>{content.title}</title>
+        <meta name="description" content={content.description} />
+      </Helmet>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <h1 className="text-4xl font-bold mb-8">{content.title}</h1>
+          <div 
+            className="prose lg:prose-lg"
+            dangerouslySetInnerHTML={{ __html: content.mainContent }}
+          />
+        </div>
+        
+        <div className="lg:col-span-1">
+          <div className="sticky top-8">
+            <LeadForm />
+          </div>
+        </div>
       </div>
     </div>
   )
