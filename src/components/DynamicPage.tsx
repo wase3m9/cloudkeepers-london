@@ -56,7 +56,7 @@ export function DynamicPage() {
         if (!titleData || !descData || !mainData) {
           // Generate new content if any is missing
           const { data, error } = await supabase.functions.invoke('generate-content', {
-            body: { city, service }
+            body: { city, service, type: 'all' }
           })
 
           if (error) throw error
