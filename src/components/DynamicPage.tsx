@@ -135,12 +135,6 @@ export function DynamicPage() {
             <div className="prose lg:prose-lg">
               <ReactMarkdown>{content.mainContent}</ReactMarkdown>
             </div>
-
-            <GetStartedSection 
-              city={city} 
-              service={service}
-              niches={niches}
-            />
           </div>
           
           <div className="lg:col-span-1">
@@ -148,6 +142,14 @@ export function DynamicPage() {
               <LeadForm />
             </div>
           </div>
+        </div>
+
+        <div className="mt-16">
+          <GetStartedSection 
+            city={city} 
+            service={service}
+            niches={niches}
+          />
         </div>
       </div>
 
