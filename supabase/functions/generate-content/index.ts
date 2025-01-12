@@ -1,6 +1,6 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { Configuration, OpenAIApi } from "https://esm.sh/openai@3.1.0"
+import { Configuration, OpenAIApi } from 'https://esm.sh/openai@3.1.0'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,64 +14,59 @@ serve(async (req) => {
 
   try {
     const { city, service, type } = await req.json()
-    
+
+    // Check cache first
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     )
 
-    // Check cache first
     const { data: cachedContent } = await supabaseClient
       .from('content_cache')
-      .select('*')
+      .select('content')
       .eq('city', city)
       .eq('service', service)
       .eq('type', type)
       .single()
 
     if (cachedContent) {
-      return new Response(JSON.stringify(cachedContent), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
+      return new Response(
+        JSON.stringify({ content: cachedContent.content }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
     }
 
+    // Generate new content if not cached
     const configuration = new Configuration({
       apiKey: Deno.env.get('OPENAI_API_KEY'),
     })
     const openai = new OpenAIApi(configuration)
 
     let prompt = ''
-    switch(type) {
+    switch (type) {
       case 'meta_title':
-        prompt = `Generate an SEO-optimized meta title for an accountancy firm's ${service} service in ${city}. Include the city name and make it compelling.`
+        prompt = `Write an SEO-optimized title tag for an accountancy firm's ${service} service in ${city}. Include the main keyword and keep it under 60 characters.`
         break
       case 'meta_description':
-        prompt = `Write an SEO-optimized meta description for an accountancy firm's ${service} service in ${city}. Include key benefits and a call to action.`
+        prompt = `Write an SEO-optimized meta description for an accountancy firm's ${service} service in ${city}. Include key benefits and a call to action. Keep it under 160 characters.`
         break
       case 'main_content':
-        prompt = `Write comprehensive, SEO-optimized content about ${service} services for an accountancy firm in ${city}. Include local context, benefits, and why choose us sections. Make it engaging and informative. Include the following pricing information and FAQs: ${websiteContext}`
+        prompt = `Write comprehensive, SEO-optimized content about ${service} services for an accountancy firm in ${city}. Include local context, benefits, and why choose us sections. Make it engaging and informative. Include pricing information and address common questions about accounting services in ${city}.`
         break
       default:
         throw new Error('Invalid content type')
     }
 
-    const completion = await openai.createChatCompletion({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert SEO copywriter specializing in accounting services content."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
+    const completion = await openai.createCompletion({
+      model: 'gpt-4o-mini',
+      prompt,
+      max_tokens: type === 'main_content' ? 2000 : 200,
+      temperature: 0.7,
     })
 
-    const generatedContent = completion.data.choices[0].message?.content || ''
+    const generatedContent = completion.data.choices[0]?.text || ''
 
-    // Cache the content
+    // Cache the generated content
     await supabaseClient
       .from('content_cache')
       .insert([
@@ -81,17 +76,17 @@ serve(async (req) => {
           type,
           content: generatedContent,
           created_at: new Date().toISOString(),
-        }
+        },
       ])
 
     return new Response(
       JSON.stringify({ content: generatedContent }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (error) {
     return new Response(
       JSON.stringify({ error: error.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 },
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
     )
   }
 })

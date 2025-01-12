@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
 import ReactMarkdown from 'react-markdown'
+import { supabase } from '@/lib/supabase'
 
 export function DynamicPage() {
-  const { city, service } = useParams()
+  const { city = 'London', service = 'Accounting' } = useParams()
   const [content, setContent] = useState({
     metaTitle: '',
     metaDescription: '',
@@ -20,19 +21,28 @@ export function DynamicPage() {
     const fetchContent = async () => {
       try {
         const [metaTitle, metaDescription, mainContent] = await Promise.all([
-          fetch('/api/generate-content', {
+          fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-content`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
             body: JSON.stringify({ city, service, type: 'meta_title' }),
           }).then(res => res.json()),
-          fetch('/api/generate-content', {
+          fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-content`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
             body: JSON.stringify({ city, service, type: 'meta_description' }),
           }).then(res => res.json()),
-          fetch('/api/generate-content', {
+          fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-content`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
             body: JSON.stringify({ city, service, type: 'main_content' }),
           }).then(res => res.json()),
         ])
