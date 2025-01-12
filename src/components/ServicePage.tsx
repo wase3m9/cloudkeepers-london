@@ -80,12 +80,12 @@ export function ServicePage() {
                   <div className="flex flex-col items-center text-center p-4">
                     <Building2 className="w-12 h-12 text-blue-600 mb-4" />
                     <h3 className="font-semibold mb-2">Industry Expertise</h3>
-                    <p className="text-gray-600">Specialized knowledge in {niche.name.toLowerCase()} across various sectors</p>
+                    <p className="text-gray-600">Specialised knowledge in {niche.name.toLowerCase()} across various sectors</p>
                   </div>
                   <div className="flex flex-col items-center text-center p-4">
                     <MapPin className="w-12 h-12 text-blue-600 mb-4" />
                     <h3 className="font-semibold mb-2">Local Understanding</h3>
-                    <p className="text-gray-600">Deep knowledge of London area business environment</p>
+                    <p className="text-gray-600">Deep knowledge of local business environment</p>
                   </div>
                   <div className="flex flex-col items-center text-center p-4">
                     <Users2 className="w-12 h-12 text-blue-600 mb-4" />
