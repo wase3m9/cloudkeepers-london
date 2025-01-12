@@ -45,7 +45,7 @@ export function HomePage() {
       </Helmet>
 
       {/* Hero Section */}
-      <div className="relative h-[600px] bg-[url('/lovable-uploads/d586adc3-9286-48ad-8493-5e6144cd4968.png')] bg-cover bg-center">
+      <div className="relative h-[600px] bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
         <div className="absolute inset-0 bg-black/60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
             <div className="text-white max-w-2xl animate-fade-in">
@@ -59,24 +59,39 @@ export function HomePage() {
         </div>
       </div>
 
+      {/* Featured Images Grid */}
+      <div className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop" alt="Business Meeting" className="w-full h-full object-cover" />
+          </div>
+          <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Office Work" className="w-full h-full object-cover" />
+          </div>
+          <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1664575602554-2087b04935a5?q=80&w=2087&auto=format&fit=crop" alt="Financial Planning" className="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+
       {/* What Sets Us Apart */}
-      <div className="bg-gray-50 py-20">
+      <div className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">What sets us apart from other UK accountants?</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl font-semibold mb-4 text-blue-600">Friendly yet professional client relationships</h3>
               <p className="text-gray-600">We believe in building lasting relationships with our clients through clear communication and understanding.</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl font-semibold mb-4 text-blue-600">Comprehensive service packages</h3>
               <p className="text-gray-600">Tailored solutions for self-employed, start-ups, and small scale entrepreneurs.</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl font-semibold mb-4 text-blue-600">Flexible working hours</h3>
               <p className="text-gray-600">We adapt to suit the requirements of our clients, ensuring convenience and accessibility.</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl font-semibold mb-4 text-blue-600">Unlimited support</h3>
               <p className="text-gray-600">Free basic tax planning and responsive support for all client inquiries.</p>
             </div>
@@ -85,7 +100,7 @@ export function HomePage() {
       </div>
 
       {/* Services Section */}
-      <div className="py-20">
+      <div className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -110,7 +125,7 @@ export function HomePage() {
       </div>
 
       {/* Popular Locations */}
-      <div className="bg-gray-50 py-20">
+      <div className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Where We Serve</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -132,7 +147,7 @@ export function HomePage() {
       </div>
 
       {/* Contact Form */}
-      <div id="contact" className="py-20">
+      <div id="contact" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
