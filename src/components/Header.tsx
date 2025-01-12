@@ -26,7 +26,7 @@ export function Header({ niches }: HeaderProps) {
               <Link
                 key={niche.id}
                 to={`/services/${niche.slug}`}
-                className="hidden md:inline-block text-xs text-gray-600 hover:text-blue-600 transition-colors whitespace-nowrap"
+                className="hidden md:inline-block text-sm text-gray-600 hover:text-blue-600 transition-colors whitespace-nowrap"
               >
                 {niche.name}
               </Link>
@@ -38,13 +38,13 @@ export function Header({ niches }: HeaderProps) {
               href="https://cloudkeepers.typeform.com/to/lc5feN"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-600 text-white px-2.5 py-1 rounded text-xs hover:bg-green-700 transition-colors"
+              className="bg-green-600 text-white px-2.5 py-1 rounded text-sm hover:bg-green-700 transition-colors"
             >
               Request Quote
             </a>
             <Link
               to="/contact"
-              className="bg-blue-600 text-white px-2.5 py-1 rounded text-xs hover:bg-blue-700 transition-colors"
+              className="bg-blue-600 text-white px-2.5 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
             >
               Contact Us
             </Link>
