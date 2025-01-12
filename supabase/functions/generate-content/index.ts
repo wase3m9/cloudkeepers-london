@@ -1,11 +1,11 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
-import OpenAI from "https://esm.sh/openai@4.20.1"
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import OpenAI from "https://esm.sh/openai@4.20.1";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -27,7 +27,13 @@ serve(async (req) => {
     Focus on how ${service} services can benefit local businesses.
     Use a professional yet approachable tone.
     Do not mention specific pricing or phone numbers.
-    Focus on value proposition and expertise.`
+    Focus on value proposition and expertise.
+    Include information about:
+    - The local business community in ${city}
+    - Common industries and business types in the area
+    - Specific challenges faced by businesses in ${city}
+    - How Cloudkeepers Accountants' expertise benefits local businesses
+    - Relevant local business regulations and compliance requirements`
 
     switch (type) {
       case 'meta_title':
@@ -43,10 +49,10 @@ serve(async (req) => {
       case 'main_content':
         prompt = `Create comprehensive content about ${service} services in ${city} for Cloudkeepers Accountants. Include:
         1. Introduction to the local business environment in ${city}
-        2. Specific ${service} challenges faced by businesses in ${city}
-        3. How our services help local businesses
-        4. Industry expertise and qualifications
-        5. Local compliance requirements
+        2. Key industries and business types in ${city}
+        3. Specific ${service} challenges faced by businesses in ${city}
+        4. How our services help local businesses overcome these challenges
+        5. Our expertise in local regulations and compliance requirements
         6. Benefits of choosing Cloudkeepers Accountants
         7. Call to action
         Make it engaging, informative, and optimized for SEO. Format in Markdown.`
