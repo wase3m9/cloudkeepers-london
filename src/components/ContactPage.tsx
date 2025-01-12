@@ -4,6 +4,7 @@ import { Header } from './Header'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Phone, Mail, Clock } from 'lucide-react'
+import { Footer } from './Footer'
 
 export function ContactPage() {
   const [niches, setNiches] = useState<any[]>([])
@@ -75,40 +76,7 @@ export function ContactPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-              <div className="space-y-2">
-                <p>020 3553 8444</p>
-                <p>info@cloudkeepers.com</p>
-                <p>Monday - Friday: 9:30 AM - 6:30 PM</p>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Services</h3>
-              <ul className="space-y-2">
-                {niches.map((niche) => (
-                  <li key={niche.id}>{niche.name}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li>About Us</li>
-                <li>Privacy Policy</li>
-                <li>Terms of Service</li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

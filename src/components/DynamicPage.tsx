@@ -5,6 +5,7 @@ import { LeadForm } from './LeadForm'
 import { supabase } from '@/lib/supabase'
 import ReactMarkdown from 'react-markdown'
 import { Header } from './Header'
+import { Footer } from './Footer'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 
 export function DynamicPage() {
@@ -142,6 +143,8 @@ export function DynamicPage() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }
