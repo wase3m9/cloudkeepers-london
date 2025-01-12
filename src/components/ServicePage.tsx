@@ -7,7 +7,7 @@ import { Header } from './Header'
 import { Building2, MapPin, Users2 } from 'lucide-react'
 
 export function ServicePage() {
-  const { service } = useParams()
+  const { slug } = useParams()
   const [niche, setNiche] = useState<any>(null)
   const [niches, setNiches] = useState<any[]>([])
   const [locations, setLocations] = useState<any[]>([])
@@ -18,7 +18,7 @@ export function ServicePage() {
       try {
         const [nichesResponse, nicheResponse, locationsResponse] = await Promise.all([
           supabase.from('niches').select('*'),
-          supabase.from('niches').select('*').eq('slug', service).maybeSingle(),
+          supabase.from('niches').select('*').eq('slug', slug).maybeSingle(),
           supabase.from('locations').select('*').order('name')
         ])
 
@@ -33,7 +33,7 @@ export function ServicePage() {
     }
 
     fetchData()
-  }, [service])
+  }, [slug])
 
   if (loading) {
     return (
@@ -54,8 +54,8 @@ export function ServicePage() {
     )
   }
 
-  const metaTitle = niche.meta_title || `${niche.name} Services in London Area | Cloudkeepers Accountants`
-  const metaDescription = niche.meta_description || `Professional ${niche.name.toLowerCase()} services across London Area by Cloudkeepers Accountants. Expert financial guidance tailored to your business needs.`
+  const metaTitle = niche.meta_title || `${niche.name} Services in London Area | Professional Accounting Services`
+  const metaDescription = niche.meta_description || `Professional ${niche.name.toLowerCase()} services across London Area. Expert financial guidance tailored to your business needs.`
 
   return (
     <>
@@ -75,7 +75,7 @@ export function ServicePage() {
               <p className="text-lg text-gray-700 mb-6">{niche.description}</p>
               
               <div className="bg-gray-50 p-6 rounded-lg mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Why Choose Cloudkeepers Accountants for {niche.name}?</h2>
+                <h2 className="text-2xl font-semibold mb-4">Why Choose Our Services for {niche.name}?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="flex flex-col items-center text-center p-4">
                     <Building2 className="w-12 h-12 text-blue-600 mb-4" />
