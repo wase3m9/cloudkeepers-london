@@ -1,28 +1,20 @@
-import { Toaster } from "@/components/ui/toaster"
-import { Toaster as Sonner } from "@/components/ui/sonner"
-import { TooltipProvider } from "@/components/ui/tooltip"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { DynamicPage } from "./components/DynamicPage"
-import { HomePage } from "./components/HomePage"
-import { ServicePage } from "./components/ServicePage"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HomePage } from './components/HomePage'
+import { ServicePage } from './components/ServicePage'
+import { ContactPage } from './components/ContactPage'
+import { Toaster } from './components/ui/toaster'
 
-const queryClient = new QueryClient()
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/services/:slug" element={<ServicePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/services/:service" element={<ServicePage />} />
-          <Route path="/:city/:service" element={<DynamicPage />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-)
+    </Router>
+  )
+}
 
 export default App
