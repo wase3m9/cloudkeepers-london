@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { GetStartedSection } from './GetStartedSection'
 
 export function DynamicPage() {
   const { city = 'london', service = 'accounting' } = useParams()
@@ -134,6 +135,12 @@ export function DynamicPage() {
             <div className="prose lg:prose-lg">
               <ReactMarkdown>{content.mainContent}</ReactMarkdown>
             </div>
+
+            <GetStartedSection 
+              city={city} 
+              service={service}
+              niches={niches}
+            />
           </div>
           
           <div className="lg:col-span-1">
