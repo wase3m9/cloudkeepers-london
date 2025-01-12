@@ -127,6 +127,23 @@ export function HomePage() {
         </div>
       </div>
 
+      {/* Ready to Talk Section */}
+      <div className="relative bg-[url('/lovable-uploads/2062be04-f58d-42ef-910c-8e926be00863.png')] bg-cover bg-center py-20">
+        <div className="absolute inset-0 bg-blue-900/80" />
+        <div className="relative max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-5xl font-bold text-white mb-8">Ready to talk?</h2>
+          <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-12">
+            Why not give us a call or email us to book an appointment for free consultation at your comfort? Our normal office hours are between 9:30 am to 6:30 pm but on request, we work till late in the evening and on weekends as well providing you the great flexibility.
+          </p>
+          <Link
+            to="#contact"
+            className="inline-flex items-center bg-blue-400 text-white px-8 py-3 rounded-md hover:bg-blue-500 transition-colors text-lg font-medium"
+          >
+            LET'S TALK
+          </Link>
+        </div>
+      </div>
+
       {/* Contact Form */}
       <div id="contact" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
