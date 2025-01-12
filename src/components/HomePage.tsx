@@ -30,6 +30,14 @@ export function HomePage() {
     fetchData()
   }, [])
 
+  const handleConsultationClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   const serviceIcons = {
     'Limited Company Accounting': <Building2 className="w-12 h-12" />,
     'Self Assessment': <Calculator className="w-12 h-12" />,
@@ -54,7 +62,11 @@ export function HomePage() {
             <div className="text-white max-w-2xl animate-fade-in">
               <h1 className="text-5xl font-bold mb-6">Cloudkeepers Accountants, Making Accounting Simple</h1>
               <p className="text-xl mb-8">Xero and Quickbooks Specialist, Making Tax Digital Ready</p>
-              <Link to="#contact" className="bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center">
+              <Link 
+                to="#contact" 
+                onClick={handleConsultationClick}
+                className="bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center"
+              >
                 Get Started <ArrowRight className="ml-2" />
               </Link>
             </div>
@@ -128,8 +140,7 @@ export function HomePage() {
       </div>
 
       {/* Ready to Talk Section */}
-      <div className="relative bg-[url('/lovable-uploads/2062be04-f58d-42ef-910c-8e926be00863.png')] bg-cover bg-center py-20">
-        <div className="absolute inset-0 bg-blue-900/80" />
+      <div className="relative bg-blue-900 py-20">
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-5xl font-bold text-white mb-8">Ready to talk?</h2>
           <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-12">
@@ -137,6 +148,7 @@ export function HomePage() {
           </p>
           <Link
             to="#contact"
+            onClick={handleConsultationClick}
             className="inline-flex items-center bg-blue-400 text-white px-8 py-3 rounded-md hover:bg-blue-500 transition-colors text-lg font-medium"
           >
             LET'S TALK
