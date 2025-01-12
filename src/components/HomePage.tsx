@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { LeadForm } from './LeadForm'
 import { Helmet } from 'react-helmet'
-import { CloudIcon, ArrowRight, Building2, Calculator, FileText, PiggyBank, Users } from 'lucide-react'
+import { CloudIcon, ArrowRight, Building2, Calculator, FileText, DollarSign, Percent, CreditCard } from 'lucide-react'
 import { Header } from './Header'
 import { Footer } from './Footer'
 
@@ -43,11 +43,10 @@ export function HomePage() {
     'Limited Company Accounting': <Building2 className="w-12 h-12 group-hover:animate-jiggle" />,
     'Self Assessment': <Calculator className="w-12 h-12 group-hover:animate-jiggle" />,
     'Bookkeeping': <FileText className="w-12 h-12 group-hover:animate-jiggle" />,
-    'Tax Planning': <PiggyBank className="w-12 h-12 group-hover:animate-jiggle" />,
-    'Payroll': <Users className="w-12 h-12 group-hover:animate-jiggle" />
+    'Tax Planning': <Percent className="w-12 h-12 group-hover:animate-jiggle" />,
+    'Payroll': <DollarSign className="w-12 h-12 group-hover:animate-jiggle" />,
+    'VAT Returns': <CreditCard className="w-12 h-12 group-hover:animate-jiggle" />
   }
-
-  // ... keep existing code (rest of the component remains unchanged)
 
   return (
     <>
@@ -77,46 +76,6 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Featured Images Grid */}
-      <div className="py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop" alt="Business Meeting" className="w-full h-full object-cover" />
-          </div>
-          <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Office Work" className="w-full h-full object-cover" />
-          </div>
-          <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop" alt="Modern Accounting Software" className="w-full h-full object-cover" />
-          </div>
-        </div>
-      </div>
-
-      {/* What Sets Us Apart */}
-      <div className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">What sets us apart from other UK accountants?</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">Friendly yet professional client relationships</h3>
-              <p className="text-gray-600">We believe in building lasting relationships with our clients through clear communication and understanding.</p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">Comprehensive service packages</h3>
-              <p className="text-gray-600">Tailored solutions for self-employed, start-ups, and small scale entrepreneurs.</p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">Flexible working hours</h3>
-              <p className="text-gray-600">We adapt to suit the requirements of our clients, ensuring convenience and accessibility.</p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">Unlimited support</h3>
-              <p className="text-gray-600">Free basic tax planning and responsive support for all client inquiries.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Services Section */}
       <div className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
@@ -126,7 +85,7 @@ export function HomePage() {
               <Link
                 key={niche.id}
                 to={`/services/${niche.slug}`}
-                className="group bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow"
+                className="group bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow hover:scale-105 transform duration-200"
               >
                 <div className="text-blue-600 group-hover:text-blue-700 transition-colors">
                   {serviceIcons[niche.name as keyof typeof serviceIcons] || <CloudIcon className="w-12 h-12 group-hover:animate-jiggle" />}
