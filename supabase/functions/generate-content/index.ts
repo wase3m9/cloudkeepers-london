@@ -49,7 +49,7 @@ serve(async (req) => {
         prompt = `Write an SEO-optimized meta description for an accountancy firm's ${service} service in ${city}. Include key benefits and a call to action.`
         break
       case 'main_content':
-        prompt = `Write comprehensive, SEO-optimized content about ${service} services for an accountancy firm in ${city}. Include local context, benefits, and why choose us sections. Make it engaging and informative.`
+        prompt = `Write comprehensive, SEO-optimized content about ${service} services for an accountancy firm in ${city}. Include local context, benefits, and why choose us sections. Make it engaging and informative. Include the following pricing information and FAQs: ${websiteContext}`
         break
       default:
         throw new Error('Invalid content type')

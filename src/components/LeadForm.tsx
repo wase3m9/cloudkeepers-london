@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from '@/lib/supabase'
 
 export function LeadForm() {
   const [loading, setLoading] = useState(false)
@@ -18,15 +19,11 @@ export function LeadForm() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/submit-lead', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
+      const { error } = await supabase
+        .from('leads')
+        .insert([formData])
 
-      if (!response.ok) throw new Error('Failed to submit')
+      if (error) throw error
 
       toast({
         title: "Success!",
