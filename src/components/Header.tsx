@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Home } from 'lucide-react'
 
 interface HeaderProps {
   niches: Array<{
@@ -13,12 +14,19 @@ export function Header({ niches }: HeaderProps) {
     <header className="bg-white shadow-sm">
       <nav className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="hidden md:flex space-x-8">
+          <div className="flex items-center space-x-8">
+            <Link
+              to="/"
+              className="text-gray-600 hover:text-blue-600 transition-colors"
+              aria-label="Home"
+            >
+              <Home className="w-6 h-6" />
+            </Link>
             {niches.map((niche) => (
               <Link
                 key={niche.id}
                 to={`/services/${niche.slug}`}
-                className="text-gray-600 hover:text-blue-600 transition-colors"
+                className="hidden md:inline-block text-gray-600 hover:text-blue-600 transition-colors"
               >
                 {niche.name}
               </Link>
