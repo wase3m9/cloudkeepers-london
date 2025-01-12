@@ -48,11 +48,11 @@ export function HomePage() {
       <Header niches={niches} />
 
       {/* Hero Section */}
-      <div className="relative h-[600px] bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
+      <div className="relative h-[600px] bg-[url('/lovable-uploads/6a8cee13-1645-48da-b9c9-a975b4aaf629.png')] bg-cover bg-center">
         <div className="absolute inset-0 bg-black/60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
             <div className="text-white max-w-2xl animate-fade-in">
-              <h1 className="text-5xl font-bold mb-6">London-Based Accountants, Making Accounting Simple</h1>
+              <h1 className="text-5xl font-bold mb-6">Cloudkeepers Accountants, Making Accounting Simple</h1>
               <p className="text-xl mb-8">Xero and Quickbooks Specialist, Making Tax Digital Ready</p>
               <Link to="#contact" className="bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center">
                 Get Started <ArrowRight className="ml-2" />
