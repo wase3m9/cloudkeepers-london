@@ -72,7 +72,7 @@ export function HomePage() {
             <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" alt="Office Work" className="w-full h-full object-cover" />
           </div>
           <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop" alt="Woman Working on Laptop" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop" alt="Modern Accounting Software" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
