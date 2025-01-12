@@ -40,12 +40,14 @@ export function HomePage() {
   }
 
   const serviceIcons = {
-    'Limited Company Accounting': <Building2 className="w-12 h-12" />,
-    'Self Assessment': <Calculator className="w-12 h-12" />,
-    'Bookkeeping': <FileText className="w-12 h-12" />,
-    'Tax Planning': <PiggyBank className="w-12 h-12" />,
-    'Payroll': <Users className="w-12 h-12" />
+    'Limited Company Accounting': <Building2 className="w-12 h-12 group-hover:animate-jiggle" />,
+    'Self Assessment': <Calculator className="w-12 h-12 group-hover:animate-jiggle" />,
+    'Bookkeeping': <FileText className="w-12 h-12 group-hover:animate-jiggle" />,
+    'Tax Planning': <PiggyBank className="w-12 h-12 group-hover:animate-jiggle" />,
+    'Payroll': <Users className="w-12 h-12 group-hover:animate-jiggle" />
   }
+
+  // ... keep existing code (rest of the component remains unchanged)
 
   return (
     <>
@@ -127,7 +129,7 @@ export function HomePage() {
                 className="group bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow"
               >
                 <div className="text-blue-600 group-hover:text-blue-700 transition-colors">
-                  {serviceIcons[niche.name as keyof typeof serviceIcons] || <CloudIcon className="w-12 h-12" />}
+                  {serviceIcons[niche.name as keyof typeof serviceIcons] || <CloudIcon className="w-12 h-12 group-hover:animate-jiggle" />}
                 </div>
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">{niche.name}</h3>
                 <p className="text-gray-600">{niche.description}</p>
