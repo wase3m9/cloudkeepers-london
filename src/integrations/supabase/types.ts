@@ -63,6 +63,66 @@ export type Database = {
         }
         Relationships: []
       }
+      locations: {
+        Row: {
+          created_at: string
+          id: string
+          is_popular: boolean | null
+          name: string
+          population: number | null
+          region: string | null
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_popular?: boolean | null
+          name: string
+          population?: number | null
+          region?: string | null
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_popular?: boolean | null
+          name?: string
+          population?: number | null
+          region?: string | null
+          slug?: string
+        }
+        Relationships: []
+      }
+      niches: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          meta_description: string | null
+          meta_title: string | null
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

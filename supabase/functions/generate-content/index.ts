@@ -42,10 +42,9 @@ serve(async (req) => {
         2. Specific ${service} challenges faced by businesses in ${city}
         3. How our services help local businesses
         4. Industry expertise and qualifications
-        5. Pricing information and packages
-        6. Local compliance requirements
-        7. Case studies or success stories
-        8. Call to action
+        5. Local compliance requirements
+        6. Case studies or success stories
+        7. Call to action
         Make it engaging, informative, and optimized for SEO.`
         break
       default:

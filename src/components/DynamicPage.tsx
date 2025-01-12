@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { LeadForm } from './LeadForm'
 import { supabase } from '@/lib/supabase'
+import ReactMarkdown from 'react-markdown'
 
 export function DynamicPage() {
   const { city = 'london', service = 'accounting' } = useParams()
@@ -41,18 +42,37 @@ export function DynamicPage() {
           .eq('type', 'main_content')
           .maybeSingle()
 
-        setContent({
-          title: titleData?.content || `${service} Services in ${city}`,
-          description: descData?.content || `Professional ${service} services in ${city}. Get in touch for a free consultation.`,
-          mainContent: mainData?.content || `<p>Welcome to our ${service} services in ${city}. We provide professional assistance tailored to your needs.</p>`
-        })
+        if (!titleData || !descData || !mainData) {
+          // Generate new content if any is missing
+          const response = await fetch('/api/generate-content', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ city, service, type: 'all' }),
+          })
+
+          if (!response.ok) throw new Error('Failed to generate content')
+
+          const newContent = await response.json()
+          setContent({
+            title: newContent.title,
+            description: newContent.description,
+            mainContent: newContent.mainContent
+          })
+        } else {
+          setContent({
+            title: titleData.content,
+            description: descData.content,
+            mainContent: mainData.content
+          })
+        }
       } catch (error) {
         console.error('Error fetching content:', error)
-        // Set default content in case of error
         setContent({
           title: `${service} Services in ${city}`,
           description: `Professional ${service} services in ${city}. Get in touch for a free consultation.`,
-          mainContent: `<p>Welcome to our ${service} services in ${city}. We provide professional assistance tailored to your needs.</p>`
+          mainContent: `# Welcome to our ${service} services in ${city}\n\nWe provide professional assistance tailored to your needs.`
         })
       } finally {
         setLoading(false)
@@ -76,10 +96,9 @@ export function DynamicPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <h1 className="text-4xl font-bold mb-8">{content.title}</h1>
-          <div 
-            className="prose lg:prose-lg"
-            dangerouslySetInnerHTML={{ __html: content.mainContent }}
-          />
+          <div className="prose lg:prose-lg">
+            <ReactMarkdown>{content.mainContent}</ReactMarkdown>
+          </div>
         </div>
         
         <div className="lg:col-span-1">
