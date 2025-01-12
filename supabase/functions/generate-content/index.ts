@@ -1,7 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import OpenAI from "https://esm.sh/openai@4.20.1";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -37,6 +36,87 @@ serve(async (req) => {
       apiKey: Deno.env.get('OPENAI_API_KEY'),
     });
 
+    const pricingSection = `
+## Pricing and Packages
+
+### Sole Trader Accounting Packages
+
+#### Starter Success - From £75/month
+Perfect for new sole traders needing simple bookkeeping and compliance.
+- ✅ Bookkeeping
+- ✅ Self-assessment filing
+- ✅ FREE Allowable Expense Guide PDF
+
+#### Growth Tracker - From £99/month
+Ideal for sole traders focused on growing their income and managing expenses.
+- ✅ Bookkeeping
+- ✅ Self-assessment filing
+- ✅ Expense tracking tool
+- ✅ WhatsApp support
+- ✅ FREE Allowable Expense Guide PDF
+
+#### Pro Planner - From £125/month
+Designed for experienced sole traders with more complex financial needs.
+- ✅ Bookkeeping
+- ✅ Tax planning
+- ✅ Cash flow forecasting
+- ✅ WhatsApp support
+- ✅ Quarterly review calls
+- ✅ FREE Allowable Expense Guide PDF
+
+### Limited Company Accounting Packages
+
+#### Foundation Focus - From £125/month
+Perfect for startups or micro-businesses needing statutory accounts and payroll.
+- ✅ Statutory accounts
+- ✅ Corporation tax filing
+- ✅ Payroll processing
+- ✅ FREE Allowable Expense Guide PDF
+
+#### Growth Optimizer - From £250/month
+Ideal for growing companies requiring VAT returns and financial strategy.
+- ✅ Statutory accounts
+- ✅ VAT returns
+- ✅ Quarterly advisory session
+- ✅ WhatsApp support
+- ✅ FREE Allowable Expense Guide PDF
+
+#### Corporate Leader - From £300/month
+Designed for established businesses managing multiple departments or operations.
+- ✅ Full compliance services
+- ✅ Advanced tax planning
+- ✅ Budgeting analysis
+- ✅ WhatsApp support
+- ✅ Quarterly review calls
+- ✅ FREE Allowable Expense Guide PDF
+
+### SME Accounting Packages
+
+#### Essential Compliance - From £275/month
+Tailored for small businesses managing compliance and cash flow.
+- ✅ Annual compliance
+- ✅ Payroll management
+- ✅ Financial statements
+- ✅ FREE Allowable Expense Guide PDF
+
+#### Performance Plus - From £375/month
+Designed for SMEs looking to improve profitability and streamline operations.
+- ✅ Monthly management accounts
+- ✅ VAT returns
+- ✅ Financial analysis
+- ✅ WhatsApp support
+- ✅ FREE Allowable Expense Guide PDF
+
+#### Strategic Growth - From £675/month
+Ideal for SMEs with strategic growth ambitions and complex reporting needs.
+- ✅ Monthly management accounts
+- ✅ Tax optimization
+- ✅ Strategic reporting
+- ✅ WhatsApp support
+- ✅ Quarterly review calls
+- ✅ FREE Allowable Expense Guide PDF
+`;
+
     const fallbackContent = {
       title: `${service} Services in ${city} | Cloudkeepers Accountants`,
       description: `Professional ${service} services in ${city}. Expert accountants helping local businesses succeed.`,
@@ -69,6 +149,8 @@ serve(async (req) => {
 1. [First step]
 2. [Second step]
 3. [Third step]
+
+${pricingSection}
 
 ## Get Started with Professional ${service} Services
 [Call to action and next steps]`;
@@ -109,37 +191,6 @@ serve(async (req) => {
           };
 
           const result = await retryWithBackoff(generateContent);
-
-          const supabaseClient = createClient(
-            Deno.env.get('SUPABASE_URL') ?? '',
-            Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-          );
-
-          try {
-            await Promise.all([
-              supabaseClient.from('content_cache').upsert({
-                city,
-                service,
-                type: 'meta_title',
-                content: result.title,
-              }),
-              supabaseClient.from('content_cache').upsert({
-                city,
-                service,
-                type: 'meta_description',
-                content: result.description,
-              }),
-              supabaseClient.from('content_cache').upsert({
-                city,
-                service,
-                type: 'main_content',
-                content: result.mainContent,
-              })
-            ]);
-          } catch (error) {
-            console.error('Error storing content in cache:', error);
-          }
-
           return new Response(
             JSON.stringify(result),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
