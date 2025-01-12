@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { LeadForm } from './LeadForm'
 import { Helmet } from 'react-helmet'
-import { CloudIcon, ArrowRight } from 'lucide-react'
+import { CloudIcon, ArrowRight, Building2, Calculator, FileText, PiggyBank, Users } from 'lucide-react'
 
 export function HomePage() {
   const [niches, setNiches] = useState<any[]>([])
@@ -29,6 +29,14 @@ export function HomePage() {
     fetchData()
   }, [])
 
+  const serviceIcons = {
+    'Limited Company Accounting': <Building2 className="w-12 h-12" />,
+    'Self Assessment': <Calculator className="w-12 h-12" />,
+    'Bookkeeping': <FileText className="w-12 h-12" />,
+    'Tax Planning': <PiggyBank className="w-12 h-12" />,
+    'Payroll': <Users className="w-12 h-12" />
+  }
+
   return (
     <>
       <Helmet>
@@ -37,13 +45,13 @@ export function HomePage() {
       </Helmet>
 
       {/* Hero Section */}
-      <div className="relative h-[600px] bg-[url('/lovable-uploads/e3ef1914-5b75-4ba8-8bfd-90e897225f76.png')] bg-cover bg-center">
-        <div className="absolute inset-0 bg-black/50">
+      <div className="relative h-[600px] bg-[url('/lovable-uploads/d586adc3-9286-48ad-8493-5e6144cd4968.png')] bg-cover bg-center">
+        <div className="absolute inset-0 bg-black/60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
-            <div className="text-white max-w-2xl">
+            <div className="text-white max-w-2xl animate-fade-in">
               <h1 className="text-5xl font-bold mb-6">London-Based Accountants, Making Accounting Simple</h1>
               <p className="text-xl mb-8">Xero and Quickbooks Specialist, Making Tax Digital Ready</p>
-              <Link to="#contact" className="bg-blue-500 text-white px-8 py-3 rounded-md hover:bg-blue-600 transition-colors inline-flex items-center">
+              <Link to="#contact" className="bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center">
                 Get Started <ArrowRight className="ml-2" />
               </Link>
             </div>
@@ -54,22 +62,22 @@ export function HomePage() {
       {/* What Sets Us Apart */}
       <div className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">What sets us apart from the rest of the accountants practising here in the UK?</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">What sets us apart from other UK accountants?</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4">Friendly yet professional client relationships</h3>
+            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-semibold mb-4 text-blue-600">Friendly yet professional client relationships</h3>
               <p className="text-gray-600">We believe in building lasting relationships with our clients through clear communication and understanding.</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4">Affordable fees for businesses</h3>
-              <p className="text-gray-600">Competitive rates for self-employed, start-ups, and small scale entrepreneurs.</p>
+            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-semibold mb-4 text-blue-600">Comprehensive service packages</h3>
+              <p className="text-gray-600">Tailored solutions for self-employed, start-ups, and small scale entrepreneurs.</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4">Flexible working hours</h3>
+            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-semibold mb-4 text-blue-600">Flexible working hours</h3>
               <p className="text-gray-600">We adapt to suit the requirements of our clients, ensuring convenience and accessibility.</p>
             </div>
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4">Unlimited support</h3>
+            <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-semibold mb-4 text-blue-600">Unlimited support</h3>
               <p className="text-gray-600">Free basic tax planning and responsive support for all client inquiries.</p>
             </div>
           </div>
@@ -87,10 +95,12 @@ export function HomePage() {
                 to={`/services/${niche.slug}`}
                 className="group bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow"
               >
-                <CloudIcon className="w-12 h-12 text-blue-500 mb-4" />
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-500 transition-colors">{niche.name}</h3>
+                <div className="text-blue-600 group-hover:text-blue-700 transition-colors">
+                  {serviceIcons[niche.name as keyof typeof serviceIcons] || <CloudIcon className="w-12 h-12" />}
+                </div>
+                <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">{niche.name}</h3>
                 <p className="text-gray-600">{niche.description}</p>
-                <span className="inline-flex items-center text-blue-500 mt-4">
+                <span className="inline-flex items-center text-blue-600 mt-4 group-hover:text-blue-700">
                   Learn more <ArrowRight className="ml-2 w-4 h-4" />
                 </span>
               </Link>
@@ -110,7 +120,7 @@ export function HomePage() {
                   <Link
                     key={`${location.id}-${niche.id}`}
                     to={`/${location.slug}/${niche.slug}`}
-                    className="block text-gray-600 hover:text-blue-500"
+                    className="block text-gray-600 hover:text-blue-600"
                   >
                     {niche.name} in {location.name}
                   </Link>
@@ -132,14 +142,14 @@ export function HomePage() {
               </p>
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <CloudIcon className="w-6 h-6 text-blue-500 mr-4 mt-1" />
+                  <CloudIcon className="w-6 h-6 text-blue-600 mr-4 mt-1" />
                   <div>
                     <h3 className="font-semibold">Cloud-Based Solutions</h3>
                     <p className="text-gray-600">Access your financial data anytime, anywhere</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <CloudIcon className="w-6 h-6 text-blue-500 mr-4 mt-1" />
+                  <CloudIcon className="w-6 h-6 text-blue-600 mr-4 mt-1" />
                   <div>
                     <h3 className="font-semibold">Expert Support</h3>
                     <p className="text-gray-600">Dedicated team of qualified accountants</p>
