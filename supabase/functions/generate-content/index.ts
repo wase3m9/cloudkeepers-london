@@ -88,72 +88,51 @@ Designed for established businesses managing multiple departments or operations.
 - ✅ Budgeting analysis
 - ✅ WhatsApp support
 - ✅ Quarterly review calls
-- ✅ FREE Allowable Expense Guide PDF
-
-### SME Accounting Packages
-
-#### Essential Compliance - From £275/month
-Tailored for small businesses managing compliance and cash flow.
-- ✅ Annual compliance
-- ✅ Payroll management
-- ✅ Financial statements
-- ✅ FREE Allowable Expense Guide PDF
-
-#### Performance Plus - From £375/month
-Designed for SMEs looking to improve profitability and streamline operations.
-- ✅ Monthly management accounts
-- ✅ VAT returns
-- ✅ Financial analysis
-- ✅ WhatsApp support
-- ✅ FREE Allowable Expense Guide PDF
-
-#### Strategic Growth - From £675/month
-Ideal for SMEs with strategic growth ambitions and complex reporting needs.
-- ✅ Monthly management accounts
-- ✅ Tax optimization
-- ✅ Strategic reporting
-- ✅ WhatsApp support
-- ✅ Quarterly review calls
-- ✅ FREE Allowable Expense Guide PDF
-`;
-
-    const fallbackContent = {
-      title: `${service} Services in ${city} | Cloudkeepers Accountants`,
-      description: `Professional ${service} services in ${city}. Expert accountants helping local businesses succeed.`,
-      mainContent: `# ${service} Services in ${city}\n\nCloudkeepers Accountants provides expert ${service} services in ${city}.`
-    };
+- ✅ FREE Allowable Expense Guide PDF`;
 
     try {
       switch (type) {
         case 'all':
           const generateContent = async () => {
-            const contentPrompt = `Create comprehensive content about ${service} services in ${city}. Structure the content in the following format using Markdown:
+            console.log('Starting content generation...');
+            
+            const systemPrompt = `You are an expert accountant creating content for a professional accounting firm's website. 
+            Create comprehensive, engaging content that demonstrates expertise and authority. 
+            Focus on location-specific benefits and challenges.
+            Use a professional yet approachable tone.`;
 
-# [Main Title]
+            const contentPrompt = `Create comprehensive content about ${service} services in ${city}. Include:
 
-## Overview
-[Brief introduction about the service and its importance for ${city} businesses]
+1. A compelling title that mentions ${city} and ${service}
+2. A detailed overview of our ${service} services tailored to ${city} businesses
+3. Specific benefits for ${city} businesses
+4. Common challenges faced by ${city} businesses and how we solve them
+5. Our process and approach
+6. A strong call to action
 
-## Our ${service} Services in ${city}
-[Detailed list of specific services offered]
+Use this structure:
 
-## Why Choose Cloudkeepers for ${service} in ${city}?
-- [Key benefit 1]
-- [Key benefit 2]
-- [Key benefit 3]
+# [Title]
+
+## Overview of Our ${service} Services in ${city}
+[2-3 paragraphs about our services and their importance for local businesses]
+
+## Why Choose Our ${service} Services in ${city}?
+- [3-4 key benefits, each with a brief explanation]
 
 ## Common ${service} Challenges for ${city} Businesses
-[Discuss 2-3 common challenges and how we solve them]
+[2-3 specific challenges and our solutions]
 
-## Our Process
-1. [First step]
-2. [Second step]
-3. [Third step]
+## Our ${service} Process in ${city}
+1. [Initial consultation]
+2. [Assessment and planning]
+3. [Implementation]
+4. [Ongoing support]
 
 ${pricingSection}
 
-## Get Started with Professional ${service} Services
-[Call to action and next steps]`;
+## Get Started with Professional ${service} Services in ${city}
+[Compelling call to action]`;
 
             const [titleResponse, descResponse, contentResponse] = await Promise.all([
               openai.chat.completions.create({
@@ -175,22 +154,26 @@ ${pricingSection}
               openai.chat.completions.create({
                 model: "gpt-4o-mini",
                 messages: [
-                  { role: "system", content: "You are an expert content writer for an accounting firm. Create professional content that demonstrates expertise and authority." },
+                  { role: "system", content: systemPrompt },
                   { role: "user", content: contentPrompt }
                 ],
                 temperature: 0.7,
-                max_tokens: 2000,
+                max_tokens: 2500,
               })
             ]);
 
+            console.log('Content generation completed successfully');
+
             return {
-              title: titleResponse.choices[0]?.message?.content || fallbackContent.title,
-              description: descResponse.choices[0]?.message?.content || fallbackContent.description,
-              mainContent: contentResponse.choices[0]?.message?.content || fallbackContent.mainContent
+              title: titleResponse.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`,
+              description: descResponse.choices[0]?.message?.content || `Expert ${service} services in ${city}. Contact us today for professional accounting support.`,
+              mainContent: contentResponse.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`
             };
           };
 
           const result = await retryWithBackoff(generateContent);
+          console.log('Successfully generated and returning content');
+          
           return new Response(
             JSON.stringify(result),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -201,15 +184,17 @@ ${pricingSection}
       }
     } catch (error) {
       console.error('OpenAI API Error:', error);
-      return new Response(
-        JSON.stringify(fallbackContent),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      throw error;
     }
   } catch (error) {
     console.error('Error in generate-content function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        title: `${service} Services in ${city} | Professional Accountants`,
+        description: `Expert ${service} services in ${city}. Contact us today for professional accounting support.`,
+        mainContent: `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.\n\n${pricingSection}`
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: error.status || 500
