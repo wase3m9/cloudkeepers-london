@@ -1,6 +1,6 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { Configuration, OpenAIApi } from 'https://esm.sh/openai@3.1.0'
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+import OpenAI from "https://esm.sh/openai@4.20.1"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,78 +15,80 @@ serve(async (req) => {
   try {
     const { city, service, type } = await req.json()
 
-    // Check cache first
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
-    )
-
-    const { data: cachedContent } = await supabaseClient
-      .from('content_cache')
-      .select('content')
-      .eq('city', city)
-      .eq('service', service)
-      .eq('type', type)
-      .single()
-
-    if (cachedContent) {
-      return new Response(
-        JSON.stringify({ content: cachedContent.content }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-
-    // Generate new content if not cached
-    const configuration = new Configuration({
+    // Initialize OpenAI
+    const openai = new OpenAI({
       apiKey: Deno.env.get('OPENAI_API_KEY'),
     })
-    const openai = new OpenAIApi(configuration)
 
     let prompt = ''
+    let systemPrompt = `You are an expert content writer for an accounting firm. 
+    Create professional, SEO-optimized content that demonstrates expertise and authority.
+    Include specific details about ${city} and its business environment.
+    Focus on how ${service} services can benefit local businesses.
+    Use a professional yet approachable tone.`
+
     switch (type) {
       case 'meta_title':
-        prompt = `Write an SEO-optimized title tag for an accountancy firm's ${service} service in ${city}. Include the main keyword and keep it under 60 characters.`
+        prompt = `Create an SEO-optimized title for ${service} services in ${city}. 
+        Include the location and service type. Keep it under 60 characters.`
         break
       case 'meta_description':
-        prompt = `Write an SEO-optimized meta description for an accountancy firm's ${service} service in ${city}. Include key benefits and a call to action. Keep it under 160 characters.`
+        prompt = `Write an engaging meta description for ${service} services in ${city}. 
+        Highlight key benefits and include a call to action. Keep it under 160 characters.`
         break
       case 'main_content':
-        prompt = `Write comprehensive, SEO-optimized content about ${service} services for an accountancy firm in ${city}. Include local context, benefits, and why choose us sections. Make it engaging and informative. Include pricing information and address common questions about accounting services in ${city}.`
+        prompt = `Create comprehensive content about ${service} services in ${city}. Include:
+        1. Introduction to the local business environment
+        2. Specific ${service} challenges faced by businesses in ${city}
+        3. How our services help local businesses
+        4. Industry expertise and qualifications
+        5. Pricing information and packages
+        6. Local compliance requirements
+        7. Case studies or success stories
+        8. Call to action
+        Make it engaging, informative, and optimized for SEO.`
         break
       default:
         throw new Error('Invalid content type')
     }
 
-    const completion = await openai.createCompletion({
-      model: 'gpt-4o-mini',
-      prompt,
-      max_tokens: type === 'main_content' ? 2000 : 200,
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt }
+      ],
       temperature: 0.7,
+      max_tokens: type === 'main_content' ? 2000 : 200,
     })
 
-    const generatedContent = completion.data.choices[0]?.text || ''
+    const generatedContent = completion.choices[0]?.message?.content || ''
 
-    // Cache the generated content
+    // Store in Supabase
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
     await supabaseClient
       .from('content_cache')
-      .insert([
-        {
-          city,
-          service,
-          type,
-          content: generatedContent,
-          created_at: new Date().toISOString(),
-        },
-      ])
+      .upsert({
+        city,
+        service,
+        type,
+        content: generatedContent,
+        created_at: new Date().toISOString(),
+      })
 
     return new Response(
       JSON.stringify({ content: generatedContent }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (error) {
+    console.error('Error in generate-content function:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     )
   }
 })

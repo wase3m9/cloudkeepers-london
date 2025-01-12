@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { DynamicPage } from "./components/DynamicPage"
+import { HomePage } from "./components/HomePage"
+import { ServicePage } from "./components/ServicePage"
 
 const queryClient = new QueryClient()
 
@@ -14,8 +16,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services/:service" element={<ServicePage />} />
           <Route path="/:city/:service" element={<DynamicPage />} />
-          <Route path="/" element={<DynamicPage />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
