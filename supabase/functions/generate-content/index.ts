@@ -1,6 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import OpenAI from "https://esm.sh/openai@4.20.1";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -33,18 +34,22 @@ serve(async (req) => {
     - Common industries and business types in the area
     - Specific challenges faced by businesses in ${city}
     - How Cloudkeepers Accountants' expertise benefits local businesses
-    - Relevant local business regulations and compliance requirements`
+    - Relevant local business regulations and compliance requirements
+    - Local economic growth opportunities
+    - Specific tax considerations for the area`
 
     switch (type) {
       case 'meta_title':
         prompt = `Create an SEO-optimized title for ${service} services in ${city}. 
         Include the location and service type. Keep it under 60 characters.
-        Brand name is Cloudkeepers Accountants.`
+        Brand name is Cloudkeepers Accountants.
+        Make it compelling and relevant to local businesses.`
         break
       case 'meta_description':
         prompt = `Write an engaging meta description for ${service} services in ${city}. 
         Highlight key benefits and include a call to action. Keep it under 160 characters.
-        Brand name is Cloudkeepers Accountants.`
+        Brand name is Cloudkeepers Accountants.
+        Focus on local business needs and expertise.`
         break
       case 'main_content':
         prompt = `Create comprehensive content about ${service} services in ${city} for Cloudkeepers Accountants. Include:
@@ -55,11 +60,21 @@ serve(async (req) => {
         5. Our expertise in local regulations and compliance requirements
         6. Benefits of choosing Cloudkeepers Accountants
         7. Call to action
-        Make it engaging, informative, and optimized for SEO. Format in Markdown.`
+        
+        Additional requirements:
+        - Include specific examples of local business scenarios
+        - Mention relevant local business regulations
+        - Discuss area-specific tax considerations
+        - Include local economic statistics and growth trends
+        - Address common pain points for ${city} businesses
+        - Highlight our understanding of the local market
+        
+        Make it engaging, informative, and optimized for SEO. Format in Markdown.
+        Ensure content is detailed and specific to ${city}, not generic.`
         break
       case 'all':
         const titleResponse = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
+          model: "gpt-4",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Create an SEO-optimized title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
@@ -68,7 +83,7 @@ serve(async (req) => {
         })
 
         const descResponse = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
+          model: "gpt-4",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Write an engaging meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
@@ -77,7 +92,7 @@ serve(async (req) => {
         })
 
         const contentResponse = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
+          model: "gpt-4",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: `Create comprehensive content about ${service} services in ${city}. Include local business environment, challenges, solutions, and benefits. Format in Markdown.` }
@@ -130,7 +145,7 @@ serve(async (req) => {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: prompt }
