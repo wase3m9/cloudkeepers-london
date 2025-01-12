@@ -8,6 +8,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Utility function for exponential backoff
+async function retryWithBackoff(fn: () => Promise<any>, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.status === 429 && i < maxRetries - 1) {
+        const delay = Math.pow(2, i) * 1000; // Exponential backoff: 1s, 2s, 4s
+        console.log(`Rate limited. Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -15,6 +32,7 @@ serve(async (req) => {
 
   try {
     const { city, service, type } = await req.json()
+    console.log(`Generating content for ${city}/${service} - Type: ${type}`);
 
     // Initialize OpenAI
     const openai = new OpenAI({
@@ -38,6 +56,27 @@ serve(async (req) => {
     - Local economic growth opportunities
     - Specific tax considerations for the area`
 
+    // Fallback content in case of API issues
+    const fallbackContent = {
+      title: `${service} Services in ${city} | Cloudkeepers Accountants`,
+      description: `Professional ${service} services in ${city}. Expert accountants helping local businesses succeed.`,
+      mainContent: `# ${service} Services in ${city}
+
+## Local Expertise & Professional Service
+
+Cloudkeepers Accountants provides expert ${service} services tailored to businesses in ${city}. Our team combines deep local knowledge with professional expertise to deliver exceptional service.
+
+### Why Choose Us?
+
+- Deep understanding of ${city}'s business landscape
+- Tailored solutions for local businesses
+- Expert compliance and regulatory knowledge
+- Proactive financial guidance
+- Dedicated support team
+
+Contact us today to learn how we can help your business thrive.`
+    };
+
     switch (type) {
       case 'meta_title':
         prompt = `Create an SEO-optimized title for ${service} services in ${city}. 
@@ -52,7 +91,7 @@ serve(async (req) => {
         Focus on local business needs and expertise.`
         break
       case 'main_content':
-        prompt = `Create comprehensive content about ${service} services in ${city} for Cloudkeepers Accountants. Include:
+        prompt = `Create comprehensive content about ${service} services in ${city}. Include:
         1. Introduction to the local business environment in ${city}
         2. Key industries and business types in ${city}
         3. Specific ${service} challenges faced by businesses in ${city}
@@ -61,125 +100,151 @@ serve(async (req) => {
         6. Benefits of choosing Cloudkeepers Accountants
         7. Call to action
         
-        Additional requirements:
-        - Include specific examples of local business scenarios
-        - Mention relevant local business regulations
-        - Discuss area-specific tax considerations
-        - Include local economic statistics and growth trends
-        - Address common pain points for ${city} businesses
-        - Highlight our understanding of the local market
-        
-        Make it engaging, informative, and optimized for SEO. Format in Markdown.
+        Format in Markdown.
         Ensure content is detailed and specific to ${city}, not generic.`
         break
       case 'all':
-        const titleResponse = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: `Create an SEO-optimized title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
-          ],
-          temperature: 0.7,
-        })
+        try {
+          const generateContent = async () => {
+            const [titleResponse, descResponse, contentResponse] = await Promise.all([
+              openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [
+                  { role: "system", content: systemPrompt },
+                  { role: "user", content: `Create an SEO-optimized title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
+                ],
+                temperature: 0.7,
+              }),
+              openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [
+                  { role: "system", content: systemPrompt },
+                  { role: "user", content: `Write an engaging meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
+                ],
+                temperature: 0.7,
+              }),
+              openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [
+                  { role: "system", content: systemPrompt },
+                  { role: "user", content: `Create comprehensive content about ${service} services in ${city}. Include local business environment, challenges, solutions, and benefits. Format in Markdown.` }
+                ],
+                temperature: 0.7,
+                max_tokens: 2000,
+              })
+            ]);
 
-        const descResponse = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: `Write an engaging meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
-          ],
-          temperature: 0.7,
-        })
+            return {
+              title: titleResponse.choices[0]?.message?.content || fallbackContent.title,
+              description: descResponse.choices[0]?.message?.content || fallbackContent.description,
+              mainContent: contentResponse.choices[0]?.message?.content || fallbackContent.mainContent
+            };
+          };
 
-        const contentResponse = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: `Create comprehensive content about ${service} services in ${city}. Include local business environment, challenges, solutions, and benefits. Format in Markdown.` }
-          ],
-          temperature: 0.7,
-          max_tokens: 2000,
-        })
+          const result = await retryWithBackoff(generateContent);
 
-        // Store in Supabase
-        const supabaseClient = createClient(
-          Deno.env.get('SUPABASE_URL') ?? '',
-          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-        )
+          // Store in Supabase
+          const supabaseClient = createClient(
+            Deno.env.get('SUPABASE_URL') ?? '',
+            Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+          )
 
-        const title = titleResponse.choices[0]?.message?.content || ''
-        const description = descResponse.choices[0]?.message?.content || ''
-        const mainContent = contentResponse.choices[0]?.message?.content || ''
+          await Promise.all([
+            supabaseClient.from('content_cache').upsert({
+              city,
+              service,
+              type: 'meta_title',
+              content: result.title,
+            }),
+            supabaseClient.from('content_cache').upsert({
+              city,
+              service,
+              type: 'meta_description',
+              content: result.description,
+            }),
+            supabaseClient.from('content_cache').upsert({
+              city,
+              service,
+              type: 'main_content',
+              content: result.mainContent,
+            })
+          ]);
 
-        await Promise.all([
-          supabaseClient.from('content_cache').upsert({
-            city,
-            service,
-            type: 'meta_title',
-            content: title,
-          }),
-          supabaseClient.from('content_cache').upsert({
-            city,
-            service,
-            type: 'meta_description',
-            content: description,
-          }),
-          supabaseClient.from('content_cache').upsert({
-            city,
-            service,
-            type: 'main_content',
-            content: mainContent,
-          })
-        ])
-
-        return new Response(
-          JSON.stringify({ 
-            title,
-            description,
-            mainContent
-          }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
+          return new Response(
+            JSON.stringify(result),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          )
+        } catch (error) {
+          console.error('Error generating content:', error);
+          // Return fallback content if OpenAI fails
+          return new Response(
+            JSON.stringify(fallbackContent),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          )
+        }
       default:
         throw new Error('Invalid content type')
     }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: prompt }
-      ],
-      temperature: 0.7,
-      max_tokens: type === 'main_content' ? 2000 : 200,
-    })
+    try {
+      const generateSingleContent = async () => {
+        const completion = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: prompt }
+          ],
+          temperature: 0.7,
+          max_tokens: type === 'main_content' ? 2000 : 200,
+        });
+        return completion.choices[0]?.message?.content;
+      };
 
-    const generatedContent = completion.choices[0]?.message?.content || ''
+      const generatedContent = await retryWithBackoff(generateSingleContent);
 
-    // Store in Supabase
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
+      // Store in Supabase
+      const supabaseClient = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      )
 
-    await supabaseClient
-      .from('content_cache')
-      .upsert({
-        city,
-        service,
-        type,
-        content: generatedContent,
-      })
+      await supabaseClient
+        .from('content_cache')
+        .upsert({
+          city,
+          service,
+          type,
+          content: generatedContent || fallbackContent[type],
+        })
 
-    return new Response(
-      JSON.stringify({ content: generatedContent }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    )
+      return new Response(
+        JSON.stringify({ content: generatedContent || fallbackContent[type] }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    } catch (error) {
+      console.error('Error generating single content:', error);
+      // Return appropriate fallback content based on type
+      const fallbackResponse = type === 'meta_title' ? fallbackContent.title :
+        type === 'meta_description' ? fallbackContent.description :
+        fallbackContent.mainContent;
+
+      return new Response(
+        JSON.stringify({ content: fallbackResponse }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
   } catch (error) {
-    console.error('Error in generate-content function:', error)
+    console.error('Error in generate-content function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
+      JSON.stringify({ 
+        error: error.message,
+        fallback: true,
+        content: `${service} Services in ${city} | Professional Accounting Services`
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: error.status || 500
+      }
     )
   }
 })
