@@ -39,23 +39,6 @@ serve(async (req) => {
       apiKey: Deno.env.get('OPENAI_API_KEY'),
     })
 
-    let prompt = ''
-    let systemPrompt = `You are an expert content writer for Cloudkeepers Accountants. 
-    Create professional, SEO-optimized content that demonstrates expertise and authority.
-    Include specific details about ${city} and its business environment.
-    Focus on how ${service} services can benefit local businesses.
-    Use a professional yet approachable tone.
-    Do not mention specific pricing or phone numbers.
-    Focus on value proposition and expertise.
-    Include information about:
-    - The local business community in ${city}
-    - Common industries and business types in the area
-    - Specific challenges faced by businesses in ${city}
-    - How Cloudkeepers Accountants' expertise benefits local businesses
-    - Relevant local business regulations and compliance requirements
-    - Local economic growth opportunities
-    - Specific tax considerations for the area`
-
     // Fallback content in case of API issues
     const fallbackContent = {
       title: `${service} Services in ${city} | Cloudkeepers Accountants`,
@@ -77,34 +60,17 @@ Cloudkeepers Accountants provides expert ${service} services tailored to busines
 Contact us today to learn how we can help your business thrive.`
     };
 
-    switch (type) {
-      case 'meta_title':
-        prompt = `Create an SEO-optimized title for ${service} services in ${city}. 
-        Include the location and service type. Keep it under 60 characters.
-        Brand name is Cloudkeepers Accountants.
-        Make it compelling and relevant to local businesses.`
-        break
-      case 'meta_description':
-        prompt = `Write an engaging meta description for ${service} services in ${city}. 
-        Highlight key benefits and include a call to action. Keep it under 160 characters.
-        Brand name is Cloudkeepers Accountants.
-        Focus on local business needs and expertise.`
-        break
-      case 'main_content':
-        prompt = `Create comprehensive content about ${service} services in ${city}. Include:
-        1. Introduction to the local business environment in ${city}
-        2. Key industries and business types in ${city}
-        3. Specific ${service} challenges faced by businesses in ${city}
-        4. How our services help local businesses overcome these challenges
-        5. Our expertise in local regulations and compliance requirements
-        6. Benefits of choosing Cloudkeepers Accountants
-        7. Call to action
-        
-        Format in Markdown.
-        Ensure content is detailed and specific to ${city}, not generic.`
-        break
-      case 'all':
-        try {
+    let systemPrompt = `You are an expert content writer for Cloudkeepers Accountants. 
+    Create professional, SEO-optimized content that demonstrates expertise and authority.
+    Include specific details about ${city} and its business environment.
+    Focus on how ${service} services can benefit local businesses.
+    Use a professional yet approachable tone.
+    Do not mention specific pricing or phone numbers.
+    Focus on value proposition and expertise.`
+
+    try {
+      switch (type) {
+        case 'all':
           const generateContent = async () => {
             const [titleResponse, descResponse, contentResponse] = await Promise.all([
               openai.chat.completions.create({
@@ -149,87 +115,45 @@ Contact us today to learn how we can help your business thrive.`
             Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
           )
 
-          await Promise.all([
-            supabaseClient.from('content_cache').upsert({
-              city,
-              service,
-              type: 'meta_title',
-              content: result.title,
-            }),
-            supabaseClient.from('content_cache').upsert({
-              city,
-              service,
-              type: 'meta_description',
-              content: result.description,
-            }),
-            supabaseClient.from('content_cache').upsert({
-              city,
-              service,
-              type: 'main_content',
-              content: result.mainContent,
-            })
-          ]);
+          try {
+            await Promise.all([
+              supabaseClient.from('content_cache').upsert({
+                city,
+                service,
+                type: 'meta_title',
+                content: result.title,
+              }),
+              supabaseClient.from('content_cache').upsert({
+                city,
+                service,
+                type: 'meta_description',
+                content: result.description,
+              }),
+              supabaseClient.from('content_cache').upsert({
+                city,
+                service,
+                type: 'main_content',
+                content: result.mainContent,
+              })
+            ]);
+          } catch (error) {
+            console.error('Error storing content in cache:', error);
+            // Continue with the response even if caching fails
+          }
 
           return new Response(
             JSON.stringify(result),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
           )
-        } catch (error) {
-          console.error('Error generating content:', error);
-          // Return fallback content if OpenAI fails
-          return new Response(
-            JSON.stringify(fallbackContent),
-            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-          )
-        }
-      default:
-        throw new Error('Invalid content type')
-    }
 
-    try {
-      const generateSingleContent = async () => {
-        const completion = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: prompt }
-          ],
-          temperature: 0.7,
-          max_tokens: type === 'main_content' ? 2000 : 200,
-        });
-        return completion.choices[0]?.message?.content;
-      };
-
-      const generatedContent = await retryWithBackoff(generateSingleContent);
-
-      // Store in Supabase
-      const supabaseClient = createClient(
-        Deno.env.get('SUPABASE_URL') ?? '',
-        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-      )
-
-      await supabaseClient
-        .from('content_cache')
-        .upsert({
-          city,
-          service,
-          type,
-          content: generatedContent || fallbackContent[type],
-        })
-
-      return new Response(
-        JSON.stringify({ content: generatedContent || fallbackContent[type] }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
+        default:
+          throw new Error('Invalid content type')
+      }
     } catch (error) {
-      console.error('Error generating single content:', error);
-      // Return appropriate fallback content based on type
-      const fallbackResponse = type === 'meta_title' ? fallbackContent.title :
-        type === 'meta_description' ? fallbackContent.description :
-        fallbackContent.mainContent;
-
+      console.error('OpenAI API Error:', error);
+      // Return fallback content if OpenAI fails
       return new Response(
-        JSON.stringify({ content: fallbackResponse }),
+        JSON.stringify(fallbackContent),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
@@ -239,7 +163,7 @@ Contact us today to learn how we can help your business thrive.`
       JSON.stringify({ 
         error: error.message,
         fallback: true,
-        content: `${service} Services in ${city} | Professional Accounting Services`
+        content: fallbackContent
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
