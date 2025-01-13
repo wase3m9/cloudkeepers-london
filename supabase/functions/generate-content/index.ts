@@ -27,6 +27,9 @@ serve(async (req) => {
     const body = await req.json();
     const { city, service, type } = body;
 
+    // Log incoming request
+    console.log(`Processing request for city: ${city}, service: ${service}, type: ${type}`);
+
     // Validate required fields
     if (!city || !service || !type) {
       throw new Error('Missing required fields: city, service, and type are required');
@@ -52,7 +55,12 @@ serve(async (req) => {
       
       return new Response(
         JSON.stringify({ title, description, mainContent }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { 
+          headers: { 
+            ...corsHeaders, 
+            'Content-Type': 'application/json' 
+          } 
+        }
       );
     } catch (error) {
       console.error('OpenAI API Error:', error);
@@ -74,7 +82,10 @@ serve(async (req) => {
         mainContent: `# ${errorService} Services in ${errorCity}\n\nWe provide expert ${errorService} services tailored to ${errorCity} businesses.\n\n${getPricingSection()}`
       }),
       { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        },
         status: error.status || 500
       }
     );
