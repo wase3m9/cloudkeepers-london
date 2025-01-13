@@ -124,7 +124,7 @@ const PricingSection = () => (
 const CTASection = () => {
   return (
     <div className="bg-[#4285F4] text-white py-16 px-8 md:py-20 md:px-12 text-center my-20 -mx-8 md:-mx-12 lg:-mx-16 rounded-xl">
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
+      <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Ready to Get Started?</h2>
       <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
         Transform your business with our professional accounting services in Acton.
       </p>
@@ -179,7 +179,7 @@ export function MainContent({ content }: MainContentProps) {
               </h3>
             ),
             p: ({ children }) => (
-              <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
+              <p className="text-gray-600 leading-relaxed mb-8 text-left max-w-3xl mx-auto">
                 {children}
               </p>
             ),
