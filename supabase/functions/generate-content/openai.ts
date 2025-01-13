@@ -2,8 +2,8 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import OpenAI from "https://esm.sh/openai@4.20.1";
+import { getPricingSection } from "./pricing.ts";
 
-// Initialize Supabase client
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -114,7 +114,7 @@ export const generateDescription = async (openai: OpenAI, city: string, service:
   }
 };
 
-export const generateMainContent = async (openai: OpenAI, city: string, service: string) => {
+export const generateMainContent = async (openai: OpenAI, city: string, service: string, pricingSection: string) => {
   try {
     const cachedContent = await checkCache(city, service, 'main_content');
     if (cachedContent) return cachedContent;
@@ -124,32 +124,52 @@ export const generateMainContent = async (openai: OpenAI, city: string, service:
       messages: [
         { 
           role: "system", 
-          content: "You are an expert accountant creating content for a professional accounting firm's website." 
+          content: "You are an expert accountant creating content for a professional accounting firm's website. Include a comprehensive overview, benefits, and services offered." 
         },
         { 
           role: "user", 
-          content: `Create comprehensive content about ${service} services in ${city}. Include benefits, challenges, and solutions.` 
+          content: `Create comprehensive content about ${service} services in ${city}. Include benefits, challenges, and solutions. The content should be detailed and professional.` 
         }
       ],
       temperature: 0.7,
       max_tokens: 1000,
     });
 
-    const content = response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
-    await updateCache(city, service, 'main_content', content);
-    return content;
+    const mainContent = response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+    
+    // Generate FAQ section
+    const faqResponse = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "Create a FAQ section for an accounting service page with 5 relevant questions and answers."
+        },
+        {
+          role: "user",
+          content: `Generate 5 FAQs about ${service} services in ${city}. Include questions about pricing, process, and benefits.`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 500,
+    });
+
+    const faqContent = faqResponse.choices[0]?.message?.content || "";
+    
+    // Combine all sections
+    const fullContent = `${mainContent}\n\n${pricingSection}\n\n${faqContent}`;
+    await updateCache(city, service, 'main_content', fullContent);
+    return fullContent;
   } catch (error) {
     console.error('Error generating main content:', error);
-    return `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+    return `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.\n\n${pricingSection}`;
   }
 };
 
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { 
-      headers: { ...corsHeaders }
-    });
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
@@ -166,10 +186,11 @@ serve(async (req) => {
       throw new Error('Invalid content type');
     }
 
+    const pricingSection = getPricingSection();
     const [title, description, mainContent] = await Promise.all([
       generateTitle(openai, city, service),
       generateDescription(openai, city, service),
-      generateMainContent(openai, city, service)
+      generateMainContent(openai, city, service, pricingSection)
     ]);
 
     console.log('Successfully generated content');
@@ -191,7 +212,7 @@ serve(async (req) => {
         error: error.message,
         title: `Professional Services in Your Area | Expert Accountants`,
         description: `Expert accounting services tailored to your business needs. Contact us today for professional support.`,
-        mainContent: `# Professional Accounting Services\n\nWe provide expert accounting services tailored to local businesses.`
+        mainContent: `# Professional Accounting Services\n\nWe provide expert accounting services tailored to local businesses.\n\n${getPricingSection()}`
       }),
       { 
         headers: { 

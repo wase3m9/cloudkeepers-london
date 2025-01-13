@@ -116,7 +116,7 @@ export function DynamicPage() {
         <div className="mb-8">
           <Link
             to={`/services/${service}`}
-            className="inline-flex items-center text-blue-600 hover:text-blue-800"
+            className="inline-flex items-center text-[#9b87f5] hover:text-[#7E69AB]"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to {service} Services
@@ -126,14 +126,29 @@ export function DynamicPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {generating ? (
-              <div className="flex items-center space-x-2 text-blue-600 mb-4">
+              <div className="flex items-center space-x-2 text-[#9b87f5] mb-4">
                 <Loader2 className="w-5 h-5 animate-spin" />
                 <span>Generating content...</span>
               </div>
             ) : null}
             
             <div className="prose lg:prose-lg">
-              <ReactMarkdown>{content.mainContent}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  h1: ({ children }) => <h1 className="text-4xl font-bold text-[#9b87f5] mb-6">{children}</h1>,
+                  h2: ({ children }) => <h2 className="text-2xl font-semibold text-[#7E69AB] mt-8 mb-4">{children}</h2>,
+                  h3: ({ children }) => <h3 className="text-xl font-medium text-[#7E69AB] mt-6 mb-3">{children}</h3>,
+                  ul: ({ children }) => <ul className="space-y-2 my-4">{children}</ul>,
+                  li: ({ children }) => (
+                    <li className="flex items-start">
+                      <span className="text-[#9b87f5] mr-2">✓</span>
+                      <span>{children}</span>
+                    </li>
+                  ),
+                }}
+              >
+                {content.mainContent}
+              </ReactMarkdown>
             </div>
           </div>
           
