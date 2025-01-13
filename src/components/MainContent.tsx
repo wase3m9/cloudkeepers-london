@@ -2,6 +2,7 @@ import { FileText, Calculator, Receipt, ChartBar } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Card } from './ui/card'
 import { Button } from './ui/button'
+import { Link } from 'react-router-dom'
 
 interface MainContentProps {
   content: string
@@ -120,6 +121,24 @@ const PricingSection = () => (
   </div>
 )
 
+const CTASection = () => {
+  return (
+    <div className="bg-[#4285F4] text-white py-16 px-8 md:py-20 md:px-12 rounded-lg text-center my-20">
+      <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
+      <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+        Transform your business with our professional accounting services in Deptford.
+      </p>
+      <Link to="/contact">
+        <Button 
+          className="bg-white text-[#4285F4] hover:bg-gray-100 px-8 py-6 text-lg font-semibold transition-colors"
+        >
+          Contact Us Now
+        </Button>
+      </Link>
+    </div>
+  )
+}
+
 export function MainContent({ content }: MainContentProps) {
   const scrollToForm = () => {
     const formElement = document.querySelector('#lead-form')
@@ -176,6 +195,8 @@ export function MainContent({ content }: MainContentProps) {
 
         <h2 className="text-3xl font-bold mb-12 text-[#1B4332] text-center mt-20">Our Packages</h2>
         <PricingSection />
+
+        <CTASection />
       </div>
     </div>
   )
