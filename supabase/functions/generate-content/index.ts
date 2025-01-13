@@ -12,12 +12,26 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    const { city, service, type } = await req.json();
+    // Validate request body exists
+    if (!req.body) {
+      throw new Error('Request body is required');
+    }
+
+    // Parse and validate request body
+    const body = await req.json();
+    const { city, service, type } = body;
+
+    // Validate required fields
+    if (!city || !service || !type) {
+      throw new Error('Missing required fields: city, service, and type are required');
+    }
+
     console.log(`Generating content for ${city}/${service} - Type: ${type}`);
 
     if (type !== 'all') {
@@ -46,12 +60,18 @@ serve(async (req) => {
     }
   } catch (error) {
     console.error('Error in generate-content function:', error);
+    
+    // If we have city and service from the error context, use them in the fallback
+    // Otherwise use generic placeholders
+    const errorCity = error.city || 'your city';
+    const errorService = error.service || 'accounting';
+    
     return new Response(
       JSON.stringify({ 
         error: error.message,
-        title: `${service} Services in ${city} | Professional Accountants`,
-        description: `Expert ${service} services in ${city}. Contact us today for professional accounting support.`,
-        mainContent: `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.\n\n${getPricingSection()}`
+        title: `${errorService} Services in ${errorCity} | Professional Accountants`,
+        description: `Expert ${errorService} services in ${errorCity}. Contact us today for professional accounting support.`,
+        mainContent: `# ${errorService} Services in ${errorCity}\n\nWe provide expert ${errorService} services tailored to ${errorCity} businesses.\n\n${getPricingSection()}`
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
