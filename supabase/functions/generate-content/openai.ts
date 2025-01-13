@@ -46,54 +46,57 @@ export const generateDescription = async (openai: OpenAI, city: string, service:
 
 export const generateMainContent = async (openai: OpenAI, city: string, service: string, pricingSection: string) => {
   const contentPrompt = `
-Create professional content for an accounting firm in ${city} offering ${service} services. Structure the content as follows:
+Create detailed content for ${service} services in ${city}. Follow this exact structure:
 
-# Welcome to Premier Accounting Services in ${city}
+# Professional ${service} Services in ${city}
 
-[Introduction paragraph about the firm's commitment to providing comprehensive accounting services]
+[Write a compelling introduction about our expertise in ${service} and presence in ${city}]
 
-## Why Choose Us for ${service} in ${city}?
+## Why Choose Our ${service} Services in ${city}?
 
-[Brief paragraph about the importance of choosing the right accounting partner]
+[Write 3 compelling reasons why businesses should choose our services]
 
-## Key Benefits of Our ${service} Services
+## Our Key Benefits
 
-### 1. Tailored Solutions
-[Paragraph about customized accounting services]
+### 1. Expert Knowledge and Experience
+[Write a paragraph about our expertise]
 
-### 2. Expertise You Can Trust
-[Paragraph about qualified accountants and experience]
+### 2. Personalized Service
+[Write a paragraph about our tailored approach]
 
-### 3. Time and Cost Efficiency
-[Paragraph about outsourcing benefits]
+### 3. Advanced Technology
+[Write a paragraph about our modern tools and systems]
 
-### 4. Compliance and Peace of Mind
-[Paragraph about tax regulations and compliance]
+### 4. Reliable Support
+[Write a paragraph about our customer service]
 
-## Our ${service} Services Overview
+## Our ${service} Services Include:
 
-[Comprehensive paragraph about the range of services offered]
+[Create a detailed list of specific services we offer]
 
 ${pricingSection}
 
 ## Frequently Asked Questions
 
-### Q1: What makes your ${service} services unique in ${city}?
-[Answer focusing on unique value proposition]
+### What makes your ${service} services unique in ${city}?
+[Write a detailed answer]
 
-### Q2: How can I get started with your services?
-[Answer explaining the onboarding process]
+### How quickly can you start working with my business?
+[Write a detailed answer]
 
-### Q3: What types of businesses do you work with?
-[Answer about target industries and business sizes]
+### What types of businesses do you typically work with?
+[Write a detailed answer]
 
-### Q4: What accounting software do you use?
-[Answer about technology and tools]
+### What software and tools do you use?
+[Write a detailed answer]
 
-### Q5: How do you ensure data security and confidentiality?
-[Answer about security measures and compliance]
+### How do you ensure data security and confidentiality?
+[Write a detailed answer]
 
-Format everything in Markdown and maintain a professional tone throughout.`;
+### What are your working hours and response times?
+[Write a detailed answer]
+
+Use professional language and focus on value proposition. Format in Markdown.`;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -108,9 +111,7 @@ Format everything in Markdown and maintain a professional tone throughout.`;
     max_tokens: 2000,
   });
 
-  const mainContent = response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
-  
-  return mainContent;
+  return response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
 };
 
 serve(async (req) => {
@@ -132,13 +133,28 @@ serve(async (req) => {
       throw new Error('Invalid content type');
     }
 
+    // Clear the cache by deleting the existing content
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+
+    if (supabaseUrl && supabaseKey) {
+      const response = await fetch(`${supabaseUrl}/rest/v1/content_cache?city=eq.${encodeURIComponent(city)}&service=eq.${encodeURIComponent(service)}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+      });
+      console.log('Cache cleared for', city, service);
+    }
+
     const [title, description, mainContent] = await Promise.all([
       generateTitle(openai, city, service),
       generateDescription(openai, city, service),
       generateMainContent(openai, city, service, getPricingSection())
     ]);
 
-    console.log('Successfully generated content');
+    console.log('Successfully generated new content');
     
     return new Response(
       JSON.stringify({ title, description, mainContent }),

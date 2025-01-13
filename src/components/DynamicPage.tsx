@@ -33,10 +33,10 @@ export function DynamicPage() {
     const fetchContent = async () => {
       setLoading(true)
       try {
-        // Force content regeneration by skipping cache
+        // Force content regeneration
         setGenerating(true)
         const { data, error } = await supabase.functions.invoke('generate-content', {
-          body: { city, service, type: 'all' }
+          body: { city, service, type: 'all', forceRefresh: true }
         })
 
         if (error) throw error
@@ -95,7 +95,7 @@ export function DynamicPage() {
             {generating ? (
               <div className="flex items-center space-x-2 text-[#9b87f5] mb-4">
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Generating content...</span>
+                <span>Generating fresh content...</span>
               </div>
             ) : null}
             
