@@ -33,53 +33,20 @@ export function DynamicPage() {
     const fetchContent = async () => {
       setLoading(true)
       try {
-        // Try to fetch from cache first
-        const { data: titleData } = await supabase
-          .from('content_cache')
-          .select('content')
-          .eq('city', city)
-          .eq('service', service)
-          .eq('type', 'meta_title')
-          .maybeSingle()
+        // Force content regeneration by skipping cache
+        setGenerating(true)
+        const { data, error } = await supabase.functions.invoke('generate-content', {
+          body: { city, service, type: 'all' }
+        })
 
-        const { data: descData } = await supabase
-          .from('content_cache')
-          .select('content')
-          .eq('city', city)
-          .eq('service', service)
-          .eq('type', 'meta_description')
-          .maybeSingle()
+        if (error) throw error
 
-        const { data: mainData } = await supabase
-          .from('content_cache')
-          .select('content')
-          .eq('city', city)
-          .eq('service', service)
-          .eq('type', 'main_content')
-          .maybeSingle()
-
-        if (!titleData || !descData || !mainData) {
-          // Generate new content if any is missing
-          setGenerating(true)
-          const { data, error } = await supabase.functions.invoke('generate-content', {
-            body: { city, service, type: 'all' }
-          })
-
-          if (error) throw error
-
-          setContent({
-            title: data.title,
-            description: data.description,
-            mainContent: data.mainContent
-          })
-          setGenerating(false)
-        } else {
-          setContent({
-            title: titleData.content,
-            description: descData.content,
-            mainContent: mainData.content
-          })
-        }
+        setContent({
+          title: data.title,
+          description: data.description,
+          mainContent: data.mainContent
+        })
+        setGenerating(false)
       } catch (error) {
         console.error('Error fetching content:', error)
         setContent({
