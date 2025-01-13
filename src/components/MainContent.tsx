@@ -42,10 +42,11 @@ const CoreServices = () => (
   </div>
 )
 
-const PricingCard = ({ title, price, features }: { title: string, price: string, features: string[] }) => (
+const PricingCard = ({ title, price, description, features }: { title: string, price: string, description: string, features: string[] }) => (
   <Card className="flex flex-col p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
     <h3 className="text-xl font-bold mb-4 text-[#0EA5E9]">{title}</h3>
-    <p className="text-2xl font-bold mb-6 text-gray-900">{price}</p>
+    <p className="text-2xl font-bold mb-4 text-gray-900">{price}</p>
+    <p className="text-gray-600 text-sm mb-6">{description}</p>
     <ul className="space-y-3 flex-grow">
       {features.map((feature, index) => (
         <li key={index} className="flex items-start space-x-2">
@@ -64,35 +65,44 @@ const PricingSection = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
     <PricingCard
       title="Sole Trader Package"
-      price="From £75/month"
+      price="From £99/month"
+      description="Perfect for sole traders at any stage, combining essential compliance and strategic financial planning."
       features={[
         "Bookkeeping",
         "Self-assessment filing",
-        "Basic support",
-        "Annual returns",
-        "FREE Allowable Expense Guide"
-      ]}
-    />
-    <PricingCard
-      title="Growth Package"
-      price="From £125/month"
-      features={[
-        "Full bookkeeping",
+        "Expense tracking tool",
+        "WhatsApp support",
         "Tax planning",
-        "Priority support",
-        "Quarterly reviews",
-        "Cash flow forecasting"
+        "FREE Allowable Expense Guide PDF"
       ]}
     />
     <PricingCard
-      title="Enterprise Package"
-      price="From £250/month"
+      title="Limited Company Package"
+      price="From £150/month"
+      description="Ideal for limited companies focused on growth and compliance with strategic insights."
       features={[
-        "Complete financial management",
-        "Strategic planning",
-        "24/7 support",
-        "Monthly reviews",
-        "Custom reporting"
+        "Bookkeeping",
+        "Payroll processing",
+        "Statutory accounts",
+        "Corporation tax filing",
+        "VAT returns",
+        "WhatsApp support",
+        "Quarterly advisory sessions",
+        "FREE Allowable Expense Guide PDF"
+      ]}
+    />
+    <PricingCard
+      title="SME Package"
+      price="From £250/month"
+      description="Designed for established businesses managing multiple operations and requiring advanced financial strategies."
+      features={[
+        "Full compliance services (Statutory accounts, VAT, payroll)",
+        "Advanced tax planning",
+        "Budgeting and forecasting",
+        "Monthly management accounts",
+        "WhatsApp support",
+        "Monthly strategy review calls",
+        "FREE Allowable Expense Guide PDF"
       ]}
     />
   </div>
@@ -104,8 +114,7 @@ export function MainContent({ content }: MainContentProps) {
     formElement?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const [beforeCore, afterCore] = content.split('## Our Core');
-  const [_, afterCoreServices] = afterCore?.split('## Pricing') ?? ['', ''];
+  const [beforeCore] = content.split('## Our Core')
 
   return (
     <div className="prose lg:prose-lg max-w-none">
@@ -166,23 +175,6 @@ export function MainContent({ content }: MainContentProps) {
 
         <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Packages</h2>
         <PricingSection />
-
-        <ReactMarkdown
-          components={{
-            h2: ({ children }) => (
-              <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
-                {children}
-              </h2>
-            ),
-            p: ({ children }) => (
-              <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
-                {children}
-              </p>
-            ),
-          }}
-        >
-          {afterCoreServices}
-        </ReactMarkdown>
       </div>
     </div>
   )
