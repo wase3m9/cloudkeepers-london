@@ -46,33 +46,33 @@ export const generateDescription = async (openai: OpenAI, city: string, service:
 
 export const generateMainContent = async (openai: OpenAI, city: string, service: string, pricingSection: string) => {
   const contentPrompt = `
-Create detailed content for ${service} services in ${city}. Follow this exact structure:
+Create detailed content for ${service} services in ${city}. The content should be in proper markdown format with the following structure:
 
-# Professional ${service} Services in ${city}
+# Welcome to Premier ${service} Services in ${city}
 
-[Write a compelling introduction about our expertise in ${service} and presence in ${city}]
+[Write 2-3 sentences introducing our services and expertise in ${city}]
 
-## Why Choose Our ${service} Services in ${city}?
+## Why Choose Us for ${service} in ${city}?
 
-[Write 3 compelling reasons why businesses should choose our services]
+[Write 2-3 sentences about what makes us the best choice]
 
-## Our Key Benefits
+## Key Benefits of Our ${service} Services
 
-### 1. Expert Knowledge and Experience
-[Write a paragraph about our expertise]
+### 1. Tailored Solutions
+[Write a paragraph about our customized approach]
 
-### 2. Personalized Service
-[Write a paragraph about our tailored approach]
+### 2. Expertise You Can Trust
+[Write a paragraph about our team's expertise]
 
-### 3. Advanced Technology
-[Write a paragraph about our modern tools and systems]
+### 3. Time and Cost Efficiency
+[Write a paragraph about how we save clients time and money]
 
-### 4. Reliable Support
-[Write a paragraph about our customer service]
+### 4. Compliance and Peace of Mind
+[Write a paragraph about our compliance expertise]
 
-## Our ${service} Services Include:
+## Our ${service} Services Overview
 
-[Create a detailed list of specific services we offer]
+[Write a detailed list of services we offer]
 
 ${pricingSection}
 
@@ -96,14 +96,14 @@ ${pricingSection}
 ### What are your working hours and response times?
 [Write a detailed answer]
 
-Use professional language and focus on value proposition. Format in Markdown.`;
+Use professional language and focus on value proposition. Format in proper markdown.`;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       { 
         role: "system", 
-        content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition."
+        content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition. Format the content in proper markdown."
       },
       { role: "user", content: contentPrompt }
     ],
