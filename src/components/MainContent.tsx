@@ -70,6 +70,7 @@ const PricingCard = ({ title, price, description, features }: { title: string, p
         Get Started
       </Button>
     </Card>
+  )
 }
 
 const PricingSection = () => (
