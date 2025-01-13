@@ -46,64 +46,76 @@ export const generateDescription = async (openai: OpenAI, city: string, service:
 
 export const generateMainContent = async (openai: OpenAI, city: string, service: string, pricingSection: string) => {
   const contentPrompt = `
-Create detailed content for ${service} services in ${city}. The content should be in proper markdown format with the following structure:
+Create detailed content for ${service} services in ${city}. Follow this exact structure and formatting:
 
-# Welcome to Premier ${service} Services in ${city}
+# ${service} Services in ${city}
 
-[Write 2-3 sentences introducing our services and expertise in ${city}]
+[Write a compelling introduction about our expertise in ${service} and presence in ${city}, focusing on local business needs]
 
-## Why Choose Us for ${service} in ${city}?
+## Our Expertise in ${service}
 
-[Write 2-3 sentences about what makes us the best choice]
+[Write about our specialized knowledge in ${service}, mentioning specific qualifications and experience]
 
-## Key Benefits of Our ${service} Services
+## Local ${service} Services in ${city}
 
-### 1. Tailored Solutions
-[Write a paragraph about our customized approach]
+[Write about our local presence and understanding of ${city}'s business environment]
 
-### 2. Expertise You Can Trust
-[Write a paragraph about our team's expertise]
+## How We Help ${city} Businesses
 
-### 3. Time and Cost Efficiency
-[Write a paragraph about how we save clients time and money]
+### Comprehensive Financial Solutions
+[Write about our complete range of financial services]
 
-### 4. Compliance and Peace of Mind
-[Write a paragraph about our compliance expertise]
+### Industry-Specific Expertise
+[Write about our experience with different business sectors]
 
-## Our ${service} Services Overview
+### Technology-Driven Approach
+[Write about our use of modern accounting software and tools]
 
-[Write a detailed list of services we offer]
+### Dedicated Support Team
+[Write about our customer service and support]
+
+## Our Core ${service} Services
+
+1. Monthly Bookkeeping and Accounting
+   - [List 3-4 specific features]
+
+2. Tax Planning and Compliance
+   - [List 3-4 specific features]
+
+3. Business Advisory
+   - [List 3-4 specific features]
+
+4. Financial Reporting
+   - [List 3-4 specific features]
 
 ${pricingSection}
 
 ## Frequently Asked Questions
 
-### What makes your ${service} services unique in ${city}?
-[Write a detailed answer]
-
 ### How quickly can you start working with my business?
-[Write a detailed answer]
+[Write a detailed answer about onboarding process and timeline]
 
-### What types of businesses do you typically work with?
-[Write a detailed answer]
+### What makes your ${service} services unique in ${city}?
+[Write about unique selling points and local expertise]
 
-### What software and tools do you use?
-[Write a detailed answer]
+### Do you work with specific industries?
+[Write about industry specializations and experience]
 
-### How do you ensure data security and confidentiality?
-[Write a detailed answer]
+### What accounting software do you use?
+[Write about technology stack and integration capabilities]
 
-### What are your working hours and response times?
-[Write a detailed answer]
+### How do you ensure data security?
+[Write about security measures and compliance]
 
-Use professional language and focus on value proposition. Format in proper markdown.`;
+### What support can I expect?
+[Write about communication channels and response times]`;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       { 
         role: "system", 
-        content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition. Format the content in proper markdown."
+        content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition. Format in proper markdown with clear section breaks and bullet points where appropriate."
       },
       { role: "user", content: contentPrompt }
     ],
