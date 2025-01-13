@@ -42,31 +42,38 @@ const CoreServices = () => (
   </div>
 )
 
-const PricingCard = ({ title, price, description, features }: { title: string, price: string, description: string, features: string[] }) => (
-  <Card className="flex flex-col p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-[#E5DEFF]">
-    <h3 className="text-xl font-bold mb-4 text-[#1B4332]">{title}</h3>
-    <div className="mb-6">
-      <p className="text-3xl font-bold text-[#0EA5E9]">{price}</p>
-      <p className="text-gray-600 text-sm mt-2 leading-relaxed">{description}</p>
-    </div>
-    <ul className="space-y-4 flex-grow">
-      {features.map((feature, index) => (
-        <li key={index} className="flex items-start space-x-3">
-          <span className="text-[#0EA5E9] flex-shrink-0 mt-1">•</span>
-          <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
-        </li>
-      ))}
-    </ul>
-    <Button 
-      className="mt-8 w-full bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-semibold py-6 transition-colors"
-    >
-      Get Started
-    </Button>
-  </Card>
-)
+const PricingCard = ({ title, price, description, features }: { title: string, price: string, description: string, features: string[] }) => {
+  const scrollToForm = () => {
+    const formElement = document.querySelector('#lead-form')
+    formElement?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  return (
+    <Card className="flex flex-col p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-[#E5DEFF] max-w-sm">
+      <h3 className="text-xl font-bold mb-4 text-[#1B4332]">{title}</h3>
+      <div className="mb-4">
+        <p className="text-2xl font-bold text-[#0EA5E9]">{price}</p>
+        <p className="text-gray-600 text-sm mt-2 leading-relaxed">{description}</p>
+      </div>
+      <ul className="space-y-3 flex-grow">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-start space-x-3">
+            <span className="text-[#0EA5E9] flex-shrink-0 mt-1">•</span>
+            <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+          </li>
+        ))}
+      </ul>
+      <Button 
+        onClick={scrollToForm}
+        className="mt-6 w-full bg-[#4285F4] hover:bg-[#3367D6] text-white font-semibold py-4 transition-colors"
+      >
+        Get Started
+      </Button>
+    </Card>
+}
 
 const PricingSection = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-12">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12 justify-items-center">
     <PricingCard
       title="Sole Trader Package"
       price="From £99/month"
@@ -135,7 +142,7 @@ export function MainContent({ content }: MainContentProps) {
                 </p>
                 <Button 
                   onClick={scrollToForm}
-                  className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-8 py-6 rounded-md text-lg transition-colors"
+                  className="bg-[#4285F4] hover:bg-[#3367D6] text-white px-8 py-6 rounded-md text-lg transition-colors"
                 >
                   Get Started Today
                 </Button>
