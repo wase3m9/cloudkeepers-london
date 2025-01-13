@@ -109,77 +109,79 @@ export function MainContent({ content }: MainContentProps) {
 
   return (
     <div className="prose lg:prose-lg max-w-none">
-      <ReactMarkdown
-        components={{
-          h1: ({ children }) => (
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0EA5E9] mb-6 leading-tight">
+      <div className="bg-[#9b87f5]/5 rounded-3xl p-8 md:p-12 lg:p-16 mb-16 border border-[#9b87f5]/20">
+        <ReactMarkdown
+          components={{
+            h1: ({ children }) => (
+              <div className="text-center mb-12">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0EA5E9] mb-6 leading-tight">
+                  {children}
+                </h1>
+                <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8">
+                  Transform your business with our professional accounting services tailored specifically for your needs.
+                </p>
+                <Button 
+                  onClick={scrollToForm}
+                  className="bg-[#0EA5E9] hover:bg-[#0284c7] text-white px-8 py-3 rounded-md text-lg transition-colors"
+                >
+                  Get Started Today
+                </Button>
+              </div>
+            ),
+            h2: ({ children }) => (
+              <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
                 {children}
-              </h1>
-              <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8">
-                Transform your business with our professional accounting services tailored specifically for your needs.
+              </h2>
+            ),
+            h3: ({ children }) => (
+              <h3 className="text-2xl font-medium text-[#0EA5E9] mt-10 mb-6">
+                {children}
+              </h3>
+            ),
+            p: ({ children }) => (
+              <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
+                {children}
               </p>
-              <Button 
-                onClick={scrollToForm}
-                className="bg-[#0EA5E9] hover:bg-[#0284c7] text-white px-8 py-3 rounded-md text-lg transition-colors"
-              >
-                Get Started Today
-              </Button>
-            </div>
-          ),
-          h2: ({ children }) => (
-            <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
-              {children}
-            </h2>
-          ),
-          h3: ({ children }) => (
-            <h3 className="text-2xl font-medium text-[#0EA5E9] mt-10 mb-6">
-              {children}
-            </h3>
-          ),
-          p: ({ children }) => (
-            <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
-              {children}
-            </p>
-          ),
-          ul: ({ children }) => (
-            <ul className="space-y-4 my-8 max-w-2xl mx-auto">
-              {children}
-            </ul>
-          ),
-          li: ({ children }) => (
-            <li className="flex items-start space-x-3 bg-white p-4 rounded-lg shadow-sm">
-              <span className="text-[#0EA5E9] mt-1 flex-shrink-0">•</span>
-              <span className="text-gray-600">{children}</span>
-            </li>
-          ),
-        }}
-      >
-        {beforeCore}
-      </ReactMarkdown>
+            ),
+            ul: ({ children }) => (
+              <ul className="space-y-4 my-8 max-w-2xl mx-auto">
+                {children}
+              </ul>
+            ),
+            li: ({ children }) => (
+              <li className="flex items-start space-x-3 bg-white p-4 rounded-lg shadow-sm">
+                <span className="text-[#0EA5E9] mt-1 flex-shrink-0">•</span>
+                <span className="text-gray-600">{children}</span>
+              </li>
+            ),
+          }}
+        >
+          {beforeCore}
+        </ReactMarkdown>
 
-      <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Core Services</h2>
-      <CoreServices />
+        <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Core Services</h2>
+        <CoreServices />
 
-      <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Packages</h2>
-      <PricingSection />
+        <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Packages</h2>
+        <PricingSection />
 
-      <ReactMarkdown
-        components={{
-          h2: ({ children }) => (
-            <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
-              {children}
-            </h2>
-          ),
-          p: ({ children }) => (
-            <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
-              {children}
-            </p>
-          ),
-        }}
-      >
-        {afterCoreServices}
-      </ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            h2: ({ children }) => (
+              <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
+                {children}
+              </h2>
+            ),
+            p: ({ children }) => (
+              <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
+                {children}
+              </p>
+            ),
+          }}
+        >
+          {afterCoreServices}
+        </ReactMarkdown>
+      </div>
     </div>
   )
 }
