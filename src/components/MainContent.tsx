@@ -11,10 +11,10 @@ interface MainContentProps {
 const ServiceCard = ({ icon: Icon, title, description }: { icon: any, title: string, description: string }) => (
   <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 border border-[#F1F0FB]">
     <div className="mb-4">
-      <Icon className="w-8 h-8 text-[#9b87f5]" />
+      <Icon className="w-8 h-8 text-[#0EA5E9]" />
     </div>
     <h3 className="text-xl font-semibold mb-3 text-gray-900">{title}</h3>
-    <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+    <p className="text-gray-600 text-sm leading-relaxed text-left">{description}</p>
   </div>
 )
 
@@ -149,7 +149,7 @@ export function MainContent({ content }: MainContentProps) {
 
   return (
     <div className="prose lg:prose-lg max-w-none">
-      <div className="bg-[#FFF8E7] rounded-none p-8 md:p-12 lg:p-16 mb-16">
+      <div className="mb-16">
         <ReactMarkdown
           components={{
             h1: ({ children }) => (
