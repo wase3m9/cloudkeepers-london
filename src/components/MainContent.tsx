@@ -46,11 +46,62 @@ export function MainContent({ content }: MainContentProps) {
   const [_, afterCoreServices] = afterCore?.split('## Pricing') ?? ['', ''];
 
   return (
-    <div className="prose lg:prose-lg">
-      <ReactMarkdown>{beforeCore}</ReactMarkdown>
-      <h2 className="text-3xl font-bold mb-6">Our Core Services</h2>
+    <div className="prose lg:prose-lg max-w-none">
+      <ReactMarkdown
+        components={{
+          h1: ({ children }) => (
+            <h1 className="text-4xl font-bold text-[#33C3F0] mb-8 text-center">
+              {children}
+            </h1>
+          ),
+          h2: ({ children }) => (
+            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-12 mb-6">
+              {children}
+            </h2>
+          ),
+          h3: ({ children }) => (
+            <h3 className="text-2xl font-medium text-[#33C3F0] mt-8 mb-4">
+              {children}
+            </h3>
+          ),
+          p: ({ children }) => (
+            <p className="text-gray-600 leading-relaxed mb-6">
+              {children}
+            </p>
+          ),
+          ul: ({ children }) => (
+            <ul className="space-y-3 my-6">
+              {children}
+            </ul>
+          ),
+          li: ({ children }) => (
+            <li className="flex items-start space-x-2">
+              <span className="text-[#33C3F0] mt-1">•</span>
+              <span className="text-gray-600">{children}</span>
+            </li>
+          ),
+        }}
+      >
+        {beforeCore}
+      </ReactMarkdown>
+      <h2 className="text-3xl font-bold mb-8 text-[#33C3F0] text-center">Our Core Services</h2>
       <CoreServices />
-      <ReactMarkdown>{afterCoreServices}</ReactMarkdown>
+      <ReactMarkdown
+        components={{
+          h2: ({ children }) => (
+            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-12 mb-6">
+              {children}
+            </h2>
+          ),
+          p: ({ children }) => (
+            <p className="text-gray-600 leading-relaxed mb-6">
+              {children}
+            </p>
+          ),
+        }}
+      >
+        {afterCoreServices}
+      </ReactMarkdown>
     </div>
   )
 }
