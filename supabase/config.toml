@@ -1,1 +1,9 @@
 project_id = "gaygfhoorpjqjeotdxmp"
+
+[api]
+enabled = true
+url = "https://gaygfhoorpjqjeotdxmp.supabase.co"
+
+[functions]
+[functions.generate-content]
+verify_jwt = false

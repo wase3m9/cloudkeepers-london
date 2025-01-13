@@ -18,6 +18,13 @@ serve(async (req) => {
   }
 
   try {
+    // Check if OpenAI API key is configured
+    const openAiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openAiKey) {
+      console.error('OpenAI API key is not configured');
+      throw new Error('OpenAI API key is not configured');
+    }
+
     // Validate request body exists
     if (!req.body) {
       throw new Error('Request body is required');
