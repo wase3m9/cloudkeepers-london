@@ -15,156 +15,141 @@ const corsHeaders = {
 };
 
 export const createOpenAIClient = () => {
-  return new OpenAI({
-    apiKey: Deno.env.get('OPENAI_API_KEY'),
-  });
+  const apiKey = Deno.env.get('OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY is not set');
+  }
+  return new OpenAI({ apiKey });
 };
 
 async function checkCache(city: string, service: string, type: string) {
-  const { data } = await supabase
-    .from('content_cache')
-    .select('content, expires_at')
-    .eq('city', city)
-    .eq('service', service)
-    .eq('type', type)
-    .gt('expires_at', new Date().toISOString())
-    .maybeSingle();
-    
-  return data?.content;
+  try {
+    const { data, error } = await supabase
+      .from('content_cache')
+      .select('content, expires_at')
+      .eq('city', city)
+      .eq('service', service)
+      .eq('type', type)
+      .gt('expires_at', new Date().toISOString())
+      .maybeSingle();
+      
+    if (error) {
+      console.error('Cache check error:', error);
+      return null;
+    }
+    return data?.content;
+  } catch (error) {
+    console.error('Cache check error:', error);
+    return null;
+  }
 }
 
 async function updateCache(city: string, service: string, type: string, content: string) {
-  await supabase
-    .from('content_cache')
-    .upsert({
-      city,
-      service,
-      type,
-      content,
-      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
-    }, {
-      onConflict: 'city,service,type'
-    });
+  try {
+    const { error } = await supabase
+      .from('content_cache')
+      .upsert({
+        city,
+        service,
+        type,
+        content,
+        expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+      }, {
+        onConflict: 'city,service,type'
+      });
+
+    if (error) {
+      console.error('Cache update error:', error);
+    }
+  } catch (error) {
+    console.error('Cache update error:', error);
+  }
 }
 
 export const generateTitle = async (openai: OpenAI, city: string, service: string) => {
   try {
-    // Check cache first
     const cachedTitle = await checkCache(city, service, 'meta_title');
     if (cachedTitle) return cachedTitle;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { 
-          role: "system", 
-          content: "Create a concise, SEO-optimized title for a professional accounting service page." 
-        },
-        { 
-          role: "user", 
-          content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` 
-        }
+        { role: "system", content: "Create a concise, SEO-optimized title for a professional accounting service page." },
+        { role: "user", content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
       ],
       temperature: 0.7,
       max_tokens: 60,
     });
 
     const title = response.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`;
-    
-    // Update cache
     await updateCache(city, service, 'meta_title', title);
-    
     return title;
   } catch (error) {
     console.error('Error generating title:', error);
-    throw error;
+    return `${service} Services in ${city} | Professional Accountants`;
   }
 };
 
 export const generateDescription = async (openai: OpenAI, city: string, service: string) => {
   try {
+    const cachedDesc = await checkCache(city, service, 'meta_description');
+    if (cachedDesc) return cachedDesc;
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { 
-          role: "system", 
-          content: "Create an engaging meta description for a professional accounting service page." 
-        },
-        { 
-          role: "user", 
-          content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` 
-        }
+        { role: "system", content: "Create an engaging meta description for a professional accounting service page." },
+        { role: "user", content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
       ],
       temperature: 0.7,
       max_tokens: 160,
     });
     
-    return response.choices[0]?.message?.content || `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
+    const description = response.choices[0]?.message?.content || `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
+    await updateCache(city, service, 'meta_description', description);
+    return description;
   } catch (error) {
     console.error('Error generating description:', error);
-    throw error;
+    return `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
   }
 };
 
 export const generateMainContent = async (openai: OpenAI, city: string, service: string) => {
   try {
-    const systemPrompt = `You are an expert accountant creating content for a professional accounting firm's website. 
-      Create comprehensive, engaging content that demonstrates expertise and authority. 
-      Focus on location-specific benefits and challenges.
-      Use a professional yet approachable tone.`;
-
-    const contentPrompt = `Create comprehensive content about ${service} services in ${city}. Include:
-
-      1. A compelling title that mentions ${city} and ${service}
-      2. A detailed overview of our ${service} services tailored to ${city} businesses
-      3. Specific benefits for ${city} businesses
-      4. Common challenges faced by ${city} businesses and how we solve them
-      5. Our process and approach
-      6. A strong call to action
-
-      Use this structure:
-
-      # [Title]
-
-      ## Overview of Our ${service} Services in ${city}
-      [2-3 paragraphs about our services and their importance for local businesses]
-
-      ## Why Choose Our ${service} Services in ${city}?
-      - [3-4 key benefits, each with a brief explanation]
-
-      ## Common ${service} Challenges for ${city} Businesses
-      [2-3 specific challenges and our solutions]
-
-      ## Our ${service} Process in ${city}
-      1. [Initial consultation]
-      2. [Assessment and planning]
-      3. [Implementation]
-      4. [Ongoing support]
-
-      ## Get Started with Professional ${service} Services in ${city}
-      [Compelling call to action]`;
+    const cachedContent = await checkCache(city, service, 'main_content');
+    if (cachedContent) return cachedContent;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: contentPrompt }
+        { 
+          role: "system", 
+          content: "You are an expert accountant creating content for a professional accounting firm's website." 
+        },
+        { 
+          role: "user", 
+          content: `Create comprehensive content about ${service} services in ${city}. Include benefits, challenges, and solutions.` 
+        }
       ],
       temperature: 0.7,
-      max_tokens: 2500,
+      max_tokens: 1000,
     });
 
-    return response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+    const content = response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+    await updateCache(city, service, 'main_content', content);
+    return content;
   } catch (error) {
     console.error('Error generating main content:', error);
-    throw error;
+    return `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
   }
 };
 
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { 
+      headers: { ...corsHeaders }
+    });
   }
 
   try {
@@ -191,7 +176,12 @@ serve(async (req) => {
     
     return new Response(
       JSON.stringify({ title, description, mainContent }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
+      }
     );
   } catch (error) {
     console.error('Error in generate-content function:', error);
@@ -204,7 +194,10 @@ serve(async (req) => {
         mainContent: `# Professional Accounting Services\n\nWe provide expert accounting services tailored to local businesses.`
       }),
       { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        },
         status: 500
       }
     );
