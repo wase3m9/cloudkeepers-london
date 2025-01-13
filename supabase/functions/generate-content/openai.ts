@@ -11,41 +11,55 @@ const corsHeaders = {
 export const createOpenAIClient = () => {
   const apiKey = Deno.env.get('OPENAI_API_KEY');
   if (!apiKey) {
-    throw new Error('OPENAI_API_KEY is not set');
+    throw new Error('OPENAI_API_KEY is not set in environment variables');
   }
   return new OpenAI({ apiKey });
 };
 
 export const generateTitle = async (openai: OpenAI, city: string, service: string) => {
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: "Create a concise, SEO-optimized title for a professional accounting service page." },
-      { role: "user", content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
-    ],
-    temperature: 0.7,
-    max_tokens: 60,
-  });
+  try {
+    console.log(`Generating title for ${service} in ${city}`);
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "Create a concise, SEO-optimized title for a professional accounting service page." },
+        { role: "user", content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
+      ],
+      temperature: 0.7,
+      max_tokens: 60,
+    });
 
-  return response.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`;
+    return response.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`;
+  } catch (error) {
+    console.error('Error generating title:', error);
+    return `${service} Services in ${city} | Professional Accountants`;
+  }
 };
 
 export const generateDescription = async (openai: OpenAI, city: string, service: string) => {
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: "Create an engaging meta description for a professional accounting service page." },
-      { role: "user", content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
-    ],
-    temperature: 0.7,
-    max_tokens: 160,
-  });
-  
-  return response.choices[0]?.message?.content || `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
+  try {
+    console.log(`Generating description for ${service} in ${city}`);
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "Create an engaging meta description for a professional accounting service page." },
+        { role: "user", content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
+      ],
+      temperature: 0.7,
+      max_tokens: 160,
+    });
+    
+    return response.choices[0]?.message?.content || `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
+  } catch (error) {
+    console.error('Error generating description:', error);
+    return `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
+  }
 };
 
 export const generateMainContent = async (openai: OpenAI, city: string, service: string, pricingSection: string) => {
-  const contentPrompt = `
+  try {
+    console.log(`Generating main content for ${service} in ${city}`);
+    const contentPrompt = `
 Create detailed content for ${service} services in ${city}. Follow this exact structure and formatting:
 
 # ${service} Services in ${city}
@@ -110,23 +124,28 @@ ${pricingSection}
 ### What support can I expect?
 [Write about communication channels and response times]`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { 
-        role: "system", 
-        content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition. Format in proper markdown with clear section breaks and bullet points where appropriate."
-      },
-      { role: "user", content: contentPrompt }
-    ],
-    temperature: 0.7,
-    max_tokens: 2000,
-  });
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition. Format in proper markdown with clear section breaks and bullet points where appropriate."
+        },
+        { role: "user", content: contentPrompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 2000,
+    });
 
-  return response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+    return response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+  } catch (error) {
+    console.error('Error generating main content:', error);
+    return `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
+  }
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -143,21 +162,6 @@ serve(async (req) => {
 
     if (type !== 'all') {
       throw new Error('Invalid content type');
-    }
-
-    // Clear the cache by deleting the existing content
-    const supabaseUrl = Deno.env.get('SUPABASE_URL');
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-
-    if (supabaseUrl && supabaseKey) {
-      const response = await fetch(`${supabaseUrl}/rest/v1/content_cache?city=eq.${encodeURIComponent(city)}&service=eq.${encodeURIComponent(service)}`, {
-        method: 'DELETE',
-        headers: {
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
-        },
-      });
-      console.log('Cache cleared for', city, service);
     }
 
     const [title, description, mainContent] = await Promise.all([
