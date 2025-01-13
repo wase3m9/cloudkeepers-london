@@ -109,12 +109,12 @@ export function MainContent({ content }: MainContentProps) {
 
   return (
     <div className="prose lg:prose-lg max-w-none">
-      <div className="bg-[#9b87f5]/5 rounded-3xl p-8 md:p-12 lg:p-16 mb-16 border border-[#9b87f5]/20">
+      <div className="bg-[#FFF8E7] rounded-none p-8 md:p-12 lg:p-16 mb-16">
         <ReactMarkdown
           components={{
             h1: ({ children }) => (
               <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0EA5E9] mb-6 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1B4332] mb-6 leading-tight">
                   {children}
                 </h1>
                 <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8">
@@ -122,7 +122,7 @@ export function MainContent({ content }: MainContentProps) {
                 </p>
                 <Button 
                   onClick={scrollToForm}
-                  className="bg-[#0EA5E9] hover:bg-[#0284c7] text-white px-8 py-3 rounded-md text-lg transition-colors"
+                  className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white px-8 py-6 rounded-md text-lg transition-colors"
                 >
                   Get Started Today
                 </Button>
@@ -158,7 +158,9 @@ export function MainContent({ content }: MainContentProps) {
         >
           {beforeCore}
         </ReactMarkdown>
+      </div>
 
+      <div className="bg-white rounded-3xl p-8 md:p-12 lg:p-16">
         <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Core Services</h2>
         <CoreServices />
 
