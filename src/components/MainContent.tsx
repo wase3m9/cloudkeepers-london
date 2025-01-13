@@ -51,7 +51,7 @@ const PricingCard = ({ title, price, description, features }: { title: string, p
 
   return (
     <Card className="flex flex-col p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-[#E5DEFF] max-w-sm">
-      <h3 className="text-xl font-bold mb-4 text-[#1B4332]">{title}</h3>
+      <h3 className="text-xl font-bold mb-4 text-[#F97316]">{title}</h3>
       <div className="mb-4">
         <p className="text-2xl font-bold text-[#0EA5E9]">{price}</p>
         <p className="text-gray-600 text-sm mt-2 leading-relaxed">{description}</p>
@@ -123,10 +123,10 @@ const PricingSection = () => (
 
 const CTASection = () => {
   return (
-    <div className="bg-[#4285F4] text-white py-16 px-8 md:py-20 md:px-12 text-center my-20 -mx-8 md:-mx-12 lg:-mx-16">
+    <div className="bg-[#4285F4] text-white py-16 px-8 md:py-20 md:px-12 text-center my-20 -mx-8 md:-mx-12 lg:-mx-16 rounded-xl">
       <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
       <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
-        Transform your business with our professional accounting services in Deptford.
+        Transform your business with our professional accounting services in Acton.
       </p>
       <Link to="/contact">
         <Button 
@@ -154,7 +154,7 @@ export function MainContent({ content }: MainContentProps) {
           components={{
             h1: ({ children }) => (
               <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1B4332] mb-6 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F97316] mb-6 leading-tight">
                   {children}
                 </h1>
                 <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8">
@@ -169,12 +169,12 @@ export function MainContent({ content }: MainContentProps) {
               </div>
             ),
             h2: ({ children }) => (
-              <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
+              <h2 className="text-3xl font-semibold text-[#F97316] mt-16 mb-8 text-center">
                 {children}
               </h2>
             ),
             h3: ({ children }) => (
-              <h3 className="text-2xl font-medium text-[#0EA5E9] mt-10 mb-6">
+              <h3 className="text-2xl font-medium text-[#F97316] mt-10 mb-6">
                 {children}
               </h3>
             ),
@@ -190,10 +190,10 @@ export function MainContent({ content }: MainContentProps) {
       </div>
 
       <div className="bg-white rounded-3xl p-8 md:p-12 lg:p-16">
-        <h2 className="text-3xl font-bold mb-12 text-[#1B4332] text-center">Our Core Services</h2>
+        <h2 className="text-3xl font-bold mb-12 text-[#F97316] text-center">Our Core Services</h2>
         <CoreServices />
 
-        <h2 className="text-3xl font-bold mb-12 text-[#1B4332] text-center mt-20">Our Packages</h2>
+        <h2 className="text-3xl font-bold mb-12 text-[#F97316] text-center mt-20">Our Packages</h2>
         <PricingSection />
 
         <CTASection />
