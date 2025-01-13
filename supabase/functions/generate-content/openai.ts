@@ -1,4 +1,5 @@
 import OpenAI from "https://esm.sh/openai@4.20.1";
+import { retryWithBackoff, logRemainingQuota } from "./retry.ts";
 
 export const createOpenAIClient = () => {
   return new OpenAI({
@@ -7,38 +8,57 @@ export const createOpenAIClient = () => {
 };
 
 export const generateTitle = async (openai: OpenAI, city: string, service: string) => {
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { 
-        role: "system", 
-        content: "Create a concise, SEO-optimized title for a professional accounting service page." 
-      },
-      { 
-        role: "user", 
-        content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` 
-      }
-    ],
-    temperature: 0.7,
+  const response = await retryWithBackoff(async () => {
+    const result = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { 
+          role: "system", 
+          content: "Create a concise, SEO-optimized title for a professional accounting service page." 
+        },
+        { 
+          role: "user", 
+          content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` 
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 60, // Limit tokens for title generation
+    });
+    
+    // Log remaining quota after successful call
+    if (result.response?.headers) {
+      logRemainingQuota(result.response.headers);
+    }
+    
+    return result;
   });
   
   return response.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`;
 };
 
 export const generateDescription = async (openai: OpenAI, city: string, service: string) => {
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { 
-        role: "system", 
-        content: "Create an engaging meta description for a professional accounting service page." 
-      },
-      { 
-        role: "user", 
-        content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` 
-      }
-    ],
-    temperature: 0.7,
+  const response = await retryWithBackoff(async () => {
+    const result = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { 
+          role: "system", 
+          content: "Create an engaging meta description for a professional accounting service page." 
+        },
+        { 
+          role: "user", 
+          content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` 
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 160, // Limit tokens for description generation
+    });
+    
+    if (result.response?.headers) {
+      logRemainingQuota(result.response.headers);
+    }
+    
+    return result;
   });
   
   return response.choices[0]?.message?.content || `Expert ${service} services in ${city}. Contact us today for professional accounting support.`;
@@ -83,14 +103,22 @@ export const generateMainContent = async (openai: OpenAI, city: string, service:
     ## Get Started with Professional ${service} Services in ${city}
     [Compelling call to action]`;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: contentPrompt }
-    ],
-    temperature: 0.7,
-    max_tokens: 2500,
+  const response = await retryWithBackoff(async () => {
+    const result = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: contentPrompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 2500,
+    });
+    
+    if (result.response?.headers) {
+      logRemainingQuota(result.response.headers);
+    }
+    
+    return result;
   });
 
   return response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
