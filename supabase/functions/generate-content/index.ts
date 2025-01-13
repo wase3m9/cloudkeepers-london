@@ -9,15 +9,18 @@ const corsHeaders = {
   'Access-Control-Max-Age': '86400',
 };
 
-async function retryWithBackoff(fn: () => Promise<any>, maxRetries = 3) {
+// Enhanced retry mechanism with exponential backoff
+async function retryWithBackoff(fn: () => Promise<any>, maxRetries = 5, initialDelay = 2000) {
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await fn();
     } catch (error) {
       if (error.status === 429 && i < maxRetries - 1) {
-        const delay = Math.pow(2, i) * 1000;
-        console.log(`Rate limited. Retrying in ${delay}ms...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        const delay = initialDelay * Math.pow(2, i); // Exponential backoff
+        const jitter = Math.random() * 1000; // Add random jitter
+        const waitTime = delay + jitter;
+        console.log(`Rate limited. Attempt ${i + 1}/${maxRetries}. Retrying in ${Math.round(waitTime/1000)}s...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
         continue;
       }
       throw error;
@@ -26,14 +29,8 @@ async function retryWithBackoff(fn: () => Promise<any>, maxRetries = 3) {
 }
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { 
-      headers: {
-        ...corsHeaders,
-        'Content-Type': 'text/plain',
-      }
-    });
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
@@ -142,32 +139,39 @@ ${pricingSection}
 ## Get Started with Professional ${service} Services in ${city}
 [Compelling call to action]`;
 
+            // Use Promise.all with the enhanced retry mechanism
             const [titleResponse, descResponse, contentResponse] = await Promise.all([
-              openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: [
-                  { role: "system", content: "Create a concise, SEO-optimized title for a professional accounting service page." },
-                  { role: "user", content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
-                ],
-                temperature: 0.7,
-              }),
-              openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: [
-                  { role: "system", content: "Create an engaging meta description for a professional accounting service page." },
-                  { role: "user", content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
-                ],
-                temperature: 0.7,
-              }),
-              openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: [
-                  { role: "system", content: systemPrompt },
-                  { role: "user", content: contentPrompt }
-                ],
-                temperature: 0.7,
-                max_tokens: 2500,
-              })
+              retryWithBackoff(() => 
+                openai.chat.completions.create({
+                  model: "gpt-4o-mini",
+                  messages: [
+                    { role: "system", content: "Create a concise, SEO-optimized title for a professional accounting service page." },
+                    { role: "user", content: `Create a title for ${service} services in ${city}. Include location and service type. Keep it under 60 characters.` }
+                  ],
+                  temperature: 0.7,
+                })
+              ),
+              retryWithBackoff(() =>
+                openai.chat.completions.create({
+                  model: "gpt-4o-mini",
+                  messages: [
+                    { role: "system", content: "Create an engaging meta description for a professional accounting service page." },
+                    { role: "user", content: `Write a meta description for ${service} services in ${city}. Highlight key benefits and include a call to action. Keep it under 160 characters.` }
+                  ],
+                  temperature: 0.7,
+                })
+              ),
+              retryWithBackoff(() =>
+                openai.chat.completions.create({
+                  model: "gpt-4o-mini",
+                  messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: contentPrompt }
+                  ],
+                  temperature: 0.7,
+                  max_tokens: 2500,
+                })
+              )
             ]);
 
             console.log('Content generation completed successfully');
@@ -184,12 +188,7 @@ ${pricingSection}
           
           return new Response(
             JSON.stringify(result),
-            { 
-              headers: { 
-                ...corsHeaders, 
-                'Content-Type': 'application/json'
-              } 
-            }
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
           );
 
         default:
@@ -209,10 +208,7 @@ ${pricingSection}
         mainContent: `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.\n\n${pricingSection}`
       }),
       { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json'
-        },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: error.status || 500
       }
     );
