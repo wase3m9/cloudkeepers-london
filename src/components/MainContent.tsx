@@ -1,5 +1,6 @@
 import { FileText, Calculator, Receipt, ChartBar } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import { Card } from './ui/card'
 
 interface MainContentProps {
   content: string
@@ -40,6 +41,62 @@ const CoreServices = () => (
   </div>
 )
 
+const PricingCard = ({ title, price, features }: { title: string, price: string, features: string[] }) => (
+  <Card className="flex flex-col p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+    <h3 className="text-xl font-bold mb-4 text-[#0EA5E9]">{title}</h3>
+    <p className="text-2xl font-bold mb-6 text-gray-900">{price}</p>
+    <ul className="space-y-3 flex-grow">
+      {features.map((feature, index) => (
+        <li key={index} className="flex items-start space-x-2">
+          <span className="text-[#0EA5E9] flex-shrink-0">✓</span>
+          <span className="text-gray-600 text-sm">{feature}</span>
+        </li>
+      ))}
+    </ul>
+    <button className="mt-6 w-full bg-[#0EA5E9] text-white py-3 px-4 rounded-md hover:bg-[#0284c7] transition-colors">
+      Get Started
+    </button>
+  </Card>
+)
+
+const PricingSection = () => (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+    <PricingCard
+      title="Sole Trader Package"
+      price="From £75/month"
+      features={[
+        "Bookkeeping",
+        "Self-assessment filing",
+        "Basic support",
+        "Annual returns",
+        "FREE Allowable Expense Guide"
+      ]}
+    />
+    <PricingCard
+      title="Growth Package"
+      price="From £125/month"
+      features={[
+        "Full bookkeeping",
+        "Tax planning",
+        "Priority support",
+        "Quarterly reviews",
+        "Cash flow forecasting"
+      ]}
+    />
+    <PricingCard
+      title="Enterprise Package"
+      price="From £250/month"
+      features={[
+        "Complete financial management",
+        "Strategic planning",
+        "24/7 support",
+        "Monthly reviews",
+        "Custom reporting"
+      ]}
+    />
+  </div>
+)
+
 export function MainContent({ content }: MainContentProps) {
   const [beforeCore, afterCore] = content.split('## Our Core');
   const [_, afterCoreServices] = afterCore?.split('## Pricing') ?? ['', ''];
@@ -49,17 +106,17 @@ export function MainContent({ content }: MainContentProps) {
       <ReactMarkdown
         components={{
           h1: ({ children }) => (
-            <h1 className="text-4xl font-bold text-[#33C3F0] mb-12 text-center leading-tight">
+            <h1 className="text-4xl font-bold text-[#0EA5E9] mb-12 text-center leading-tight">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-16 mb-8 text-center">
+            <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-2xl font-medium text-[#33C3F0] mt-10 mb-6">
+            <h3 className="text-2xl font-medium text-[#0EA5E9] mt-10 mb-6">
               {children}
             </h3>
           ),
@@ -75,7 +132,7 @@ export function MainContent({ content }: MainContentProps) {
           ),
           li: ({ children }) => (
             <li className="flex items-start space-x-3 bg-white p-4 rounded-lg shadow-sm">
-              <span className="text-[#33C3F0] mt-1 flex-shrink-0">•</span>
+              <span className="text-[#0EA5E9] mt-1 flex-shrink-0">•</span>
               <span className="text-gray-600">{children}</span>
             </li>
           ),
@@ -84,13 +141,16 @@ export function MainContent({ content }: MainContentProps) {
         {beforeCore}
       </ReactMarkdown>
 
-      <h2 className="text-3xl font-bold mb-12 text-[#33C3F0] text-center">Our Core Services</h2>
+      <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Core Services</h2>
       <CoreServices />
+
+      <h2 className="text-3xl font-bold mb-12 text-[#0EA5E9] text-center">Our Packages</h2>
+      <PricingSection />
 
       <ReactMarkdown
         components={{
           h2: ({ children }) => (
-            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-16 mb-8 text-center">
+            <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
               {children}
             </h2>
           ),
