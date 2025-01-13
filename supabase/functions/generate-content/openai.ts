@@ -45,31 +45,55 @@ export const generateDescription = async (openai: OpenAI, city: string, service:
 };
 
 export const generateMainContent = async (openai: OpenAI, city: string, service: string, pricingSection: string) => {
-  // Generate main content with specific sections
   const contentPrompt = `
-Create comprehensive content about ${service} services in ${city} with the following structure:
+Create professional content for an accounting firm in ${city} offering ${service} services. Structure the content as follows:
 
-1. Introduction Section:
-- A welcoming headline
-- Brief overview of our ${service} services in ${city}
-- Why choose us for ${service} in ${city}
+# Welcome to Premier Accounting Services in ${city}
 
-2. Benefits Section (with 4 key benefits):
-### Key Benefits of Our ${service} Services
-[List 4 benefits with brief descriptions]
+[Introduction paragraph about the firm's commitment to providing comprehensive accounting services]
 
-3. Services Overview:
-- Detailed explanation of our ${service} services
-- How we help businesses in ${city}
+## Why Choose Us for ${service} in ${city}?
 
-4. Pricing Section:
-[Will be added separately]
+[Brief paragraph about the importance of choosing the right accounting partner]
 
-5. FAQ Section:
-### Frequently Asked Questions
-[Create 5 relevant FAQs about ${service} services]
+## Key Benefits of Our ${service} Services
 
-Format everything in Markdown. Make it professional and engaging.`;
+### 1. Tailored Solutions
+[Paragraph about customized accounting services]
+
+### 2. Expertise You Can Trust
+[Paragraph about qualified accountants and experience]
+
+### 3. Time and Cost Efficiency
+[Paragraph about outsourcing benefits]
+
+### 4. Compliance and Peace of Mind
+[Paragraph about tax regulations and compliance]
+
+## Our ${service} Services Overview
+
+[Comprehensive paragraph about the range of services offered]
+
+${pricingSection}
+
+## Frequently Asked Questions
+
+### Q1: What makes your ${service} services unique in ${city}?
+[Answer focusing on unique value proposition]
+
+### Q2: How can I get started with your services?
+[Answer explaining the onboarding process]
+
+### Q3: What types of businesses do you work with?
+[Answer about target industries and business sizes]
+
+### Q4: What accounting software do you use?
+[Answer about technology and tools]
+
+### Q5: How do you ensure data security and confidentiality?
+[Answer about security measures and compliance]
+
+Format everything in Markdown and maintain a professional tone throughout.`;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -81,16 +105,12 @@ Format everything in Markdown. Make it professional and engaging.`;
       { role: "user", content: contentPrompt }
     ],
     temperature: 0.7,
-    max_tokens: 1000,
+    max_tokens: 2000,
   });
 
   const mainContent = response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
   
-  // Insert the pricing section after the services overview
-  const contentParts = mainContent.split('4. Pricing Section:');
-  const finalContent = contentParts[0] + '\n\n' + pricingSection + '\n\n' + (contentParts[1] || '');
-
-  return finalContent;
+  return mainContent;
 };
 
 serve(async (req) => {
@@ -112,11 +132,10 @@ serve(async (req) => {
       throw new Error('Invalid content type');
     }
 
-    const pricingSection = getPricingSection();
     const [title, description, mainContent] = await Promise.all([
       generateTitle(openai, city, service),
       generateDescription(openai, city, service),
-      generateMainContent(openai, city, service, pricingSection)
+      generateMainContent(openai, city, service, getPricingSection())
     ]);
 
     console.log('Successfully generated content');
