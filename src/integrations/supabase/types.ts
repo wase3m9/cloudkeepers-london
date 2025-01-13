@@ -14,6 +14,7 @@ export type Database = {
           city: string
           content: string
           created_at: string
+          expires_at: string | null
           id: string
           service: string
           type: string
@@ -22,6 +23,7 @@ export type Database = {
           city: string
           content: string
           created_at?: string
+          expires_at?: string | null
           id?: string
           service: string
           type: string
@@ -30,6 +32,7 @@ export type Database = {
           city?: string
           content?: string
           created_at?: string
+          expires_at?: string | null
           id?: string
           service?: string
           type?: string
@@ -129,6 +132,33 @@ export type Database = {
           meta_title?: string | null
           name?: string
           slug?: string
+        }
+        Relationships: []
+      }
+      request_logs: {
+        Row: {
+          created_at: string | null
+          endpoint: string
+          error_code: string | null
+          id: string
+          response_time: number | null
+          success: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          endpoint: string
+          error_code?: string | null
+          id?: string
+          response_time?: number | null
+          success?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          endpoint?: string
+          error_code?: string | null
+          id?: string
+          response_time?: number | null
+          success?: boolean | null
         }
         Relationships: []
       }

@@ -1,5 +1,11 @@
 import OpenAI from "https://esm.sh/openai@4.20.1";
 import { retryWithBackoff, logRemainingQuota } from "./retry.ts";
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const createOpenAIClient = () => {
   return new OpenAI({
@@ -7,7 +13,38 @@ export const createOpenAIClient = () => {
   });
 };
 
+async function checkCache(city: string, service: string, type: string) {
+  const { data } = await supabase
+    .from('content_cache')
+    .select('content, expires_at')
+    .eq('city', city)
+    .eq('service', service)
+    .eq('type', type)
+    .gt('expires_at', new Date().toISOString())
+    .maybeSingle();
+    
+  return data?.content;
+}
+
+async function updateCache(city: string, service: string, type: string, content: string) {
+  await supabase
+    .from('content_cache')
+    .upsert({
+      city,
+      service,
+      type,
+      content,
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
+    }, {
+      onConflict: 'city,service,type'
+    });
+}
+
 export const generateTitle = async (openai: OpenAI, city: string, service: string) => {
+  // Check cache first
+  const cachedTitle = await checkCache(city, service, 'meta_title');
+  if (cachedTitle) return cachedTitle;
+
   const response = await retryWithBackoff(async () => {
     const result = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -22,10 +59,9 @@ export const generateTitle = async (openai: OpenAI, city: string, service: strin
         }
       ],
       temperature: 0.7,
-      max_tokens: 60, // Limit tokens for title generation
+      max_tokens: 60,
     });
     
-    // Log remaining quota after successful call
     if (result.response?.headers) {
       logRemainingQuota(result.response.headers);
     }
@@ -33,7 +69,12 @@ export const generateTitle = async (openai: OpenAI, city: string, service: strin
     return result;
   });
   
-  return response.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`;
+  const title = response.choices[0]?.message?.content || `${service} Services in ${city} | Professional Accountants`;
+  
+  // Update cache
+  await updateCache(city, service, 'meta_title', title);
+  
+  return title;
 };
 
 export const generateDescription = async (openai: OpenAI, city: string, service: string) => {
