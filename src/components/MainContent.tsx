@@ -1,6 +1,7 @@
 import { FileText, Calculator, Receipt, ChartBar } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Card } from './ui/card'
+import { Button } from './ui/button'
 
 interface MainContentProps {
   content: string
@@ -98,6 +99,11 @@ const PricingSection = () => (
 )
 
 export function MainContent({ content }: MainContentProps) {
+  const scrollToForm = () => {
+    const formElement = document.querySelector('#lead-form')
+    formElement?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   const [beforeCore, afterCore] = content.split('## Our Core');
   const [_, afterCoreServices] = afterCore?.split('## Pricing') ?? ['', ''];
 
@@ -106,9 +112,20 @@ export function MainContent({ content }: MainContentProps) {
       <ReactMarkdown
         components={{
           h1: ({ children }) => (
-            <h1 className="text-4xl font-bold text-[#0EA5E9] mb-12 text-center leading-tight">
-              {children}
-            </h1>
+            <div className="text-center mb-12">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0EA5E9] mb-6 leading-tight">
+                {children}
+              </h1>
+              <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8">
+                Transform your business with our professional accounting services tailored specifically for your needs.
+              </p>
+              <Button 
+                onClick={scrollToForm}
+                className="bg-[#0EA5E9] hover:bg-[#0284c7] text-white px-8 py-3 rounded-md text-lg transition-colors"
+              >
+                Get Started Today
+              </Button>
+            </div>
           ),
           h2: ({ children }) => (
             <h2 className="text-3xl font-semibold text-[#0EA5E9] mt-16 mb-8 text-center">
