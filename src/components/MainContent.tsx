@@ -41,7 +41,6 @@ const CoreServices = () => (
 )
 
 export function MainContent({ content }: MainContentProps) {
-  // Split the content at the Core Services section
   const [beforeCore, afterCore] = content.split('## Our Core');
   const [_, afterCoreServices] = afterCore?.split('## Pricing') ?? ['', ''];
 
@@ -50,33 +49,33 @@ export function MainContent({ content }: MainContentProps) {
       <ReactMarkdown
         components={{
           h1: ({ children }) => (
-            <h1 className="text-4xl font-bold text-[#33C3F0] mb-8 text-center">
+            <h1 className="text-4xl font-bold text-[#33C3F0] mb-12 text-center leading-tight">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-12 mb-6">
+            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-16 mb-8 text-center">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-2xl font-medium text-[#33C3F0] mt-8 mb-4">
+            <h3 className="text-2xl font-medium text-[#33C3F0] mt-10 mb-6">
               {children}
             </h3>
           ),
           p: ({ children }) => (
-            <p className="text-gray-600 leading-relaxed mb-6">
+            <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
               {children}
             </p>
           ),
           ul: ({ children }) => (
-            <ul className="space-y-3 my-6">
+            <ul className="space-y-4 my-8 max-w-2xl mx-auto">
               {children}
             </ul>
           ),
           li: ({ children }) => (
-            <li className="flex items-start space-x-2">
-              <span className="text-[#33C3F0] mt-1">•</span>
+            <li className="flex items-start space-x-3 bg-white p-4 rounded-lg shadow-sm">
+              <span className="text-[#33C3F0] mt-1 flex-shrink-0">•</span>
               <span className="text-gray-600">{children}</span>
             </li>
           ),
@@ -84,17 +83,19 @@ export function MainContent({ content }: MainContentProps) {
       >
         {beforeCore}
       </ReactMarkdown>
-      <h2 className="text-3xl font-bold mb-8 text-[#33C3F0] text-center">Our Core Services</h2>
+
+      <h2 className="text-3xl font-bold mb-12 text-[#33C3F0] text-center">Our Core Services</h2>
       <CoreServices />
+
       <ReactMarkdown
         components={{
           h2: ({ children }) => (
-            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-12 mb-6">
+            <h2 className="text-3xl font-semibold text-[#33C3F0] mt-16 mb-8 text-center">
               {children}
             </h2>
           ),
           p: ({ children }) => (
-            <p className="text-gray-600 leading-relaxed mb-6">
+            <p className="text-gray-600 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
               {children}
             </p>
           ),
