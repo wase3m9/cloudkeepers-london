@@ -6,7 +6,6 @@ import { supabase } from '@/lib/supabase'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { ArrowLeft, Loader2 } from 'lucide-react'
-import { GetStartedSection } from './GetStartedSection'
 import { MainContent } from './MainContent'
 import { FAQSection } from './FAQSection'
 
@@ -118,14 +117,6 @@ export function DynamicPage() {
               <LeadForm />
             </div>
           </div>
-        </div>
-
-        <div className="mt-16">
-          <GetStartedSection 
-            city={city} 
-            service={service}
-            niches={niches}
-          />
         </div>
       </div>
 
