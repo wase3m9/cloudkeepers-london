@@ -100,23 +100,17 @@ export function DynamicPage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            {generating ? (
-              <div className="flex items-center space-x-2 text-[#9b87f5] mb-4">
-                <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Generating fresh content...</span>
-              </div>
-            ) : null}
-            
-            {renderContent()}
+        {generating ? (
+          <div className="flex items-center space-x-2 text-[#9b87f5] mb-4">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>Generating fresh content...</span>
           </div>
-          
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <LeadForm />
-            </div>
-          </div>
+        ) : null}
+        
+        {renderContent()}
+        
+        <div className="mt-16 max-w-2xl mx-auto">
+          <LeadForm />
         </div>
       </div>
 
