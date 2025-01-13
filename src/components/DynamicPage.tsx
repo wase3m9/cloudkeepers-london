@@ -3,17 +3,12 @@ import { useParams, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { LeadForm } from './LeadForm'
 import { supabase } from '@/lib/supabase'
-import ReactMarkdown from 'react-markdown'
 import { Header } from './Header'
 import { Footer } from './Footer'
-import { ArrowLeft, Loader2, ChevronDown } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 import { GetStartedSection } from './GetStartedSection'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { MainContent } from './MainContent'
+import { FAQSection } from './FAQSection'
 
 export function DynamicPage() {
   const { city = 'london', service = 'accounting' } = useParams()
@@ -67,51 +62,13 @@ export function DynamicPage() {
     fetchContent()
   }, [city, service])
 
-  const renderContent = (content: string) => {
-    const sections = content.split('## Frequently Asked Questions')
+  const renderContent = () => {
+    const [mainContent, faqContent] = content.mainContent.split('## Frequently Asked Questions')
     
     return (
       <>
-        <div className="prose lg:prose-lg">
-          <ReactMarkdown
-            components={{
-              h1: ({ children }) => <h1 className="text-4xl font-bold text-[#9b87f5] mb-6">{children}</h1>,
-              h2: ({ children }) => <h2 className="text-2xl font-semibold text-[#7E69AB] mt-8 mb-4">{children}</h2>,
-              h3: ({ children }) => <h3 className="text-xl font-medium text-[#7E69AB] mt-6 mb-3">{children}</h3>,
-              ul: ({ children }) => <ul className="space-y-2 my-4">{children}</ul>,
-              li: ({ children }) => (
-                <li className="flex items-start">
-                  <span className="text-[#9b87f5] mr-2">✓</span>
-                  <span>{children}</span>
-                </li>
-              ),
-            }}
-          >
-            {sections[0]}
-          </ReactMarkdown>
-        </div>
-
-        {sections[1] && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-semibold text-center mb-8">Frequently Asked Questions</h2>
-            <Accordion type="single" collapsible className="w-full">
-              {sections[1].split('###').slice(1).map((qa, index) => {
-                const [question, ...answerParts] = qa.split('\n')
-                const answer = answerParts.join('\n').trim()
-                return (
-                  <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-200">
-                    <AccordionTrigger className="text-left text-base font-medium hover:no-underline">
-                      {question.trim()}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-sm text-gray-600">
-                      {answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                )
-              })}
-            </Accordion>
-          </div>
-        )}
+        <MainContent content={mainContent} />
+        <FAQSection content={faqContent} />
       </>
     )
   }
@@ -153,7 +110,7 @@ export function DynamicPage() {
               </div>
             ) : null}
             
-            {renderContent(content.mainContent)}
+            {renderContent()}
           </div>
           
           <div className="lg:col-span-1">
