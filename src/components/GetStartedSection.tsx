@@ -78,7 +78,7 @@ export function GetStartedSection({ city, service, niches }: GetStartedSectionPr
   return (
     <div className="bg-blue-600 py-8 px-4 sm:px-6 lg:px-8 rounded-lg">
       <div className="max-w-2xl mx-auto text-center">
-        <h2 className="text-2xl font-bold text-white mb-4">Ready to Get Started?</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Get Your Free Consultation</h2>
         <p className="text-lg text-white mb-6">
           Transform your business with our {service} services in {city}.
         </p>
@@ -122,13 +122,22 @@ export function GetStartedSection({ city, service, niches }: GetStartedSectionPr
             required
           />
           
-          <Input
-            type="text"
-            placeholder="Monthly Budget"
+          <Select
             value={formData.monthlyBudget}
-            onChange={(e) => setFormData(prev => ({ ...prev, monthlyBudget: e.target.value }))}
+            onValueChange={(value) => setFormData(prev => ({ ...prev, monthlyBudget: value }))}
             required
-          />
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Monthly Budget" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="£100">£100</SelectItem>
+              <SelectItem value="£200">£200</SelectItem>
+              <SelectItem value="£500">£500</SelectItem>
+              <SelectItem value="£1000">£1,000</SelectItem>
+              <SelectItem value="£2000">£2,000+</SelectItem>
+            </SelectContent>
+          </Select>
           
           <div className="space-y-3">
             <label className="text-sm font-medium">Services Interested In:</label>
