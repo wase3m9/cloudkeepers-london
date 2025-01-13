@@ -1,6 +1,7 @@
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 import OpenAI from "https://esm.sh/openai@4.20.1";
 import { retryWithBackoff, logRemainingQuota } from "./retry.ts";
-import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -92,7 +93,7 @@ export const generateDescription = async (openai: OpenAI, city: string, service:
         }
       ],
       temperature: 0.7,
-      max_tokens: 160, // Limit tokens for description generation
+      max_tokens: 160,
     });
     
     if (result.response?.headers) {
