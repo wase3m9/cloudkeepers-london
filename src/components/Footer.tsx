@@ -26,7 +26,7 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-2">
               <p>020 3553 8444</p>
-              <p>info@cloudkeepers.com</p>
+              <p>info@cloud-keepers.co.uk</p>
               <p>Monday - Friday: 9:30 AM - 6:30 PM</p>
             </div>
           </div>
