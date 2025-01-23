@@ -22,7 +22,8 @@ export function LeadForm() {
     setLoading(true)
 
     try {
-      const { error } = await supabase
+      // First, save to Supabase
+      const { error: dbError } = await supabase
         .from('leads')
         .insert([{
           first_name: formData.firstName,
@@ -34,9 +35,19 @@ export function LeadForm() {
           current_software: formData.currentSoftware
         }])
 
-      if (error) {
-        console.error('Supabase error:', error)
-        throw error
+      if (dbError) {
+        console.error('Supabase error:', dbError)
+        throw dbError
+      }
+
+      // Then, send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-lead-notification', {
+        body: formData
+      })
+
+      if (emailError) {
+        console.error('Email notification error:', emailError)
+        // Don't throw here - we still want to show success since the lead was saved
       }
 
       toast({
