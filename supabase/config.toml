@@ -1,9 +1,5 @@
 project_id = "gaygfhoorpjqjeotdxmp"
 
-[api]
-enabled = true
-url = "https://gaygfhoorpjqjeotdxmp.supabase.co"
-
 [functions]
-[functions.generate-content]
+[functions.send-lead-notification]
 verify_jwt = false
