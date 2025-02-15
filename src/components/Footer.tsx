@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
@@ -62,7 +63,8 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Cloudkeepers Accountants. All rights reserved.</p>
+          <p className="mb-2">© 2025 Cloudkeepers London Ltd. All rights reserved.</p>
+          <p className="text-sm">© Cloudkeepers London Ltd, a company registered in England and Wales; Reg Number 11047263</p>
         </div>
       </div>
     </footer>
