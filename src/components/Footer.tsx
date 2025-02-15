@@ -64,7 +64,7 @@ export function Footer() {
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
           <p className="text-sm mb-2">© 2025 <a href="https://www.cloud-keepers.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">Cloudkeepers London Ltd</a>. All rights reserved.</p>
-          <p className="text-sm">© Cloudkeepers London Ltd, a company registered in England and Wales; Reg Number 11047263</p>
+          <p className="text-sm">© <a href="https://www.cloud-keepers.co.uk" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">Cloudkeepers London Ltd</a>, a company registered in England and Wales; Reg Number 11047263</p>
         </div>
       </div>
     </footer>
