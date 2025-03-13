@@ -19,6 +19,17 @@ export function Footer() {
     fetchNiches()
   }, [])
 
+  // Add a useEffect to clear browser cache for favicon
+  useEffect(() => {
+    // Create a link element for the favicon
+    const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    if (link) {
+      // Force reload by adding a timestamp query parameter
+      const timestamp = new Date().getTime();
+      link.href = `/favicon.ico?v=${timestamp}`;
+    }
+  }, []);
+
   return (
     <footer className="bg-[#1A1F2C] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
