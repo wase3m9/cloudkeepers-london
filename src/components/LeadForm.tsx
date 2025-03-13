@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,6 +23,8 @@ export function LeadForm() {
     setLoading(true)
 
     try {
+      console.log('Submitting lead form with data:', formData)
+      
       // First, save to Supabase
       const { error: dbError } = await supabase
         .from('leads')
@@ -40,20 +43,28 @@ export function LeadForm() {
         throw dbError
       }
 
+      console.log('Lead saved to database successfully')
+
       // Then, send email notification
-      const { error: emailError } = await supabase.functions.invoke('send-lead-notification', {
+      console.log('Invoking send-lead-notification function')
+      const { data: emailData, error: emailError } = await supabase.functions.invoke('send-lead-notification', {
         body: formData
       })
 
       if (emailError) {
         console.error('Email notification error:', emailError)
-        // Don't throw here - we still want to show success since the lead was saved
+        // Log the error but don't throw - we want to show success since the lead was saved
+        toast({
+          title: "Lead saved!",
+          description: "Your information was saved, but there was an issue sending the notification. Our team will still contact you soon.",
+        })
+      } else {
+        console.log('Email notification sent successfully:', emailData)
+        toast({
+          title: "Success!",
+          description: "Thank you for your interest. We'll be in touch soon!",
+        })
       }
-
-      toast({
-        title: "Success!",
-        description: "Thank you for your interest. We'll be in touch soon!",
-      })
 
       // Reset form after successful submission
       setFormData({
@@ -66,6 +77,7 @@ export function LeadForm() {
         currentSoftware: ''
       })
     } catch (error: any) {
+      console.error('Form submission error:', error)
       toast({
         title: "Error",
         description: error.message || "Something went wrong. Please try again.",

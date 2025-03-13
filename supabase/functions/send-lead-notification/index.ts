@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts"
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")
@@ -26,6 +27,9 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const leadData: LeadNotification = await req.json()
     
+    // Log the incoming request data for debugging
+    console.log('Received lead notification request:', JSON.stringify(leadData))
+    
     // Create HTML email content
     const htmlContent = `
       <h2>New Lead Notification</h2>
@@ -40,6 +44,16 @@ const handler = async (req: Request): Promise<Response> => {
       </ul>
     `
 
+    // Add additional recipient if provided
+    const recipients = ["info@cloud-keepers.co.uk"];
+    
+    console.log(`Sending email to: ${recipients.join(', ')}`)
+    
+    if (!RESEND_API_KEY) {
+      console.error('Missing RESEND_API_KEY environment variable')
+      throw new Error('Server configuration error: Missing API key')
+    }
+
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -48,12 +62,15 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Cloud Keepers <info@cloud-keepers.co.uk>",
-        to: ["info@cloud-keepers.co.uk"],
+        to: recipients,
         subject: "New Lead: Free Consultation Request",
         html: htmlContent,
       }),
     })
 
+    // Log the response status for debugging
+    console.log('Resend API response status:', res.status)
+    
     if (!res.ok) {
       const error = await res.text()
       console.error('Resend API error:', error)
