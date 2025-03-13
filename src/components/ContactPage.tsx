@@ -1,3 +1,4 @@
+
 import { Helmet } from 'react-helmet'
 import { LeadForm } from './LeadForm'
 import { Header } from './Header'
@@ -8,6 +9,7 @@ import { Footer } from './Footer'
 
 export function ContactPage() {
   const [niches, setNiches] = useState<any[]>([])
+  const emailAddress = 'info@cloud-keepers.co.uk'
 
   useEffect(() => {
     const fetchNiches = async () => {
@@ -27,6 +29,9 @@ export function ContactPage() {
       <Helmet>
         <title>Contact Us | Professional Accounting Services</title>
         <meta name="description" content="Get in touch with our team of accounting experts. We're here to help with all your accounting and tax needs." />
+        <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="pragma" content="no-cache" />
       </Helmet>
 
       <Header niches={niches} />
@@ -48,7 +53,11 @@ export function ContactPage() {
                   <Mail className="w-5 h-5 text-blue-600 mt-1" />
                   <div>
                     <h3 className="font-semibold">Email</h3>
-                    <p className="text-gray-600">info@cloud-keepers.co.uk</p>
+                    <p className="text-gray-600">
+                      <a href={`mailto:${emailAddress}`} className="hover:text-blue-600 transition-colors">
+                        {emailAddress}
+                      </a>
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">

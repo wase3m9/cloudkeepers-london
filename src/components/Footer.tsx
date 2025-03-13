@@ -2,9 +2,11 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
+import { Mail } from 'lucide-react'
 
 export function Footer() {
   const [niches, setNiches] = useState<any[]>([])
+  const emailAddress = 'info@cloud-keepers.co.uk'
 
   useEffect(() => {
     const fetchNiches = async () => {
@@ -19,7 +21,7 @@ export function Footer() {
     fetchNiches()
   }, [])
 
-  // Add a useEffect to clear browser cache for favicon
+  // Add a useEffect to clear browser cache for favicon and potentially other assets
   useEffect(() => {
     // Create a link element for the favicon
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
@@ -28,6 +30,14 @@ export function Footer() {
       const timestamp = new Date().getTime();
       link.href = `/favicon.ico?v=${timestamp}`;
     }
+    
+    // Force a refresh of the page content
+    const metaTag = document.createElement('meta');
+    metaTag.httpEquiv = 'expires';
+    metaTag.content = '0';
+    document.head.appendChild(metaTag);
+    
+    console.log('Footer rendered with email:', emailAddress);
   }, []);
 
   return (
@@ -38,7 +48,12 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-2">
               <p>020 3553 8444</p>
-              <p>info@cloud-keepers.co.uk</p>
+              <p className="flex items-center">
+                <Mail className="w-4 h-4 mr-2" />
+                <a href={`mailto:${emailAddress}`} className="hover:text-blue-400 transition-colors">
+                  {emailAddress}
+                </a>
+              </p>
               <p>Monday - Friday: 9:30 AM - 6:30 PM</p>
             </div>
           </div>
