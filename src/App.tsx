@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { HomePage } from './components/HomePage'
 import { ServicePage } from './components/ServicePage'
@@ -13,6 +14,9 @@ function App() {
         <Route path="/services/:slug" element={<ServicePage />} />
         <Route path="/:city/:service" element={<DynamicPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/blogs" element={<DynamicPage />} />
+        <Route path="/resources" element={<DynamicPage />} />
+        <Route path="/calculators" element={<DynamicPage />} />
       </Routes>
       <Toaster />
     </Router>

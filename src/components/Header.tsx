@@ -1,5 +1,16 @@
+
 import { Link } from 'react-router-dom'
-import { Home } from 'lucide-react'
+import { Home, Book, FolderOpen, Calculator, ChevronDown } from 'lucide-react'
+import { useState } from 'react'
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu'
+import { cn } from '@/lib/utils'
 
 interface HeaderProps {
   niches: Array<{
@@ -10,6 +21,8 @@ interface HeaderProps {
 }
 
 export function Header({ niches }: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <header className="bg-white shadow-sm">
       <nav className="max-w-7xl mx-auto px-4">
@@ -31,6 +44,57 @@ export function Header({ niches }: HeaderProps) {
                 {niche.name}
               </Link>
             ))}
+            
+            <div className="hidden md:block">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm text-gray-600 hover:text-blue-600 transition-colors bg-transparent">
+                      <span className="flex items-center">
+                        Resources
+                      </span>
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[200px] gap-3 p-4">
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/blogs"
+                              className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                            >
+                              <Book className="w-4 h-4" />
+                              <span>Blogs</span>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/resources"
+                              className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                            >
+                              <FolderOpen className="w-4 h-4" />
+                              <span>Resources</span>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/calculators"
+                              className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                            >
+                              <Calculator className="w-4 h-4" />
+                              <span>Calculators</span>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
           </div>
 
           <div className="flex items-center space-x-3">
