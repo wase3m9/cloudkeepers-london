@@ -27,7 +27,7 @@ export function Header({ niches }: HeaderProps) {
     <header className="bg-white shadow-sm">
       <nav className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-5">
             <Link
               to="/"
               className="text-gray-600 hover:text-blue-600 transition-colors"
@@ -39,7 +39,7 @@ export function Header({ niches }: HeaderProps) {
               <Link
                 key={niche.id}
                 to={`/services/${niche.slug}`}
-                className="hidden md:inline-block text-xs text-gray-600 hover:text-blue-600 transition-colors whitespace-nowrap"
+                className="hidden md:inline-block text-sm text-gray-600 hover:text-blue-600 transition-colors whitespace-nowrap"
               >
                 {niche.name}
               </Link>
@@ -49,7 +49,7 @@ export function Header({ niches }: HeaderProps) {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-xs text-gray-600 hover:text-blue-600 transition-colors bg-transparent px-2 py-1 h-auto">
+                    <NavigationMenuTrigger className="text-sm text-gray-600 hover:text-blue-600 transition-colors bg-transparent px-2 py-1 h-auto">
                       <span className="flex items-center">
                         Resources
                       </span>
