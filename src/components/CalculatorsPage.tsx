@@ -6,7 +6,8 @@ import { Footer } from './Footer'
 import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
 import { Calculator, ArrowRight, Star } from 'lucide-react'
-import { createClient } from '@/integrations/supabase/client'
+// Remove the incorrect import
+// import { createClient } from '@/integrations/supabase/client'
 
 interface CalculatorTool {
   id: string
