@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { calculateSalaryVsDividend, formatCurrency, formatPercentage } from '@/utils/calculators';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -12,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from 'react-hook-form';
-import { Pound, TrendingUp, ArrowRight } from 'lucide-react';
+import { PoundSterling, TrendingUp, ArrowRight } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -66,7 +67,7 @@ export function SalaryVsDividendCalculator() {
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                        <Pound className="h-4 w-4" />
+                        <PoundSterling className="h-4 w-4" />
                       </span>
                       <Input
                         type="number"
@@ -102,7 +103,7 @@ export function SalaryVsDividendCalculator() {
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                        <Pound className="h-4 w-4" />
+                        <PoundSterling className="h-4 w-4" />
                       </span>
                       <Input
                         type="number"
@@ -135,7 +136,7 @@ export function SalaryVsDividendCalculator() {
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                        <Pound className="h-4 w-4" />
+                        <PoundSterling className="h-4 w-4" />
                       </span>
                       <Input
                         type="number"

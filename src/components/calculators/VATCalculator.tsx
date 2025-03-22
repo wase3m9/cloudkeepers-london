@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { calculateVAT, formatCurrency } from '@/utils/calculators';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from 'react-hook-form';
-import { Pound, Percent } from 'lucide-react';
+import { PoundSterling, Percent } from 'lucide-react';
 
 interface VATForm {
   amount: number;
@@ -123,7 +122,7 @@ export function VATCalculator() {
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                        <Pound className="h-4 w-4" />
+                        <PoundSterling className="h-4 w-4" />
                       </span>
                       <Input
                         type="number"

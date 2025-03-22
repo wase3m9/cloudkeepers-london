@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from 'react-hook-form';
-import { Pound, Building } from 'lucide-react';
+import { PoundSterling, Building } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 interface CorporationTaxForm {
@@ -59,7 +59,7 @@ export function CorporationTaxCalculator() {
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                        <Pound className="h-4 w-4" />
+                        <PoundSterling className="h-4 w-4" />
                       </span>
                       <Input
                         type="number"
