@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
@@ -32,9 +31,7 @@ export function BlogPostPage() {
     const fetchBlogPost = async () => {
       setLoading(true)
       
-      // In a real implementation, this would fetch from a blogs table using the slug
-      // For now, using dummy data
-      if (slug === 'common-vat-return-mistakes') {
+      if (slug === 'common-vat-return-mistakes' || slug === '5-common-vat-return-mistakes-and-how-to-avoid-them') {
         const dummyPost: BlogPost = {
           id: '4',
           title: '5 Common VAT Return Mistakes and How to Avoid Them',
@@ -48,8 +45,7 @@ export function BlogPostPage() {
 <li><strong>Missing VAT Rule Updates</strong>: Changes like <a href="https://www.gov.uk/government/publications/making-tax-digital" target="_blank">Making Tax Digital</a> (MTD) require businesses to use approved platforms. Stay informed through HMRC updates or professional accountants.</li>
 </ol>
 <p><strong>Quick Tip</strong>: Combine expert advice with reliable cloud accounting tools to avoid errors, meet deadlines, and stay compliant with VAT regulations.</p>
-<h2 id="how-to-avoid-common-vat-return-mistakes" tabindex="-1">How to Avoid Common VAT Return Mistakes</h2>
-<iframe class="sb-iframe" src="https://www.youtube.com/embed/63ioeEhtsA8" frameborder="0" loading="lazy" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9;"></iframe><h2 id="1-wrong-vat-calculations" tabindex="-1">1. Wrong VAT Calculations</h2>
+<h2 id="1-wrong-vat-calculations" tabindex="-1">1. Wrong VAT Calculations</h2>
 <p>Errors in VAT calculations can lead to penalties from HMRC and disrupt cash flow. These mistakes often arise from human error, handling complex transactions, or dealing with different VAT rates.</p>
 <h3 id="common-math-errors" tabindex="-1">Common Math Errors</h3>
 <p>Some frequent mistakes include:</p>
@@ -266,7 +262,7 @@ export function BlogPostPage() {
 <blockquote>
 <p>&quot;The Cloudkeepers team have been great to work with – responsive, professional and possessing expertise. Can't recall a single accounting issue that wasn't resolved efficiently. Highly recommend them!&quot; - M Laher, Director</p>
 </blockquote>`,
-          slug: 'common-vat-return-mistakes',
+          slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
           created_at: '2023-09-10',
           author: 'Tax Team',
           category: 'VAT',
@@ -274,7 +270,6 @@ export function BlogPostPage() {
         }
         setBlogPost(dummyPost)
       } else {
-        // Handle other blog posts or show not found
         console.log("Blog post not found")
       }
       
@@ -319,14 +314,14 @@ export function BlogPostPage() {
   return (
     <>
       <Helmet>
-        <title>{blogPost.title} | Cloudkeepers</title>
-        <meta name="description" content={blogPost.excerpt} />
-        <meta name="keywords" content="VAT return, tax mistakes, VAT calculations, HMRC, tax deadlines, record keeping" />
-        <meta property="og:title" content={blogPost.title} />
-        <meta property="og:description" content={blogPost.excerpt} />
+        <title>{blogPost?.title} | Cloudkeepers</title>
+        <meta name="description" content="Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business." />
+        <meta name="keywords" content="VAT return, VAT mistakes, compliance, accounting software, record keeping, filing deadlines, expense categories, HMRC updates" />
+        <meta property="og:title" content={blogPost?.title} />
+        <meta property="og:description" content="Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://cloudkeepers.co.uk/blogs/${blogPost.slug}`} />
-        <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost.slug}`} />
+        <meta property="og:url" content={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
+        <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
       </Helmet>
 
       <Header niches={niches} />
@@ -334,7 +329,7 @@ export function BlogPostPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-3xl mx-auto">
           <article className="prose prose-lg max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: blogPost.content }} />
+            <div dangerouslySetInnerHTML={{ __html: blogPost?.content || '' }} />
           </article>
         </div>
       </main>

@@ -36,8 +36,8 @@ export function BlogsPage() {
         {
           id: '4',
           title: '5 Common VAT Return Mistakes and How to Avoid Them',
-          excerpt: 'Learn about the 5 most common VAT return mistakes and how to avoid them with proper tools and processes.',
-          slug: 'common-vat-return-mistakes',
+          excerpt: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
+          slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
           created_at: '2023-09-10',
           author: 'Tax Team',
           category: 'VAT'
