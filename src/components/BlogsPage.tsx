@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Header } from './Header'
@@ -43,30 +42,12 @@ export function BlogsPage() {
           category: 'VAT'
         },
         {
-          id: '1',
-          title: 'Understanding UK Tax Returns: A Complete Guide',
-          excerpt: 'Learn everything you need to know about UK tax returns, deadlines, and how to maximize your deductions.',
-          slug: 'understanding-uk-tax-returns',
-          created_at: '2023-06-15',
-          author: 'John Smith',
-          category: 'Tax'
-        },
-        {
-          id: '2',
-          title: 'Self-Assessment Tips for Freelancers',
-          excerpt: 'Essential tips for freelancers filing self-assessment tax returns in the UK.',
-          slug: 'self-assessment-tips-freelancers',
-          created_at: '2023-07-20',
-          author: 'Emma Wilson',
-          category: 'Self Assessment'
-        },
-        {
-          id: '3',
-          title: 'Making Tax Digital: What You Need to Know',
-          excerpt: 'A comprehensive guide to the UK\'s Making Tax Digital initiative and how it affects your business.',
-          slug: 'making-tax-digital-guide',
-          created_at: '2023-08-05',
-          author: 'Robert Johnson',
+          id: '5',
+          title: '7 Essential Tax Deadlines for UK Small Businesses in 2025',
+          excerpt: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
+          slug: '7-essential-tax-deadlines-for-uk-small-businesses-in-2025',
+          created_at: '2023-11-15',
+          author: 'Tax Advisory Team',
           category: 'Tax Planning'
         }
       ]
