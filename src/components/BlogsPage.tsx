@@ -34,6 +34,15 @@ export function BlogsPage() {
       // For now, adding dummy data
       const dummyPosts: BlogPost[] = [
         {
+          id: '4',
+          title: '5 Common VAT Return Mistakes and How to Avoid Them',
+          excerpt: 'Learn about the 5 most common VAT return mistakes and how to avoid them with proper tools and processes.',
+          slug: 'common-vat-return-mistakes',
+          created_at: '2023-09-10',
+          author: 'Tax Team',
+          category: 'VAT'
+        },
+        {
           id: '1',
           title: 'Understanding UK Tax Returns: A Complete Guide',
           excerpt: 'Learn everything you need to know about UK tax returns, deadlines, and how to maximize your deductions.',

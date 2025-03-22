@@ -5,6 +5,7 @@ import { ServicePage } from './components/ServicePage'
 import { ContactPage } from './components/ContactPage'
 import { DynamicPage } from './components/DynamicPage'
 import { BlogsPage } from './components/BlogsPage'
+import { BlogPostPage } from './components/BlogPostPage'
 import { ResourcesPage } from './components/ResourcesPage'
 import { CalculatorsPage } from './components/CalculatorsPage'
 import { Toaster } from './components/ui/toaster'
@@ -18,7 +19,7 @@ function App() {
         <Route path="/:city/:service" element={<DynamicPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:slug" element={<DynamicPage />} />
+        <Route path="/blogs/:slug" element={<BlogPostPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/calculators" element={<CalculatorsPage />} />
         <Route path="/calculators/:slug" element={<DynamicPage />} />
