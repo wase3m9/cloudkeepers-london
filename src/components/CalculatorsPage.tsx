@@ -4,16 +4,30 @@ import { Helmet } from 'react-helmet'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { supabase } from '@/lib/supabase'
-import { Link } from 'react-router-dom'
-import { Calculator, ArrowRight, Star } from 'lucide-react'
+import { ArrowRight, Star, 
+  Calculator, 
+  Percent, 
+  Building, 
+  PoundSterling, 
+  TrendingUp, 
+  FileText
+} from 'lucide-react'
 // Remove the incorrect import
 // import { createClient } from '@/integrations/supabase/client'
+
+// Import calculator components
+import { VATCalculator } from './calculators/VATCalculator'
+import { SelfAssessmentCalculator } from './calculators/SelfAssessmentCalculator'
+import { CorporationTaxCalculator } from './calculators/CorporationTaxCalculator'
+import { DividendTaxCalculator } from './calculators/DividendTaxCalculator'
+import { SalaryVsDividendCalculator } from './calculators/SalaryVsDividendCalculator'
+import { CapitalGainsTaxCalculator } from './calculators/CapitalGainsTaxCalculator'
 
 interface CalculatorTool {
   id: string
   title: string
   description: string
-  icon: string
+  icon: React.ReactNode
   slug: string
   popularity: number
 }
@@ -32,14 +46,13 @@ export function CalculatorsPage() {
 
     const fetchCalculators = async () => {
       setLoading(true)
-      // In a real implementation, this would fetch from a calculators table
-      // For now, adding more detailed dummy data
-      const dummyCalculators: CalculatorTool[] = [
+      
+      const calculatorsData: CalculatorTool[] = [
         {
           id: '1',
           title: 'VAT Calculator',
           description: 'Calculate VAT amounts for different VAT rates in the UK. Quickly determine VAT inclusive and exclusive amounts.',
-          icon: 'calculator',
+          icon: <Percent className="w-10 h-10 text-blue-600" />,
           slug: 'vat-calculator',
           popularity: 95
         },
@@ -47,7 +60,7 @@ export function CalculatorsPage() {
           id: '2',
           title: 'Self-Assessment Tax Calculator',
           description: 'Estimate your self-assessment tax bill based on your income and expenses for the current tax year.',
-          icon: 'calculator',
+          icon: <FileText className="w-10 h-10 text-blue-600" />,
           slug: 'self-assessment-calculator',
           popularity: 90
         },
@@ -55,7 +68,7 @@ export function CalculatorsPage() {
           id: '3',
           title: 'Corporation Tax Calculator',
           description: 'Calculate the corporation tax liability for your business based on profits and eligible deductions.',
-          icon: 'calculator',
+          icon: <Building className="w-10 h-10 text-blue-600" />,
           slug: 'corporation-tax-calculator',
           popularity: 85
         },
@@ -63,7 +76,7 @@ export function CalculatorsPage() {
           id: '4',
           title: 'Dividend Tax Calculator',
           description: 'Calculate the tax payable on your dividend income with consideration for your tax band and allowances.',
-          icon: 'calculator',
+          icon: <PoundSterling className="w-10 h-10 text-blue-600" />,
           slug: 'dividend-tax-calculator',
           popularity: 80
         },
@@ -71,7 +84,7 @@ export function CalculatorsPage() {
           id: '5',
           title: 'Salary vs Dividend Calculator',
           description: 'Compare taking income as salary versus dividends as a company director to optimize your tax position.',
-          icon: 'calculator',
+          icon: <TrendingUp className="w-10 h-10 text-blue-600" />,
           slug: 'salary-vs-dividend-calculator',
           popularity: 88
         },
@@ -79,148 +92,36 @@ export function CalculatorsPage() {
           id: '6',
           title: 'Capital Gains Tax Calculator',
           description: 'Estimate the capital gains tax on the sale of assets including property, shares, and business assets.',
-          icon: 'calculator',
+          icon: <Calculator className="w-10 h-10 text-blue-600" />,
           slug: 'capital-gains-tax-calculator',
           popularity: 75
         }
-      ]
+      ];
       
-      setCalculators(dummyCalculators)
-      setLoading(false)
+      setCalculators(calculatorsData);
+      setLoading(false);
     }
 
     fetchNiches()
     fetchCalculators()
   }, [])
 
-  // Simple implementation of the VAT calculator for demonstration
-  const [vatAmount, setVatAmount] = useState<number>(0)
-  const [vatRate, setVatRate] = useState<number>(20)
-  const [exclusiveAmount, setExclusiveAmount] = useState<number>(0)
-  const [inclusiveAmount, setInclusiveAmount] = useState<number>(0)
-  const [calculationMode, setCalculationMode] = useState<'exclusive' | 'inclusive'>('exclusive')
-
-  const calculateVAT = (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (calculationMode === 'exclusive') {
-      const vat = exclusiveAmount * (vatRate / 100)
-      const inclusive = exclusiveAmount + vat
-      setVatAmount(vat)
-      setInclusiveAmount(inclusive)
-    } else {
-      const exclusive = inclusiveAmount / (1 + vatRate / 100)
-      const vat = inclusiveAmount - exclusive
-      setVatAmount(vat)
-      setExclusiveAmount(exclusive)
-    }
-  }
-
   const renderCalculator = () => {
-    if (!selectedCalculator) return null
+    if (!selectedCalculator) return null;
     
     switch (selectedCalculator) {
       case 'vat-calculator':
-        return (
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">VAT Calculator</h3>
-            <form onSubmit={calculateVAT} className="space-y-4">
-              <div>
-                <label className="block mb-1 text-sm font-medium">Calculation Mode</label>
-                <div className="flex space-x-4">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="calculationMode"
-                      checked={calculationMode === 'exclusive'}
-                      onChange={() => setCalculationMode('exclusive')}
-                      className="mr-2"
-                    />
-                    <span>Add VAT (exclusive to inclusive)</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="calculationMode"
-                      checked={calculationMode === 'inclusive'}
-                      onChange={() => setCalculationMode('inclusive')}
-                      className="mr-2"
-                    />
-                    <span>Remove VAT (inclusive to exclusive)</span>
-                  </label>
-                </div>
-              </div>
-              
-              <div>
-                <label className="block mb-1 text-sm font-medium">VAT Rate (%)</label>
-                <select
-                  value={vatRate}
-                  onChange={(e) => setVatRate(Number(e.target.value))}
-                  className="w-full px-3 py-2 border rounded-md"
-                >
-                  <option value={20}>Standard Rate (20%)</option>
-                  <option value={5}>Reduced Rate (5%)</option>
-                  <option value={0}>Zero Rate (0%)</option>
-                </select>
-              </div>
-              
-              {calculationMode === 'exclusive' ? (
-                <div>
-                  <label className="block mb-1 text-sm font-medium">Net Amount (excluding VAT)</label>
-                  <input
-                    type="number"
-                    value={exclusiveAmount || ''}
-                    onChange={(e) => setExclusiveAmount(Number(e.target.value))}
-                    placeholder="Enter amount"
-                    className="w-full px-3 py-2 border rounded-md"
-                    step="0.01"
-                    min="0"
-                  />
-                </div>
-              ) : (
-                <div>
-                  <label className="block mb-1 text-sm font-medium">Gross Amount (including VAT)</label>
-                  <input
-                    type="number"
-                    value={inclusiveAmount || ''}
-                    onChange={(e) => setInclusiveAmount(Number(e.target.value))}
-                    placeholder="Enter amount"
-                    className="w-full px-3 py-2 border rounded-md"
-                    step="0.01"
-                    min="0"
-                  />
-                </div>
-              )}
-              
-              <div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Calculate
-                </button>
-              </div>
-            </form>
-            
-            <div className="mt-6 p-4 bg-gray-50 rounded-md">
-              <h4 className="font-medium mb-2">Results</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Net Amount (excl. VAT)</p>
-                  <p className="font-semibold">£{exclusiveAmount.toFixed(2)}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">VAT Amount ({vatRate}%)</p>
-                  <p className="font-semibold">£{vatAmount.toFixed(2)}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Gross Amount (incl. VAT)</p>
-                  <p className="font-semibold">£{inclusiveAmount.toFixed(2)}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )
+        return <VATCalculator />;
+      case 'self-assessment-calculator':
+        return <SelfAssessmentCalculator />;
+      case 'corporation-tax-calculator':
+        return <CorporationTaxCalculator />;
+      case 'dividend-tax-calculator':
+        return <DividendTaxCalculator />;
+      case 'salary-vs-dividend-calculator':
+        return <SalaryVsDividendCalculator />;
+      case 'capital-gains-tax-calculator':
+        return <CapitalGainsTaxCalculator />;
       default:
         return (
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
@@ -232,9 +133,9 @@ export function CalculatorsPage() {
               ← Back to all calculators
             </button>
           </div>
-        )
+        );
     }
-  }
+  };
 
   return (
     <>
@@ -279,7 +180,7 @@ export function CalculatorsPage() {
                 <div key={calc.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="p-6">
                     <div className="flex items-center justify-center mb-4">
-                      <Calculator className="w-10 h-10 text-blue-600" />
+                      {calc.icon}
                       {calc.popularity > 85 && (
                         <span className="inline-flex items-center bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full ml-2">
                           <Star className="w-3 h-3 mr-1 fill-current" /> Popular
