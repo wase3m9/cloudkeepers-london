@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
@@ -16,7 +17,6 @@ interface BlogPost {
   excerpt: string
   metaDescription?: string
   metaKeywords?: string
-  featuredImage?: string
 }
 
 export function BlogPostPage() {
@@ -563,4 +563,264 @@ export function BlogPostPage() {
 <td>Within 14 days of changes</td>
 </tr>
 <tr>
-<td>Share Capital
+<td>Share Capital</td>
+<td>Number and type of shares, and shareholders</td>
+<td>Annual review required</td>
+</tr>
+<tr>
+<td>SIC Codes</td>
+<td>Business activity classifications</td>
+<td>Annual review required</td>
+</tr>
+<tr>
+<td>PSC Details</td>
+<td>Information on People with Significant Control</td>
+<td>Within 14 days of changes</td>
+</tr>
+</tbody>
+</table>
+<p>This statement must be submitted within 14 days after your review period ends<a href="https://www.gov.uk/guidance/confirmation-statement-guidance" target="_blank" style="text-decoration: none;"><sup>[13]</sup></a>. The review period begins either on your company's incorporation date or the date of your last Confirmation Statement. After verifying your company details, you can proceed with the filing.</p>
+<h3 id="how-to-submit" tabindex="-1">How to Submit</h3>
+<ol>
+<li>
+<p><strong>Verify Company Details</strong><br>
+Ensure all company details are accurate, including updates to directors, PSC records, registered office, and share allocations.</p>
+</li>
+<li>
+<p><strong>Choose Your Filing Method</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Method</strong></th>
+<th><strong>Cost</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Online Filing</td>
+<td>£34</td>
+</tr>
+<tr>
+<td>Paper Form</td>
+<td>£62</td>
+</tr>
+</tbody>
+</table>
+<p><em>Tip:</em> Missing the deadline can result in penalties<a href="https://www.gov.uk/guidance/confirmation-statement-guidance" target="_blank" style="text-decoration: none;"><sup>[13]</sup></a>, so set a reminder.</p>
+</li>
+<li>
+<p><strong>Submit and Pay</strong><br>
+Use your authentication code and password to log in to Companies House online. If you don't have an account, you'll need to register first<a href="https://www.gov.uk/guidance/confirmation-statement-guidance" target="_blank" style="text-decoration: none;"><sup>[13]</sup></a>.</p>
+</li>
+</ol>
+<p>If you're unsure about the process, you might want to work with professionals. For instance, Cloudkeepers London includes Confirmation Statement filing in their basic accounting package, helping ensure everything is accurate and submitted on time.</p>
+<p>Keep in mind that the Confirmation Statement is strictly about company details and doesn't cover financial performance, which is reported in annual accounts<a href="https://www.helpboxuk.com/annual-confirmation-statements-a-small-business-owners-guide/" target="_blank" style="text-decoration: none;"><sup>[14]</sup></a><a href="https://www.1stformations.co.uk/blog/confirmation-statement-explained/" target="_blank" style="text-decoration: none;"><sup>[15]</sup></a>.</p>
+<h2 id="6-annual-accounts-deadline" tabindex="-1">6. Annual Accounts Deadline</h2>
+<p>In the UK, small businesses need to file their annual accounts with Companies House and HMRC within <strong>9 months</strong> of their financial year-end.</p>
+<h3 id="required-financial-reports" tabindex="-1">Required Financial Reports</h3>
+<p>Your annual accounts should include precise financial statements. Here's what you'll need to prepare:</p>
+<table>
+<thead>
+<tr>
+<th>Financial Report</th>
+<th>Description</th>
+<th>Filing Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Balance Sheet</strong></td>
+<td>Shows assets, liabilities, and capital</td>
+<td>Mandatory for all companies</td>
+</tr>
+<tr>
+<td><strong>Profit &amp; Loss Account</strong></td>
+<td>Details income and expenses</td>
+<td>Required unless eligible for small company exemptions</td>
+</tr>
+<tr>
+<td><strong>Directors' Report</strong></td>
+<td>Summarizes company performance and outlook</td>
+<td>Needed for companies above the small company threshold</td>
+</tr>
+<tr>
+<td><strong>Notes to Accounts</strong></td>
+<td>Explains financial items in detail</td>
+<td>Must accompany main financial statements</td>
+</tr>
+<tr>
+<td><strong>Accountant's Report</strong></td>
+<td>Independent review of financial statements</td>
+<td>Required for companies above the audit threshold</td>
+</tr>
+</tbody>
+</table>
+<p>Now, let's explore how to ensure you meet these deadlines.</p>
+<h3 id="meeting-filing-deadlines" tabindex="-1">Meeting Filing Deadlines</h3>
+<ul>
+<li>
+<p><strong>Keep Financial Records Updated</strong><br>
+Record financial data in real-time throughout the year to avoid last-minute scrambling.</p>
+</li>
+<li>
+<p><strong>Plan Ahead</strong><br>
+Allocate time for preparing statements, reviewing them with directors and accountants, making adjustments, and submitting everything on time.</p>
+</li>
+</ul>
+<blockquote>
+<p>&quot;Working with the outstanding Cloudkeepers team is like having a full-time in-house accountant and training manager in own office. Absolutely superb! They have made accounting so easy for us, top team!&quot; - S WATTS, FINANCE MANAGER <a href="https://cloud-keepers.co.uk/" style="text-decoration: none;"><sup>[16]</sup></a></p>
+</blockquote>
+<p>Professional accounting services can simplify this process. For example, <strong>Cloudkeepers London</strong> handles annual accounts preparation for sole traders, partnerships, LLPs, and limited companies. They manage everything from preparation to submission, ensuring compliance with Companies House and HMRC requirements.</p>
+<p><strong>Important Notes:</strong></p>
+<ul>
+<li>First-year accounts may have different deadlines.</li>
+<li>A professional review can uncover potential tax savings.</li>
+<li>Filing digitally is often quicker and more efficient.</li>
+</ul>
+<p>Filing your annual accounts on time is crucial for staying compliant and gaining a better understanding of your business's financial health.</p>
+<h2 id="7-additional-tax-deadlines" tabindex="-1">7. Additional Tax Deadlines</h2>
+<p>UK small businesses will need to handle extra tax deadlines in 2025, covering Capital Gains, payroll (including pensions), and dividend reporting. Once you've tackled the main tax deadlines, make sure to account for these additional dates.</p>
+<h3 id="capital-gains-due-dates" tabindex="-1">Capital Gains Due Dates</h3>
+<p>Capital Gains Tax has specific deadlines depending on the type of asset sold:</p>
+<table>
+<thead>
+<tr>
+<th>Asset Type</th>
+<th>Completion Date</th>
+<th>Reporting and Payment Deadline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UK Residential Property</td>
+<td>On/After October 27, 2021</td>
+<td>Within 60 days of completion</td>
+</tr>
+<tr>
+<td>UK Residential Property</td>
+<td>April 6, 2020 – October 26, 2021</td>
+<td>Within 30 days of completion</td>
+</tr>
+<tr>
+<td>Other Assets</td>
+<td>Any</td>
+<td>By January 31, 2026 (via Self Assessment)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What You Need to Do:</strong></p>
+<ul>
+<li>Report all UK residential property sales to HMRC, even if no gain is made <a href="https://www.optimiseaccountants.co.uk/knwbase/capital-gains-tax-reporting-uk-property/" target="_blank" style="text-decoration: none;"><sup>[18]</sup></a>.</li>
+<li>Non-UK residents must report any UK property sales within 60 days <a href="https://www.gov.uk/capital-gains-tax/reporting-and-paying-capital-gains-tax" target="_blank" style="text-decoration: none;"><sup>[17]</sup></a>.</li>
+<li>Keep detailed records, including purchase/sale dates, costs, legal fees, net sale price, and details of any improvements <a href="https://www.optimiseaccountants.co.uk/knwbase/capital-gains-tax-reporting-uk-property/" target="_blank" style="text-decoration: none;"><sup>[18]</sup></a>.</li>
+</ul>
+<p>After addressing Capital Gains, focus on payroll and dividend reporting to stay compliant in 2025.</p>
+<h3 id="pension-filing-requirements-and-dividend-income-reporting" tabindex="-1">Pension Filing Requirements and Dividend Income Reporting</h3>
+<p><strong>Payroll Deadlines for Employers:</strong></p>
+<ul>
+<li><strong>April 6, 2025</strong>: Update employee payroll records for the new tax year <a href="https://fleximize.com/articles/394797/key-dates-for-smes-in-2025" target="_blank" style="text-decoration: none;"><sup>[19]</sup></a>.</li>
+<li><strong>April 19, 2025</strong>: Submit the final Full Payment Submission (FPS) and pay any outstanding tax/NIC <a href="https://fleximize.com/articles/394797/key-dates-for-smes-in-2025" target="_blank" style="text-decoration: none;"><sup>[19]</sup></a>.</li>
+<li><strong>May 31, 2025</strong>: Provide P60s to employees employed on the last day of the tax year <a href="https://fleximize.com/articles/394797/key-dates-for-smes-in-2025" target="_blank" style="text-decoration: none;"><sup>[19]</sup></a>.</li>
+<li><strong>July 19, 2025</strong>: Pay Class 1A NICs by post <a href="https://fleximize.com/articles/394797/key-dates-for-smes-in-2025" target="_blank" style="text-decoration: none;"><sup>[19]</sup></a>.</li>
+<li><strong>July 22, 2025</strong>: Pay Class 1A NICs electronically <a href="https://fleximize.com/articles/394797/key-dates-for-smes-in-2025" target="_blank" style="text-decoration: none;"><sup>[19]</sup></a>.</li>
+</ul>
+<p><strong>Dividend Reporting for Small Business Owners:</strong></p>
+<ul>
+<li>The dividend allowance for 2024/25 is set at £500 <a href="https://1stformations.co.uk/blog/dividend-tax-allowance/" target="_blank" style="text-decoration: none;"><sup>[20]</sup></a>.</li>
+<li>If your dividend income exceeds £10,000, you must report it through Self Assessment <a href="https://1stformations.co.uk/blog/dividend-tax-allowance/" target="_blank" style="text-decoration: none;"><sup>[20]</sup></a>.</li>
+<li>The filing and payment deadline for this is January 31, 2026 <a href="https://1stformations.co.uk/blog/dividend-tax-allowance/" target="_blank" style="text-decoration: none;"><sup>[20]</sup></a>.</li>
+</ul>
+<p><strong>Pro Tip:</strong> Using ISAs for investments can help you save, as dividends from shares held in stocks and shares ISAs remain tax-free <a href="https://1stformations.co.uk/blog/dividend-tax-allowance/" target="_blank" style="text-decoration: none;"><sup>[20]</sup></a>.</p>
+<h2 id="conclusion" tabindex="-1">Conclusion</h2>
+<p>Managing tax deadlines effectively is a must for UK small businesses in 2025. Using cloud-based accounting tools alongside expert advice can help you stay on top of your tax responsibilities.</p>
+<p>Here are some key steps to help you avoid missing deadlines:</p>
+<ul>
+<li>Use cloud accounting software to keep your financial records updated in real-time.</li>
+<li>Schedule regular bookkeeping sessions - either weekly or monthly.</li>
+<li>Work with a qualified accountant who can serve as your HMRC agent.</li>
+<li>Set up automated reminders for important tax deadlines.</li>
+<li>Keep digital backups of all tax-related documents.</li>
+</ul>
+<p>Missing deadlines can lead to penalties from HMRC, which could strain your cash flow. By staying organized and leveraging professional accounting services, you can focus on growing your business while staying compliant. This approach not only helps you avoid costly mistakes but also supports the financial stability of your business in 2025.</p>
+<blockquote>
+<p>&quot;The Cloudkeepers team is responsive and professional, resolving every accounting issue efficiently.&quot; - M LAHER, DIRECTOR</p>
+</blockquote>
+<p>Investing in reliable accounting support ensures your tax obligations are handled smoothly. Beyond compliance, regular financial monitoring and expert advice can provide insights that drive your business forward.</p>`,
+          slug: '7-essential-tax-deadlines-for-uk-small-businesses-in-2025',
+          created_at: '2023-11-15',
+          author: 'Tax Advisory Team',
+          category: 'Tax Planning',
+          excerpt: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
+          metaDescription: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
+          metaKeywords: 'UK tax deadlines, small business compliance, Self Assessment, VAT returns, Corporation Tax'
+        }
+        setBlogPost(taxDeadlinesPost)
+      } else {
+        console.log("Blog post not found")
+      }
+      
+      setLoading(false)
+    }
+
+    fetchNiches()
+    fetchBlogPost()
+  }, [slug])
+
+  if (loading) {
+    return (
+      <>
+        <Header niches={niches} />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
+  if (!blogPost) {
+    return (
+      <>
+        <Header niches={niches} />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Blog Post Not Found</h1>
+            <p className="text-lg text-gray-700 mb-8">
+              Sorry, the blog post you are looking for does not exist.
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>{blogPost?.title} | Cloudkeepers</title>
+        <meta name="description" content={blogPost?.metaDescription || blogPost?.excerpt} />
+        <meta name="keywords" content={blogPost?.metaKeywords || "accounting, tax, VAT, business finance"} />
+        <meta property="og:title" content={blogPost?.title} />
+        <meta property="og:description" content={blogPost?.metaDescription || blogPost?.excerpt} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
+        <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
+      </Helmet>
+
+      <Header niches={niches} />
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-3xl mx-auto">
+          <article className="prose prose-lg max-w-none">
+            <div dangerouslySetInnerHTML={{ __html: blogPost?.content || '' }} />
+          </article>
+        </div>
+      </main>
+
+      <Footer />
+    </>
+  )
+}

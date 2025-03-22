@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Header } from './Header'
@@ -15,7 +14,6 @@ interface BlogPost {
   created_at: string
   author: string
   category: string
-  featuredImage?: string
 }
 
 export function BlogsPage() {
@@ -35,14 +33,13 @@ export function BlogsPage() {
       // For now, adding dummy data
       const dummyPosts: BlogPost[] = [
         {
-          id: '6',
-          title: 'Top 6 Bookkeeping Tips for New Business Owners',
-          excerpt: 'Enhance your bookkeeping skills with these essential tips for new business owners to manage finances effectively and avoid common pitfalls.',
-          slug: 'top-6-bookkeeping-tips-for-new-business-owners',
-          created_at: '2024-01-20',
-          author: 'Finance Team',
-          category: 'Bookkeeping',
-          featuredImage: '/lovable-uploads/1415a25e-e043-4b29-ae1d-2ebb627c120d.png'
+          id: '4',
+          title: '5 Common VAT Return Mistakes and How to Avoid Them',
+          excerpt: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
+          slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
+          created_at: '2023-09-10',
+          author: 'Tax Team',
+          category: 'VAT'
         },
         {
           id: '5',
@@ -52,15 +49,6 @@ export function BlogsPage() {
           created_at: '2023-11-15',
           author: 'Tax Advisory Team',
           category: 'Tax Planning'
-        },
-        {
-          id: '4',
-          title: '5 Common VAT Return Mistakes and How to Avoid Them',
-          excerpt: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
-          slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
-          created_at: '2023-09-10',
-          author: 'Tax Team',
-          category: 'VAT'
         }
       ]
       
@@ -100,18 +88,9 @@ export function BlogsPage() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
             </div>
           ) : (
-            <div className="space-y-10">
+            <div className="space-y-8">
               {blogPosts.map((post) => (
-                <article key={post.id} className="border-b border-gray-200 pb-10">
-                  {post.featuredImage && (
-                    <Link to={`/blogs/${post.slug}`} className="block mb-5">
-                      <img 
-                        src={post.featuredImage} 
-                        alt={post.title} 
-                        className="w-full h-auto rounded-lg shadow-md hover:opacity-90 transition-opacity"
-                      />
-                    </Link>
-                  )}
+                <article key={post.id} className="border-b border-gray-200 pb-8">
                   <div className="flex items-center text-sm text-gray-500 mb-2">
                     <span className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
@@ -125,7 +104,7 @@ export function BlogsPage() {
                     <span className="mx-2">•</span>
                     <span>{post.category}</span>
                   </div>
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-2">
                     <Link to={`/blogs/${post.slug}`} className="hover:text-blue-600 transition-colors">
                       {post.title}
                     </Link>
@@ -133,7 +112,7 @@ export function BlogsPage() {
                   <p className="text-gray-700 mb-4">{post.excerpt}</p>
                   <Link 
                     to={`/blogs/${post.slug}`} 
-                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                    className="inline-flex items-center text-blue-600 hover:text-blue-800"
                   >
                     Read more <ChevronRight className="w-4 h-4 ml-1" />
                   </Link>
