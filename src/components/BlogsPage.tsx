@@ -63,9 +63,25 @@ export function BlogsPage() {
     fetchBlogPosts()
   }, [])
 
-  // Generate schema.org JSON-LD structured data for the blog listing
-  const generateSchemaOrgData = () => {
-    const itemListElements = blogPosts.map((post, index) => ({
+  // Organization Schema
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Cloud Keepers",
+    "url": "https://cloudkeepers.co.uk",
+    "logo": "https://cloudkeepers.co.uk/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+44 020 3553 8444",
+      "contactType": "Customer Service"
+    }
+  };
+
+  // Blog listing schema
+  const blogListingSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": blogPosts.map((post, index) => ({
       "@type": "ListItem",
       "position": index + 1,
       "item": {
@@ -80,15 +96,32 @@ export function BlogsPage() {
         "description": post.excerpt,
         "image": post.image || "https://cloudkeepers.co.uk/og-image.png"
       }
-    }));
+    }))
+  };
 
-    const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": itemListElements
-    };
-    
-    return JSON.stringify(schemaData);
+  // Professional Service Schema
+  const professionalServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Cloud Keepers",
+    "url": "https://cloudkeepers.co.uk",
+    "logo": "https://cloudkeepers.co.uk/logo.png",
+    "description": "Cloud Keepers is a London-based accounting and finance agency helping modern businesses with bookkeeping, tax, and financial tools.",
+    "telephone": "+44 020 3553 8444",
+    "priceRange": "££",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "London",
+      "addressCountry": "GB"
+    },
+    "serviceType": [
+      "Cloud Bookkeeping",
+      "HMRC Tax Returns",
+      "Payroll Services",
+      "Company Formation",
+      "Tax Planning",
+      "VAT Returns"
+    ]
   };
 
   return (
@@ -103,10 +136,14 @@ export function BlogsPage() {
         <meta property="og:url" content="https://cloudkeepers.co.uk/blogs" />
         <link rel="canonical" href="https://cloudkeepers.co.uk/blogs" />
         
-        {/* Add JSON-LD structured data script for SEO */}
-        <script type="application/ld+json">
-          {generateSchemaOrgData()}
-        </script>
+        {/* Organization Schema */}
+        <script type="application/ld+json">{JSON.stringify(organizationSchema)}</script>
+        
+        {/* Professional Service Schema */}
+        <script type="application/ld+json">{JSON.stringify(professionalServiceSchema)}</script>
+        
+        {/* Blog listing Schema */}
+        <script type="application/ld+json">{JSON.stringify(blogListingSchema)}</script>
       </Helmet>
 
       <Header niches={niches} />
