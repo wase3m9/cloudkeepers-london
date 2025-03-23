@@ -800,7 +800,12 @@ Lock your books to prevent unauthorized changes or edits.</p>
       }
     };
     
-    return JSON.stringify(schemaData);
+    try {
+      return JSON.stringify(schemaData);
+    } catch (error) {
+      console.error('Error stringifying schema data:', error);
+      return '{}';
+    }
   };
 
   return (
@@ -832,8 +837,6 @@ Lock your books to prevent unauthorized changes or edits.</p>
           <title>Blog | Cloudkeepers</title>
         )}
       </Helmet>
-
-      <Header niches={niches} />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {loading ? (
