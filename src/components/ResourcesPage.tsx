@@ -4,8 +4,9 @@ import { Helmet } from 'react-helmet'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { supabase } from '@/lib/supabase'
-import { FileText, Download, ExternalLink } from 'lucide-react'
+import { FileText, Download, ExternalLink, Calendar } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
+import { Link } from 'react-router-dom'
 
 interface Resource {
   id: string
@@ -139,6 +140,28 @@ export function ResourcesPage() {
             Access our library of free resources, templates, and guides to help you manage your finances
             and tax obligations effectively.
           </p>
+
+          {/* Add Accounting Dates Section */}
+          <div className="bg-blue-50 rounded-lg p-6 mb-8">
+            <div className="flex items-start">
+              <div className="mr-4 mt-1">
+                <Calendar className="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-blue-600 mb-2">Tax & Accounting Key Dates</h2>
+                <p className="text-gray-700 mb-4">
+                  Stay on top of important tax and accounting deadlines with our interactive calendar. 
+                  Easily track filing dates for VAT returns, payroll, and other critical financial dates.
+                </p>
+                <Link 
+                  to="/accounting-dates" 
+                  className="inline-flex items-center text-blue-600 hover:text-blue-800 bg-white hover:bg-blue-50 border border-blue-200 px-4 py-2 rounded-md transition-colors"
+                >
+                  <Calendar className="w-4 h-4 mr-2" /> View Tax Calendar
+                </Link>
+              </div>
+            </div>
+          </div>
 
           {loading ? (
             <div className="flex justify-center py-12">

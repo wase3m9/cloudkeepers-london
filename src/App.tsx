@@ -8,6 +8,7 @@ import { BlogsPage } from './components/BlogsPage'
 import { BlogPostPage } from './components/BlogPostPage'
 import { ResourcesPage } from './components/ResourcesPage'
 import { CalculatorsPage } from './components/CalculatorsPage'
+import { AccountingDatesPage } from './components/AccountingDatesPage'
 import { Toaster } from './components/ui/toaster'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:slug" element={<BlogPostPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/accounting-dates" element={<AccountingDatesPage />} />
         <Route path="/calculators" element={<CalculatorsPage />} />
         <Route path="/calculators/:slug" element={<DynamicPage />} />
       </Routes>
