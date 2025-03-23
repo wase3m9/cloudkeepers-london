@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { supabase } from '@/lib/supabase'
+import { Calendar, User } from 'lucide-react'
 
 interface BlogPost {
   id: string
@@ -17,6 +18,7 @@ interface BlogPost {
   excerpt: string
   metaDescription?: string
   metaKeywords?: string
+  image?: string
 }
 
 export function BlogPostPage() {
@@ -766,6 +768,39 @@ Allocate time for preparing statements, reviewing them with directors and accoun
     fetchBlogPost()
   }, [slug])
 
+  // Generate schema.org JSON-LD structured data for the blog post
+  const generateSchemaOrgData = () => {
+    if (!blogPost) return null;
+    
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://cloudkeepers.co.uk/blogs/${blogPost.slug}`
+      },
+      "headline": blogPost.title,
+      "description": blogPost.metaDescription || blogPost.excerpt,
+      "image": blogPost.image ? `https://cloudkeepers.co.uk${blogPost.image}` : "https://cloudkeepers.co.uk/og-image.png",
+      "author": {
+        "@type": "Person",
+        "name": blogPost.author
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Cloudkeepers Accountants",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cloudkeepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png"
+        }
+      },
+      "datePublished": blogPost.created_at,
+      "dateModified": blogPost.created_at
+    };
+    
+    return JSON.stringify(schemaData);
+  };
+
   if (loading) {
     return (
       <>
@@ -808,12 +843,44 @@ Allocate time for preparing statements, reviewing them with directors and accoun
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
         <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
+        
+        {/* Add JSON-LD structured data script for SEO */}
+        <script type="application/ld+json">
+          {generateSchemaOrgData()}
+        </script>
       </Helmet>
 
       <Header niches={niches} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-3xl mx-auto">
+          {/* Blog post metadata */}
+          <div className="mb-6">
+            <div className="flex items-center text-sm text-gray-500 mb-2">
+              <span className="flex items-center mr-4">
+                <Calendar className="w-4 h-4 mr-1" />
+                {blogPost.created_at}
+              </span>
+              <span className="flex items-center mr-4">
+                <User className="w-4 h-4 mr-1" />
+                {blogPost.author}
+              </span>
+              <span>{blogPost.category}</span>
+            </div>
+          </div>
+          
+          {/* Featured image if available */}
+          {blogPost.image && (
+            <div className="mb-8">
+              <img 
+                src={blogPost.image} 
+                alt={blogPost.title}
+                className="w-full h-auto rounded-lg shadow-md" 
+              />
+            </div>
+          )}
+          
+          {/* Blog content */}
           <article className="prose prose-lg max-w-none">
             <div dangerouslySetInnerHTML={{ __html: blogPost?.content || '' }} />
           </article>

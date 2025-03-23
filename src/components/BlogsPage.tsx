@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Header } from './Header'
@@ -14,6 +15,7 @@ interface BlogPost {
   created_at: string
   author: string
   category: string
+  image?: string
 }
 
 export function BlogsPage() {
@@ -48,7 +50,8 @@ export function BlogsPage() {
           slug: '7-essential-tax-deadlines-for-uk-small-businesses-in-2025',
           created_at: '2023-11-15',
           author: 'Tax Advisory Team',
-          category: 'Tax Planning'
+          category: 'Tax Planning',
+          image: 'https://mars-images.imgix.net/seobot/screenshots/www.gov.uk-0831b6bad913906ceab1f4847c784a92-2025-03-15.jpg?auto=compress'
         }
       ]
       
@@ -59,6 +62,34 @@ export function BlogsPage() {
     fetchNiches()
     fetchBlogPosts()
   }, [])
+
+  // Generate schema.org JSON-LD structured data for the blog listing
+  const generateSchemaOrgData = () => {
+    const itemListElements = blogPosts.map((post, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "url": `https://cloudkeepers.co.uk/blogs/${post.slug}`,
+        "author": {
+          "@type": "Person",
+          "name": post.author
+        },
+        "datePublished": post.created_at,
+        "description": post.excerpt,
+        "image": post.image || "https://cloudkeepers.co.uk/og-image.png"
+      }
+    }));
+
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": itemListElements
+    };
+    
+    return JSON.stringify(schemaData);
+  };
 
   return (
     <>
@@ -71,6 +102,11 @@ export function BlogsPage() {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://cloudkeepers.co.uk/blogs" />
         <link rel="canonical" href="https://cloudkeepers.co.uk/blogs" />
+        
+        {/* Add JSON-LD structured data script for SEO */}
+        <script type="application/ld+json">
+          {generateSchemaOrgData()}
+        </script>
       </Helmet>
 
       <Header niches={niches} />
@@ -91,6 +127,15 @@ export function BlogsPage() {
             <div className="space-y-8">
               {blogPosts.map((post) => (
                 <article key={post.id} className="border-b border-gray-200 pb-8">
+                  {post.image && (
+                    <Link to={`/blogs/${post.slug}`} className="block mb-4">
+                      <img 
+                        src={post.image} 
+                        alt={post.title}
+                        className="w-full h-48 object-cover rounded-lg shadow-sm" 
+                      />
+                    </Link>
+                  )}
                   <div className="flex items-center text-sm text-gray-500 mb-2">
                     <span className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
