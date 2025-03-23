@@ -42,7 +42,7 @@ export function BlogsPage() {
           created_at: '2024-03-20',
           author: 'Finance Team',
           category: 'Bookkeeping',
-          image: 'https://i.imgur.com/p9QUiPh.jpg'
+          image: '/lovable-uploads/dab97726-5bee-4fed-914b-10fcc0f51cc8.png'
         },
         {
           id: '4',
@@ -51,7 +51,8 @@ export function BlogsPage() {
           slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
           created_at: '2023-09-10',
           author: 'Tax Team',
-          category: 'VAT'
+          category: 'VAT',
+          image: '/lovable-uploads/16d9c894-8bdf-406d-95e3-9441c8a7fd03.png'
         },
         {
           id: '5',
@@ -61,7 +62,7 @@ export function BlogsPage() {
           created_at: '2023-11-15',
           author: 'Tax Advisory Team',
           category: 'Tax Planning',
-          image: 'https://mars-images.imgix.net/seobot/screenshots/www.gov.uk-0831b6bad913906ceab1f4847c784a92-2025-03-15.jpg?auto=compress'
+          image: '/lovable-uploads/6058db1e-9925-4bc2-94ff-e1e51b3bc192.png'
         }
       ]
       
@@ -72,34 +73,6 @@ export function BlogsPage() {
     fetchNiches()
     fetchBlogPosts()
   }, [])
-
-  // Generate schema.org JSON-LD structured data for the blog listing
-  const generateSchemaOrgData = () => {
-    const itemListElements = blogPosts.map((post, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "item": {
-        "@type": "BlogPosting",
-        "headline": post.title,
-        "url": `https://cloudkeepers.co.uk/blogs/${post.slug}`,
-        "author": {
-          "@type": "Person",
-          "name": post.author
-        },
-        "datePublished": post.created_at,
-        "description": post.excerpt,
-        "image": post.image || "https://cloudkeepers.co.uk/og-image.png"
-      }
-    }));
-
-    const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": itemListElements
-    };
-    
-    return JSON.stringify(schemaData);
-  };
 
   return (
     <>
@@ -112,11 +85,6 @@ export function BlogsPage() {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://cloudkeepers.co.uk/blogs" />
         <link rel="canonical" href="https://cloudkeepers.co.uk/blogs" />
-        
-        {/* Add JSON-LD structured data script for SEO */}
-        <script type="application/ld+json">
-          {generateSchemaOrgData()}
-        </script>
       </Helmet>
 
       <Header niches={niches} />
