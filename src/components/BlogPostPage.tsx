@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
@@ -25,6 +26,7 @@ export function BlogPostPage() {
   const [niches, setNiches] = useState<any[]>([])
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
+  const [schemaJson, setSchemaJson] = useState<string>('{}')
 
   useEffect(() => {
     const fetchNiches = async () => {
@@ -770,43 +772,44 @@ Lock your books to prevent unauthorized changes or edits.</p>
     fetchBlogPost()
   }, [slug])
 
-  const generateSchemaOrgData = () => {
-    if (!blogPost) return '';
-
-    const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": blogPost.title,
-      "name": blogPost.title,
-      "description": blogPost.metaDescription || blogPost.excerpt,
-      "datePublished": blogPost.created_at,
-      "author": {
-        "@type": "Person",
-        "name": blogPost.author
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Cloudkeepers",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://cloudkeepers.co.uk/og-image.png"
-        }
-      },
-      "image": blogPost.image || "https://cloudkeepers.co.uk/og-image.png",
-      "url": `https://cloudkeepers.co.uk/blogs/${blogPost.slug}`,
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": `https://cloudkeepers.co.uk/blogs/${blogPost.slug}`
+  // Generate schema.org data for SEO
+  useEffect(() => {
+    if (blogPost) {
+      try {
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": blogPost.title,
+          "name": blogPost.title,
+          "description": blogPost.metaDescription || blogPost.excerpt,
+          "datePublished": blogPost.created_at,
+          "author": {
+            "@type": "Person",
+            "name": blogPost.author
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Cloudkeepers",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://cloudkeepers.co.uk/og-image.png"
+            }
+          },
+          "image": blogPost.image || "https://cloudkeepers.co.uk/og-image.png",
+          "url": `https://cloudkeepers.co.uk/blogs/${blogPost.slug}`,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://cloudkeepers.co.uk/blogs/${blogPost.slug}`
+          }
+        };
+        
+        setSchemaJson(JSON.stringify(schemaData));
+      } catch (error) {
+        console.error('Error creating schema data:', error);
+        setSchemaJson('{}');
       }
-    };
-    
-    try {
-      return JSON.stringify(schemaData);
-    } catch (error) {
-      console.error('Error stringifying schema data:', error);
-      return '{}';
     }
-  };
+  }, [blogPost]);
 
   return (
     <>
@@ -829,14 +832,15 @@ Lock your books to prevent unauthorized changes or edits.</p>
             {blogPost.image && <meta property="og:image" content={blogPost.image} />}
             <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost.slug}`} />
             
-            <script type="application/ld+json">
-              {generateSchemaOrgData()}
-            </script>
+            {/* Add the script tag properly */}
+            <script type="application/ld+json">{schemaJson}</script>
           </>
         ) : (
           <title>Blog | Cloudkeepers</title>
         )}
       </Helmet>
+
+      <Header niches={niches} />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {loading ? (
