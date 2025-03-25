@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
@@ -24,20 +23,16 @@ export function Footer() {
   // Add a useEffect to clear browser cache for favicon and potentially other assets
   useEffect(() => {
     // Create a link element for the favicon
-    const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-    if (link) {
+    const links = document.querySelectorAll("link[rel*='icon']") as NodeListOf<HTMLLinkElement>;
+    links.forEach(link => {
       // Force reload by adding a timestamp query parameter
       const timestamp = new Date().getTime();
-      link.href = `/favicon.ico?v=${timestamp}`;
-    }
+      if (link.href.includes('lovable-uploads')) {
+        link.href = `/lovable-uploads/a58d3497-4760-4108-85ba-220a19bd0b4d.png?v=${timestamp}`;
+      }
+    });
     
-    // Force a refresh of the page content
-    const metaTag = document.createElement('meta');
-    metaTag.httpEquiv = 'expires';
-    metaTag.content = '0';
-    document.head.appendChild(metaTag);
-    
-    console.log('Footer rendered with email:', emailAddress);
+    console.log('Footer rendered with updated favicon cache busting');
   }, []);
 
   return (
