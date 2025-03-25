@@ -1,41 +1,41 @@
-
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
-import { Header } from './Header'
-import { Footer } from './Footer'
-import { supabase } from '@/lib/supabase'
-import { Calendar, User } from 'lucide-react'
-
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Header } from './Header';
+import { Footer } from './Footer';
+import { supabase } from '@/lib/supabase';
+import { Calendar, User } from 'lucide-react';
 interface BlogPost {
-  id: string
-  title: string
-  content: string
-  slug: string
-  created_at: string
-  author: string
-  category: string
-  excerpt: string
-  metaDescription?: string
-  metaKeywords?: string
-  image?: string
+  id: string;
+  title: string;
+  content: string;
+  slug: string;
+  created_at: string;
+  author: string;
+  category: string;
+  excerpt: string;
+  metaDescription?: string;
+  metaKeywords?: string;
+  image?: string;
 }
-
 export function BlogPostPage() {
-  const { slug } = useParams<{ slug: string }>()
-  const [niches, setNiches] = useState<any[]>([])
-  const [blogPost, setBlogPost] = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
-
+  const {
+    slug
+  } = useParams<{
+    slug: string;
+  }>();
+  const [niches, setNiches] = useState<any[]>([]);
+  const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchNiches = async () => {
-      const { data } = await supabase.from('niches').select('*')
-      if (data) setNiches(data)
-    }
-
+      const {
+        data
+      } = await supabase.from('niches').select('*');
+      if (data) setNiches(data);
+    };
     const fetchBlogPost = async () => {
-      setLoading(true)
-      
+      setLoading(true);
       if (slug === '5-common-vat-return-mistakes-and-how-to-avoid-them') {
         const vatPost: BlogPost = {
           id: '4',
@@ -275,8 +275,8 @@ export function BlogPostPage() {
           metaDescription: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
           metaKeywords: 'VAT return, VAT mistakes, compliance, accounting software, record keeping, filing deadlines, expense categories, HMRC updates',
           image: '/lovable-uploads/d1d24af5-267f-4081-bf95-7f8eda8b7d83.png'
-        }
-        setBlogPost(vatPost)
+        };
+        setBlogPost(vatPost);
       } else if (slug === '7-essential-tax-deadlines-for-uk-small-businesses-in-2025') {
         const taxDeadlinesPost: BlogPost = {
           id: '5',
@@ -757,23 +757,20 @@ Allocate time for preparing statements, reviewing them with directors and accoun
           metaDescription: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
           metaKeywords: 'UK tax deadlines, small business compliance, Self Assessment, VAT returns, Corporation Tax',
           image: '/lovable-uploads/39565cc9-0954-472b-a1cf-7e09fbdfcec9.png'
-        }
-        setBlogPost(taxDeadlinesPost)
+        };
+        setBlogPost(taxDeadlinesPost);
       } else {
-        console.log("Blog post not found")
+        console.log("Blog post not found");
       }
-      
-      setLoading(false)
-    }
-
-    fetchNiches()
-    fetchBlogPost()
-  }, [slug])
+      setLoading(false);
+    };
+    fetchNiches();
+    fetchBlogPost();
+  }, [slug]);
 
   // Generate schema.org JSON-LD structured data for the blog post
   const generateSchemaOrgData = () => {
     if (!blogPost) return null;
-    
     const schemaData = {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
@@ -799,13 +796,10 @@ Allocate time for preparing statements, reviewing them with directors and accoun
       "datePublished": blogPost.created_at,
       "dateModified": blogPost.created_at
     };
-    
     return JSON.stringify(schemaData);
   };
-
   if (loading) {
-    return (
-      <>
+    return <>
         <Header niches={niches} />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex justify-center py-12">
@@ -813,13 +807,10 @@ Allocate time for preparing statements, reviewing them with directors and accoun
           </div>
         </main>
         <Footer />
-      </>
-    )
+      </>;
   }
-
   if (!blogPost) {
-    return (
-      <>
+    return <>
         <Header niches={niches} />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="max-w-3xl mx-auto">
@@ -830,12 +821,9 @@ Allocate time for preparing statements, reviewing them with directors and accoun
           </div>
         </main>
         <Footer />
-      </>
-    )
+      </>;
   }
-
-  return (
-    <>
+  return <>
       <Helmet>
         <title>{blogPost?.title} | Cloudkeepers</title>
         <meta name="description" content={blogPost?.metaDescription || blogPost?.excerpt} />
@@ -872,24 +860,19 @@ Allocate time for preparing statements, reviewing them with directors and accoun
           </div>
           
           {/* Featured image if available */}
-          {blogPost.image && (
-            <div className="mb-8">
-              <img 
-                src={blogPost.image} 
-                alt={blogPost.title}
-                className="w-full h-auto rounded-lg shadow-md" 
-              />
-            </div>
-          )}
+          {blogPost.image && <div className="mb-8">
+              
+            </div>}
           
           {/* Blog content */}
           <article className="prose prose-lg max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: blogPost?.content || '' }} />
+            <div dangerouslySetInnerHTML={{
+            __html: blogPost?.content || ''
+          }} />
           </article>
         </div>
       </main>
 
       <Footer />
-    </>
-  )
+    </>;
 }
