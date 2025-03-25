@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
@@ -28,7 +29,7 @@ export function Footer() {
       // Force reload by adding a timestamp query parameter
       const timestamp = new Date().getTime();
       if (link.href.includes('lovable-uploads')) {
-        link.href = `/lovable-uploads/a58d3497-4760-4108-85ba-220a19bd0b4d.png?v=${timestamp}`;
+        link.href = `/lovable-uploads/38bd3d15-3145-4d5c-a195-5412cdea9a8e.png?v=${timestamp}`;
       }
     });
     
