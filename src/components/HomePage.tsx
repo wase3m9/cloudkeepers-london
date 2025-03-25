@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { LeadForm } from './LeadForm'
 import { Helmet } from 'react-helmet'
-import { CloudIcon, ArrowRight, Building2, Calculator, FileText, DollarSign, Percent, CreditCard } from 'lucide-react'
+import { CloudIcon, ArrowRight, Building2, Calculator, FileText, DollarSign, Percent, CreditCard, Briefcase, Users } from 'lucide-react'
 import { Header } from './Header'
 import { Footer } from './Footer'
 
@@ -44,8 +44,9 @@ export function HomePage() {
     'Self Assessment': <Calculator className="w-12 h-12 group-hover:animate-jiggle" />,
     'Bookkeeping': <FileText className="w-12 h-12 group-hover:animate-jiggle" />,
     'Tax Planning': <Percent className="w-12 h-12 group-hover:animate-jiggle" />,
-    'Payroll': <DollarSign className="w-12 h-12 group-hover:animate-jiggle" />,
-    'VAT Returns': <CreditCard className="w-12 h-12 group-hover:animate-jiggle" />
+    'Payroll': <Users className="w-12 h-12 group-hover:animate-jiggle" />,
+    'VAT Returns': <CreditCard className="w-12 h-12 group-hover:animate-jiggle" />,
+    'Accounting Services': <Briefcase className="w-12 h-12 group-hover:animate-jiggle" />
   }
 
   return (
