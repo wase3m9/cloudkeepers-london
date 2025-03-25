@@ -128,7 +128,7 @@ export function BlogPostPage() {
 <li><strong>Travel Expenses</strong>: Mislabeling transportation or accommodation costs.</li>
 </ul>
 <h3 id="hmrcs-expense-guidelines" tabindex="-1"><a href="https://www.gov.uk/government/organisations/hm-revenue-customs" target="_blank">HMRC</a>'s Expense Guidelines</h3>
-<p><img src="https://mars-images.imgix.net/seobot/screenshots/www.gov.uk-0831b6bad913906ceab1f4847c784a92-2025-03-15.jpg?auto=compress" alt="HMRC"></p>
+<p><img src="/lovable-uploads/d1d24af5-267f-4081-bf95-7f8eda8b7d83.png" alt="Accounting workplace with laptop"></p>
 <p>HMRC has clear rules about how expenses should be classified. To stay compliant:</p>
 <ul>
 <li>Go through your expense categories every month to ensure accuracy.</li>
@@ -273,7 +273,8 @@ export function BlogPostPage() {
           category: 'VAT',
           excerpt: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
           metaDescription: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
-          metaKeywords: 'VAT return, VAT mistakes, compliance, accounting software, record keeping, filing deadlines, expense categories, HMRC updates'
+          metaKeywords: 'VAT return, VAT mistakes, compliance, accounting software, record keeping, filing deadlines, expense categories, HMRC updates',
+          image: '/lovable-uploads/d1d24af5-267f-4081-bf95-7f8eda8b7d83.png'
         }
         setBlogPost(vatPost)
       } else if (slug === '7-essential-tax-deadlines-for-uk-small-businesses-in-2025') {
@@ -296,7 +297,7 @@ export function BlogPostPage() {
 <p>Missing deadlines can result in fines, interest charges, and additional penalties. For example, late Self Assessment returns incur a <strong>£100 fine</strong>, while late Corporation Tax payments can lead to a <strong>10% surcharge</strong> on unpaid tax. Plan ahead and consult with professionals if needed.</p>
 <p>This guide outlines each deadline in detail, along with tips to stay compliant and avoid costly errors.</p>
 <h2 id="new-hmrc-self-assessment-rules-that-changes-everything-for-uk-business-owners" tabindex="-1">New <a href="https://www.gov.uk/government/organisations/hm-revenue-customs" target="_blank">HMRC</a> Self Assessment Rules That Changes Everything For UK Business Owners</h2>
-<p><img src="https://mars-images.imgix.net/seobot/screenshots/www.gov.uk-0831b6bad913906ceab1f4847c784a92-2025-03-15.jpg?auto=compress" alt="HMRC"></p>
+<p><img src="/lovable-uploads/39565cc9-0954-472b-a1cf-7e09fbdfcec9.png" alt="Laptop showing tax deadlines calendar"></p>
 <h2 id="1-self-assessment-tax-return-due-date" tabindex="-1">1. Self Assessment Tax Return Due Date</h2>
 <p>The deadline to file your 2023/24 Self Assessment tax return and pay any owed tax for the period of April 6, 2023, to April 5, 2024, is <strong>January 31, 2025</strong>.</p>
 <h3 id="who-needs-to-file-a-return" tabindex="-1">Who Needs to File a Return?</h3>
@@ -754,7 +755,8 @@ Allocate time for preparing statements, reviewing them with directors and accoun
           category: 'Tax Planning',
           excerpt: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
           metaDescription: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
-          metaKeywords: 'UK tax deadlines, small business compliance, Self Assessment, VAT returns, Corporation Tax'
+          metaKeywords: 'UK tax deadlines, small business compliance, Self Assessment, VAT returns, Corporation Tax',
+          image: '/lovable-uploads/39565cc9-0954-472b-a1cf-7e09fbdfcec9.png'
         }
         setBlogPost(taxDeadlinesPost)
       } else {

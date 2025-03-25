@@ -41,7 +41,8 @@ export function BlogsPage() {
           slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
           created_at: '2023-09-10',
           author: 'Tax Team',
-          category: 'VAT'
+          category: 'VAT',
+          image: '/lovable-uploads/d1d24af5-267f-4081-bf95-7f8eda8b7d83.png'
         },
         {
           id: '5',
@@ -51,7 +52,7 @@ export function BlogsPage() {
           created_at: '2023-11-15',
           author: 'Tax Advisory Team',
           category: 'Tax Planning',
-          image: 'https://mars-images.imgix.net/seobot/screenshots/www.gov.uk-0831b6bad913906ceab1f4847c784a92-2025-03-15.jpg?auto=compress'
+          image: '/lovable-uploads/39565cc9-0954-472b-a1cf-7e09fbdfcec9.png'
         }
       ]
       
