@@ -29,11 +29,21 @@ export function Footer() {
       // Force reload by adding a timestamp query parameter
       const timestamp = new Date().getTime();
       if (link.href.includes('lovable-uploads')) {
+        // Update all favicon links with the same cache-busting timestamp
         link.href = `/lovable-uploads/38bd3d15-3145-4d5c-a195-5412cdea9a8e.png?v=${timestamp}`;
       }
     });
     
-    console.log('Footer rendered with updated favicon cache busting');
+    // Also update apple-touch-icon links
+    const appleLinks = document.querySelectorAll("link[rel='apple-touch-icon']") as NodeListOf<HTMLLinkElement>;
+    appleLinks.forEach(link => {
+      const timestamp = new Date().getTime();
+      if (link.href.includes('lovable-uploads')) {
+        link.href = `/lovable-uploads/38bd3d15-3145-4d5c-a195-5412cdea9a8e.png?v=${timestamp}`;
+      }
+    });
+    
+    console.log('Footer rendered with updated favicon cache busting for all sizes');
   }, []);
 
   return (
