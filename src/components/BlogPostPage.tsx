@@ -5,6 +5,9 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { supabase } from '@/lib/supabase';
 import { Calendar, User } from 'lucide-react';
+import { TableOfContents } from './blog/TableOfContents';
+import { ShareArticle } from './blog/ShareArticle';
+
 interface BlogPost {
   id: string;
   title: string;
@@ -18,6 +21,7 @@ interface BlogPost {
   metaKeywords?: string;
   image?: string;
 }
+
 export function BlogPostPage() {
   const {
     slug
@@ -27,6 +31,7 @@ export function BlogPostPage() {
   const [niches, setNiches] = useState<any[]>([]);
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchNiches = async () => {
       const {
@@ -768,7 +773,6 @@ Allocate time for preparing statements, reviewing them with directors and accoun
     fetchBlogPost();
   }, [slug]);
 
-  // Generate schema.org JSON-LD structured data for the blog post
   const generateSchemaOrgData = () => {
     if (!blogPost) return null;
     const schemaData = {
@@ -798,6 +802,7 @@ Allocate time for preparing statements, reviewing them with directors and accoun
     };
     return JSON.stringify(schemaData);
   };
+
   if (loading) {
     return <>
         <Header niches={niches} />
@@ -809,6 +814,7 @@ Allocate time for preparing statements, reviewing them with directors and accoun
         <Footer />
       </>;
   }
+
   if (!blogPost) {
     return <>
         <Header niches={niches} />
@@ -823,7 +829,9 @@ Allocate time for preparing statements, reviewing them with directors and accoun
         <Footer />
       </>;
   }
-  return <>
+
+  return (
+    <>
       <Helmet>
         <title>{blogPost?.title} | Cloudkeepers</title>
         <meta name="description" content={blogPost?.metaDescription || blogPost?.excerpt} />
@@ -834,7 +842,6 @@ Allocate time for preparing statements, reviewing them with directors and accoun
         <meta property="og:url" content={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
         <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
         
-        {/* Add JSON-LD structured data script for SEO */}
         <script type="application/ld+json">
           {generateSchemaOrgData()}
         </script>
@@ -844,7 +851,6 @@ Allocate time for preparing statements, reviewing them with directors and accoun
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-3xl mx-auto">
-          {/* Blog post metadata */}
           <div className="mb-6">
             <div className="flex items-center text-sm text-gray-500 mb-2">
               <span className="flex items-center mr-4">
@@ -859,20 +865,30 @@ Allocate time for preparing statements, reviewing them with directors and accoun
             </div>
           </div>
           
-          {/* Featured image if available */}
-          {blogPost.image && <div className="mb-8">
-              
-            </div>}
+          {blogPost.image && (
+            <div className="mb-8">
+              <img 
+                src={blogPost.image} 
+                alt={blogPost.title}
+                className="w-full rounded-lg shadow-md"
+              />
+            </div>
+          )}
           
-          {/* Blog content */}
+          <TableOfContents content={blogPost.content} />
+          
           <article className="prose prose-lg max-w-none">
-            <div dangerouslySetInnerHTML={{
-            __html: blogPost?.content || ''
-          }} />
+            <div dangerouslySetInnerHTML={{ __html: blogPost.content || '' }} />
           </article>
+
+          <ShareArticle 
+            title={blogPost.title} 
+            url={window.location.href} 
+          />
         </div>
       </main>
 
       <Footer />
-    </>;
+    </>
+  );
 }
