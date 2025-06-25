@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -163,12 +164,12 @@ export function BlogPostPage() {
 <h3 id="6-can-i-claim-expenses-if-i-lost-the-receipt" tabindex="-1">6. Can I claim expenses if I lost the receipt?</h3>
 <p>HMRC may allow some expenses without a receipt if you have a clear audit trail, but it's always safer to have documented evidence. Use apps to scan and store receipts as soon as you get them.</p>`,
           slug: '8-common-accounting-mistakes-that-hurt-small-businesses',
-          created_at: '2023-12-01',
+          created_at: '2024-12-01',
           author: 'Accounting Team',
           category: 'Business Accounting',
           excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
           metaDescription: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
-          metaKeywords: 'accounting mistakes, small business, HMRC, VAT, bookkeeping, record keeping, tax deadlines, business finances',
+          metaKeywords: 'accounting mistakes, small business accounting, HMRC compliance, VAT errors, bookkeeping mistakes, tax deadlines, business finances, UK accounting, record keeping, invoice management',
           image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
         };
         setBlogPost(accountingMistakesPost);
@@ -915,7 +916,12 @@ Allocate time for preparing statements, reviewing them with directors and accoun
       },
       "headline": blogPost.title,
       "description": blogPost.metaDescription || blogPost.excerpt,
-      "image": blogPost.image ? `https://cloudkeepers.co.uk${blogPost.image}` : "https://cloudkeepers.co.uk/og-image.png",
+      "image": {
+        "@type": "ImageObject",
+        "url": blogPost.image ? `https://cloudkeepers.co.uk${blogPost.image}` : "https://cloudkeepers.co.uk/og-image.png",
+        "width": 1200,
+        "height": 630
+      },
       "author": {
         "@type": "Person",
         "name": blogPost.author
@@ -925,13 +931,83 @@ Allocate time for preparing statements, reviewing them with directors and accoun
         "name": "Cloudkeepers Accountants",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://cloudkeepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png"
+          "url": "https://cloudkeepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png",
+          "width": 300,
+          "height": 60
         }
       },
       "datePublished": blogPost.created_at,
-      "dateModified": blogPost.created_at
+      "dateModified": blogPost.created_at,
+      "wordCount": blogPost.content ? blogPost.content.replace(/<[^>]*>/g, '').split(' ').length : 0,
+      "articleSection": blogPost.category,
+      "keywords": blogPost.metaKeywords,
+      "inLanguage": "en-GB",
+      "isAccessibleForFree": true
     };
     return JSON.stringify(schemaData);
+  };
+
+  // Organization Schema for better SEO
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Cloudkeepers Accountants",
+    "url": "https://cloudkeepers.co.uk",
+    "logo": "https://cloudkeepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+44 020 3553 8444",
+      "contactType": "Customer Service"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "London",
+      "addressCountry": "GB"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/cloudkeepers",
+      "https://twitter.com/cloudkeepers"
+    ]
+  };
+
+  // FAQ Schema for the blog post
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What are the most common accounting errors in small businesses?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most frequent errors include mixing business and personal expenses, poor record-keeping, misclassifying transactions, missing tax deadlines, and underestimating the importance of professional advice."
+        }
+      },
+      {
+        "@type": "Question", 
+        "name": "How can I avoid accounting mistakes if I manage my own books?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use reliable accounting software, keep records updated weekly, reconcile your bank accounts monthly, and consider booking a quarterly check-in with a qualified accountant."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I miss a VAT deadline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Missing a VAT deadline can result in late submission penalties and interest on unpaid amounts. Consistent lateness may also increase the likelihood of an HMRC audit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I hire an accountant for my small business?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ideally, before you hit the VAT threshold or begin trading. However, many small businesses benefit from part-time or quarterly support early on — especially at year-end or when preparing for funding."
+        }
+      }
+    ]
   };
 
   if (loading) {
@@ -964,17 +1040,53 @@ Allocate time for preparing statements, reviewing them with directors and accoun
   return (
     <>
       <Helmet>
-        <title>{blogPost?.title} | Cloudkeepers</title>
-        <meta name="description" content={blogPost?.metaDescription || blogPost?.excerpt} />
-        <meta name="keywords" content={blogPost?.metaKeywords || "accounting, tax, VAT, business finance"} />
-        <meta property="og:title" content={blogPost?.title} />
-        <meta property="og:description" content={blogPost?.metaDescription || blogPost?.excerpt} />
+        <title>8 Common Accounting Mistakes Small Businesses Make and How to Avoid Them | Cloudkeepers</title>
+        <meta name="description" content="Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them." />
+        <meta name="keywords" content="accounting mistakes, small business accounting, HMRC compliance, VAT errors, bookkeeping mistakes, tax deadlines, business finances, UK accounting, record keeping, invoice management" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Cloudkeepers Accountants" />
+        
+        {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />
+        <meta property="og:title" content="8 Common Accounting Mistakes Small Businesses Make and How to Avoid Them" />
+        <meta property="og:description" content="Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them." />
         <meta property="og:url" content={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
+        <meta property="og:image" content={`https://cloudkeepers.co.uk${blogPost?.image}`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Common accounting mistakes that hurt small businesses" />
+        <meta property="og:site_name" content="Cloudkeepers Accountants" />
+        <meta property="og:locale" content="en_GB" />
+        <meta property="article:author" content={blogPost?.author} />
+        <meta property="article:published_time" content={blogPost?.created_at} />
+        <meta property="article:section" content={blogPost?.category} />
+        <meta property="article:tag" content="accounting mistakes" />
+        <meta property="article:tag" content="small business" />
+        <meta property="article:tag" content="HMRC compliance" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="8 Common Accounting Mistakes Small Businesses Make and How to Avoid Them" />
+        <meta name="twitter:description" content="Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them." />
+        <meta name="twitter:image" content={`https://cloudkeepers.co.uk${blogPost?.image}`} />
+        <meta name="twitter:image:alt" content="Common accounting mistakes that hurt small businesses" />
+
+        {/* Additional SEO meta tags */}
+        <meta name="theme-color" content="#3B82F6" />
+        <meta httpEquiv="content-language" content="en-GB" />
         <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
         
+        {/* Structured Data */}
         <script type="application/ld+json">
           {generateSchemaOrgData()}
+        </script>
+        
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
+        
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
         </script>
       </Helmet>
 
@@ -1000,8 +1112,11 @@ Allocate time for preparing statements, reviewing them with directors and accoun
             <div className="mb-8">
               <img 
                 src={blogPost.image} 
-                alt={blogPost.title}
+                alt="Common accounting mistakes that hurt small businesses"
                 className="w-full rounded-lg shadow-md"
+                loading="eager"
+                width="800"
+                height="400"
               />
             </div>
           )}
