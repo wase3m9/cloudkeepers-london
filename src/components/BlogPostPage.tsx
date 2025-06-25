@@ -41,7 +41,138 @@ export function BlogPostPage() {
     };
     const fetchBlogPost = async () => {
       setLoading(true);
-      if (slug === '5-common-vat-return-mistakes-and-how-to-avoid-them') {
+      if (slug === '8-common-accounting-mistakes-that-hurt-small-businesses') {
+        const accountingMistakesPost: BlogPost = {
+          id: '6',
+          title: '8 Common Accounting Mistakes That Hurt Small Businesses',
+          content: `<h1 id="8-common-accounting-mistakes-that-hurt-small-businesses" tabindex="-1">8 Common Accounting Mistakes That Hurt Small Businesses</h1>
+<p>Accounting mistakes can be easy to make, especially when you're juggling day-to-day operations. But those errors — whether it's a missing invoice or a misclassified expense — can lead to penalties, cash flow issues, or missed tax savings.</p>
+<p>Here are eight of the most common accounting mistakes small businesses make, and what you can do to avoid them.</p>
+
+<h2 id="1-mixing-business-and-personal-finances" tabindex="-1">1. Mixing Business and Personal Finances</h2>
+<p>Using one bank account for everything might feel easier — but it makes bookkeeping a mess.</p>
+<h3 id="why-it-matters" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>Harder to track business expenses</li>
+<li>Risk of claiming incorrect deductions</li>
+<li>HMRC scrutiny increases</li>
+</ul>
+<h3 id="fix-it" tabindex="-1">Fix it:</h3>
+<p>Open a dedicated business bank account and use it exclusively for business income and costs.</p>
+
+<h2 id="2-poor-record-keeping" tabindex="-1">2. Poor Record-Keeping</h2>
+<p>Receipts lost in your car, invoices left unsent — it adds up.</p>
+<h3 id="why-it-matters-1" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>Missed expenses = higher tax</li>
+<li>Inaccurate accounts = poor decisions</li>
+<li>HMRC fines for not keeping records for 6 years</li>
+</ul>
+<h3 id="fix-it-1" tabindex="-1">Fix it:</h3>
+<p>Use software like <a href="https://quickbooks.intuit.com/uk/" target="_blank">QuickBooks</a>, <a href="https://www.xero.com/uk/" target="_blank">Xero</a> or <a href="https://dext.com/" target="_blank">Dext</a> to snap and store receipts on the go. Allocate time weekly to update your records.</p>
+
+<h2 id="3-misunderstanding-vat" tabindex="-1">3. Misunderstanding VAT</h2>
+<p>VAT errors are common, from late registration to miscalculations.</p>
+<h3 id="why-it-matters-2" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>VAT penalties can be steep</li>
+<li>Overpaying or underpaying VAT impacts cash flow</li>
+<li>Increases your admin load if you file late</li>
+</ul>
+<h3 id="fix-it-2" tabindex="-1">Fix it:</h3>
+<p>Know the VAT threshold (£90,000 for 2024/25) and register on time. Use <a href="https://www.gov.uk/government/publications/making-tax-digital" target="_blank">Making Tax Digital</a>-compliant software and automate your VAT tracking.</p>
+
+<h2 id="4-not-reconciling-bank-accounts" tabindex="-1">4. Not Reconciling Bank Accounts</h2>
+<p>If your books don't match your bank account, something's off.</p>
+<h3 id="why-it-matters-3" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>You might think you have more (or less) money than you do</li>
+<li>Small errors build up into big discrepancies</li>
+<li>Impacts year-end accounts and tax returns</li>
+</ul>
+<h3 id="fix-it-3" tabindex="-1">Fix it:</h3>
+<p>Reconcile your bank accounts at least monthly. Automate where possible, but still review manually to catch errors.</p>
+
+<h2 id="5-misclassifying-transactions" tabindex="-1">5. Misclassifying Transactions</h2>
+<p>Putting things in the wrong category — or forgetting to assign one at all — causes issues.</p>
+<h3 id="why-it-matters-4" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>Skews your P&L and cash flow reports</li>
+<li>Impacts tax calculations</li>
+<li>Can cause VAT reporting errors</li>
+</ul>
+<h3 id="fix-it-4" tabindex="-1">Fix it:</h3>
+<p>Use a consistent chart of accounts. Most software has default categories — stick with them and review with your accountant quarterly.</p>
+
+<h2 id="6-not-chasing-invoices" tabindex="-1">6. Not Chasing Invoices</h2>
+<p>Letting unpaid invoices slide puts pressure on your cash flow.</p>
+<h3 id="why-it-matters-5" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>Delays your own supplier payments</li>
+<li>Makes cash flow forecasting harder</li>
+<li>Can damage client relationships</li>
+</ul>
+<h3 id="fix-it-5" tabindex="-1">Fix it:</h3>
+<p>Use automated invoice reminders and set clear payment terms. Consider offering early payment discounts or charging late fees.</p>
+
+<h2 id="7-missing-tax-deadlines" tabindex="-1">7. Missing Tax Deadlines</h2>
+<p>Late submissions — whether VAT, PAYE, or Corporation Tax — often come with instant fines.</p>
+<h3 id="why-it-matters-6" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>Financial penalties</li>
+<li>Damaged credit rating</li>
+<li>May trigger an HMRC compliance review</li>
+</ul>
+<h3 id="fix-it-6" tabindex="-1">Fix it:</h3>
+<p>Work with an accountant or set up a tax calendar with alerts. Don't leave things until the last minute.</p>
+
+<h2 id="8-not-hiring-an-accountant-early-enough" tabindex="-1">8. Not Hiring an Accountant Early Enough</h2>
+<p>DIY accounting works up to a point — but it's not always worth the stress.</p>
+<h3 id="why-it-matters-7" tabindex="-1">Why it matters:</h3>
+<ul>
+<li>You could be missing tax reliefs or allowances</li>
+<li>Risk of costly mistakes</li>
+<li>Time spent on books is time not spent growing your business</li>
+</ul>
+<h3 id="fix-it-7" tabindex="-1">Fix it:</h3>
+<p>Hire a qualified accountant early. Even just quarterly check-ins can make a huge difference in how smoothly your business runs.</p>
+
+<h2 id="final-thoughts" tabindex="-1">Final Thoughts</h2>
+<p>These accounting mistakes are common — but all avoidable with the right habits, tools, and advice. If you're unsure about anything from VAT to bookkeeping systems, get in touch with our team. We help small businesses stay compliant, save tax, and understand their numbers.</p>
+<blockquote>
+<p>"Working with the outstanding Cloudkeepers team is like having a full-time in-house accountant and training manager in own office. Absolutely superb! They have made accounting so easy for us, top team!" - S Watts, Finance Manager</p>
+</blockquote>
+
+<h2 id="faqs-accounting-mistakes-small-business-owners-should-avoid" tabindex="-1">FAQs: Accounting Mistakes Small Business Owners Should Avoid</h2>
+
+<h3 id="1-what-are-the-most-common-accounting-errors-in-small-businesses" tabindex="-1">1. What are the most common accounting errors in small businesses?</h3>
+<p>The most frequent errors include mixing business and personal expenses, poor record-keeping, misclassifying transactions, missing tax deadlines, and underestimating the importance of professional advice.</p>
+
+<h3 id="2-how-can-i-avoid-accounting-mistakes-if-i-manage-my-own-books" tabindex="-1">2. How can I avoid accounting mistakes if I manage my own books?</h3>
+<p>Use reliable accounting software, keep records updated weekly, reconcile your bank accounts monthly, and consider booking a quarterly check-in with a qualified accountant.</p>
+
+<h3 id="3-what-happens-if-i-miss-a-vat-deadline" tabindex="-1">3. What happens if I miss a VAT deadline?</h3>
+<p>Missing a VAT deadline can result in late submission penalties and interest on unpaid amounts. Consistent lateness may also increase the likelihood of an HMRC audit.</p>
+
+<h3 id="4-is-it-a-legal-requirement-to-separate-business-and-personal-finances" tabindex="-1">4. Is it a legal requirement to separate business and personal finances?</h3>
+<p>While not strictly illegal, HMRC recommends separating finances. Mixing accounts can lead to inaccuracies and makes investigations more complex during audits.</p>
+
+<h3 id="5-when-should-i-hire-an-accountant-for-my-small-business" tabindex="-1">5. When should I hire an accountant for my small business?</h3>
+<p>Ideally, before you hit the VAT threshold or begin trading. However, many small businesses benefit from part-time or quarterly support early on — especially at year-end or when preparing for funding.</p>
+
+<h3 id="6-can-i-claim-expenses-if-i-lost-the-receipt" tabindex="-1">6. Can I claim expenses if I lost the receipt?</h3>
+<p>HMRC may allow some expenses without a receipt if you have a clear audit trail, but it's always safer to have documented evidence. Use apps to scan and store receipts as soon as you get them.</p>`,
+          slug: '8-common-accounting-mistakes-that-hurt-small-businesses',
+          created_at: '2023-12-01',
+          author: 'Accounting Team',
+          category: 'Business Accounting',
+          excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
+          metaDescription: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
+          metaKeywords: 'accounting mistakes, small business, HMRC, VAT, bookkeeping, record keeping, tax deadlines, business finances',
+          image: '/lovable-uploads/a583c218-64d1-4040-84ac-eb8f4340e09f.png'
+        };
+        setBlogPost(accountingMistakesPost);
+      } else if (slug === '5-common-vat-return-mistakes-and-how-to-avoid-them') {
         const vatPost: BlogPost = {
           id: '4',
           title: '5 Common VAT Return Mistakes and How to Avoid Them',

@@ -35,6 +35,16 @@ export function BlogsPage() {
       // For now, adding dummy data
       const dummyPosts: BlogPost[] = [
         {
+          id: '6',
+          title: '8 Common Accounting Mistakes That Hurt Small Businesses',
+          excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
+          slug: '8-common-accounting-mistakes-that-hurt-small-businesses',
+          created_at: '2023-12-01',
+          author: 'Accounting Team',
+          category: 'Business Accounting',
+          image: '/lovable-uploads/a583c218-64d1-4040-84ac-eb8f4340e09f.png'
+        },
+        {
           id: '4',
           title: '5 Common VAT Return Mistakes and How to Avoid Them',
           excerpt: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
