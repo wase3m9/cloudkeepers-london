@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Header } from './Header'
@@ -42,7 +41,7 @@ export function BlogsPage() {
           created_at: '2023-12-01',
           author: 'Accounting Team',
           category: 'Business Accounting',
-          image: '/lovable-uploads/a583c218-64d1-4040-84ac-eb8f4340e09f.png'
+          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
         },
         {
           id: '4',

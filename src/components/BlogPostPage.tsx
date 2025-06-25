@@ -169,7 +169,7 @@ export function BlogPostPage() {
           excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
           metaDescription: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
           metaKeywords: 'accounting mistakes, small business, HMRC, VAT, bookkeeping, record keeping, tax deadlines, business finances',
-          image: '/lovable-uploads/a583c218-64d1-4040-84ac-eb8f4340e09f.png'
+          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
         };
         setBlogPost(accountingMistakesPost);
       } else if (slug === '5-common-vat-return-mistakes-and-how-to-avoid-them') {
