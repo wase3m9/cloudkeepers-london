@@ -1,0 +1,19 @@
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://cloud-keepers.co.uk/sitemap.xml
+
+# Block access to admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.env
+Disallow: /config/
+
+# Allow access to important pages
+Allow: /services/
+Allow: /blogs/
+Allow: /resources/
+Allow: /calculators/
+Allow: /contact

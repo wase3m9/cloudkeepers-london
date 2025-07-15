@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
@@ -49,11 +50,66 @@ export function HomePage() {
     'Accounting Services': <Briefcase className="w-12 h-12 group-hover:animate-jiggle" />
   }
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Cloudkeepers Accountants",
+    "description": "Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready.",
+    "url": "https://cloud-keepers.co.uk",
+    "logo": "https://cloud-keepers.co.uk/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+44-1234-567890",
+      "contactType": "Customer Service",
+      "areaServed": "GB",
+      "availableLanguage": "English"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "GB"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/cloudkeepers-accountants",
+      "https://twitter.com/cloudkeepers"
+    ],
+    "services": [
+      {
+        "@type": "Service",
+        "name": "Limited Company Accounting",
+        "description": "Professional accounting services for limited companies"
+      },
+      {
+        "@type": "Service", 
+        "name": "Self Assessment",
+        "description": "Self assessment tax return preparation and filing"
+      },
+      {
+        "@type": "Service",
+        "name": "Bookkeeping",
+        "description": "Cloud-based bookkeeping services using Xero and QuickBooks"
+      },
+      {
+        "@type": "Service",
+        "name": "VAT Returns",
+        "description": "VAT return preparation and submission services"
+      },
+      {
+        "@type": "Service",
+        "name": "Payroll",
+        "description": "Complete payroll management services"
+      }
+    ]
+  }
+
   return (
     <>
       <Helmet>
         <title>Cloudkeepers Accountants | Making Accounting Simple</title>
-        <meta name="description" content="Professional accounting services in the UK. Expert Xero and QuickBooks specialists offering bookkeeping, tax planning, VAT returns, and Making Tax Digital compliance solutions." />
+        <meta name="description" content="Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready." />
+        <link rel="canonical" href="https://cloud-keepers.co.uk/" />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
       </Helmet>
 
       <Header niches={niches} />

@@ -9,6 +9,7 @@ import { BlogPostPage } from './components/BlogPostPage'
 import { ResourcesPage } from './components/ResourcesPage'
 import { CalculatorsPage } from './components/CalculatorsPage'
 import { AccountingDatesPage } from './components/AccountingDatesPage'
+import { SitemapPage } from './components/SitemapPage'
 import { Toaster } from './components/ui/toaster'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/accounting-dates" element={<AccountingDatesPage />} />
         <Route path="/calculators" element={<CalculatorsPage />} />
         <Route path="/calculators/:slug" element={<DynamicPage />} />
+        <Route path="/sitemap" element={<SitemapPage />} />
       </Routes>
       <Toaster />
     </Router>
