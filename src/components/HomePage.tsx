@@ -53,7 +53,7 @@ export function HomePage() {
     <>
       <Helmet>
         <title>Cloudkeepers Accountants | Making Accounting Simple</title>
-        <meta name="description" content="Professional accounting services in the UK. Xero and Quickbooks specialists making tax digital ready." />
+        <meta name="description" content="Professional accounting services in the UK. Expert Xero and QuickBooks specialists offering bookkeeping, tax planning, VAT returns, and Making Tax Digital compliance solutions." />
       </Helmet>
 
       <Header niches={niches} />
