@@ -50,18 +50,6 @@ export function BlogPostPage() {
 <p>Take home more of your money.</p>
 <p>If you're a director of a limited company in London, how you pay yourself matters. Here's how to balance salary and dividends in 2025/26 for maximum tax efficiency — without triggering unnecessary HMRC issues.</p>
 
-<h2 id="table-of-contents" tabindex="-1">Table of Contents</h2>
-<ul>
-<li><a href="#why-salary-vs-dividends-matters-in-london">Why Salary vs Dividends Matters in London</a></li>
-<li><a href="#2025-26-tax-allowances-and-thresholds">2025/26 Tax Allowances and Thresholds</a></li>
-<li><a href="#most-efficient-salary-for-a-london-director">Most Efficient Salary for a London Director</a></li>
-<li><a href="#how-dividends-work-and-what-to-watch-out-for">How Dividends Work (and What to Watch Out For)</a></li>
-<li><a href="#salary-dividends-a-smart-combination">Salary + Dividends: A Smart Combination</a></li>
-<li><a href="#example-take-home-breakdown">Example Take-Home Breakdown</a></li>
-<li><a href="#final-thoughts">Final Thoughts</a></li>
-<li><a href="#faqs">FAQs</a></li>
-</ul>
-
 <h2 id="why-salary-vs-dividends-matters-in-london" tabindex="-1">Why Salary vs Dividends Matters in London</h2>
 <p>Living costs in London are high — and so is the tax burden if you get it wrong. As a limited company director, you're in control of how you're paid. Choosing the right mix of salary and dividends can mean thousands saved annually in tax and National Insurance.</p>
 
