@@ -52,51 +52,110 @@ export function HomePage() {
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Cloudkeepers Accountants",
-    "description": "Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready.",
-    "url": "https://cloud-keepers.co.uk",
-    "logo": "https://cloud-keepers.co.uk/logo.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+44-1234-567890",
-      "contactType": "Customer Service",
-      "areaServed": "GB",
-      "availableLanguage": "English"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "GB"
-    },
-    "sameAs": [
-      "https://www.linkedin.com/company/cloudkeepers-accountants",
-      "https://twitter.com/cloudkeepers"
-    ],
-    "services": [
+    "@graph": [
       {
-        "@type": "Service",
-        "name": "Limited Company Accounting",
-        "description": "Professional accounting services for limited companies"
+        "@type": "Organization",
+        "name": "Cloudkeepers Accountants",
+        "description": "Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready.",
+        "url": "https://cloud-keepers.co.uk",
+        "logo": "https://cloud-keepers.co.uk/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+44-1234-567890",
+          "contactType": "Customer Service",
+          "areaServed": "GB",
+          "availableLanguage": "English"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "GB"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/cloudkeepers-accountants",
+          "https://twitter.com/cloudkeepers"
+        ],
+        "services": [
+          {
+            "@type": "Service",
+            "name": "Limited Company Accounting",
+            "description": "Professional accounting services for limited companies"
+          },
+          {
+            "@type": "Service", 
+            "name": "Self Assessment",
+            "description": "Self assessment tax return preparation and filing"
+          },
+          {
+            "@type": "Service",
+            "name": "Bookkeeping",
+            "description": "Cloud-based bookkeeping services using Xero and QuickBooks"
+          },
+          {
+            "@type": "Service",
+            "name": "VAT Returns",
+            "description": "VAT return preparation and submission services"
+          },
+          {
+            "@type": "Service",
+            "name": "Payroll",
+            "description": "Complete payroll management services"
+          }
+        ]
       },
       {
-        "@type": "Service", 
-        "name": "Self Assessment",
-        "description": "Self assessment tax return preparation and filing"
-      },
-      {
-        "@type": "Service",
-        "name": "Bookkeeping",
-        "description": "Cloud-based bookkeeping services using Xero and QuickBooks"
-      },
-      {
-        "@type": "Service",
-        "name": "VAT Returns",
-        "description": "VAT return preparation and submission services"
-      },
-      {
-        "@type": "Service",
-        "name": "Payroll",
-        "description": "Complete payroll management services"
+        "@type": "LocalBusiness",
+        "@id": "https://cloud-keepers.co.uk/#localbusiness",
+        "name": "Cloudkeepers Accountants London",
+        "description": "Professional accountant London services offering cloud-based accounting support. Expert accounting firm in London for small businesses.",
+        "url": "https://cloud-keepers.co.uk",
+        "priceRange": "££",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "London",
+          "addressCountry": "GB"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "London"
+          },
+          {
+            "@type": "Country",
+            "name": "United Kingdom"
+          }
+        ],
+        "openingHours": "Mo-Fr 09:30-18:30",
+        "telephone": "+44-1234-567890",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Accounting Services London",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Self Assessment Tax Return London",
+                "description": "Professional self assessment accountant London services"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "VAT Return Accountant London",
+                "description": "Expert VAT returns help London - Making Tax Digital accountant"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Payroll Services London",
+                "description": "Professional payroll accountant London and PAYE services"
+              }
+            }
+          ]
+        }
       }
     ]
   }
@@ -104,8 +163,9 @@ export function HomePage() {
   return (
     <>
       <Helmet>
-        <title>Cloudkeepers Accountants | Making Accounting Simple</title>
-        <meta name="description" content="Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready." />
+        <title>Accountant London | Cloudkeepers Accountants | Expert Accounting Services</title>
+        <meta name="description" content="Expert accountant London services offering cloud-based support. Professional accountant in London area - Xero & QuickBooks certified. Local accountant near me for small businesses." />
+        <meta name="keywords" content="accountant London, accounting firm London, small business accountant London, professional accountant in London, best accountant London, local accountant near me, affordable accountant London" />
         <link rel="canonical" href="https://cloud-keepers.co.uk/" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
@@ -119,8 +179,8 @@ export function HomePage() {
         <div className="absolute inset-0 bg-black/60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
             <div className="text-white max-w-2xl animate-fade-in">
-              <h1 className="text-5xl font-bold mb-6">Cloudkeepers Accountants, Making Accounting Simple</h1>
-              <p className="text-xl mb-8">Xero and Quickbooks Specialist, Making Tax Digital Ready</p>
+              <h1 className="text-5xl font-bold mb-6">London's Leading Accountants - Cloudkeepers Accounting Services</h1>
+              <p className="text-xl mb-8">Expert Accountant London Services | Xero and QuickBooks Specialists | Local Accounting Firm in London</p>
               <Link 
                 to="#contact" 
                 onClick={handleConsultationClick}
