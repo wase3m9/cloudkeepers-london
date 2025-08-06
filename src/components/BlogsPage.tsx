@@ -38,7 +38,7 @@ export function BlogsPage() {
           title: 'The Most Tax-Efficient Way for London Directors to Pay Themselves in 2025/26',
           excerpt: 'Take home more of your money. If you\'re a director of a limited company in London, how you pay yourself matters. Here\'s how to balance salary and dividends in 2025/26 for maximum tax efficiency.',
           slug: 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26',
-          created_at: '2025-01-06',
+          created_at: '05-08-2025',
           author: 'Tax Advisory Team',
           category: 'Tax Planning',
           image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
@@ -48,17 +48,17 @@ export function BlogsPage() {
           title: '8 Common Accounting Mistakes That Hurt Small Businesses',
           excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
           slug: '8-common-accounting-mistakes-that-hurt-small-businesses',
-          created_at: '2023-12-01',
+          created_at: '30-06-2025',
           author: 'Accounting Team',
           category: 'Business Accounting',
-          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
+          image: '/lovable-uploads/38bd3d15-3145-4d5c-a195-5412cdea9a8e.png'
         },
         {
           id: '4',
           title: '5 Common VAT Return Mistakes and How to Avoid Them',
           excerpt: 'Learn the top 5 VAT return mistakes and effective strategies to avoid them, ensuring compliance and accuracy in your business.',
           slug: '5-common-vat-return-mistakes-and-how-to-avoid-them',
-          created_at: '2023-09-10',
+          created_at: '15-03-2025',
           author: 'Tax Team',
           category: 'VAT',
           image: '/lovable-uploads/d1d24af5-267f-4081-bf95-7f8eda8b7d83.png'
@@ -68,7 +68,7 @@ export function BlogsPage() {
           title: '7 Essential Tax Deadlines for UK Small Businesses in 2025',
           excerpt: 'Learn essential tax deadlines for UK small businesses in 2025 to avoid penalties and ensure smooth operations.',
           slug: '7-essential-tax-deadlines-for-uk-small-businesses-in-2025',
-          created_at: '2023-11-15',
+          created_at: '10-02-2025',
           author: 'Tax Advisory Team',
           category: 'Tax Planning',
           image: '/lovable-uploads/39565cc9-0954-472b-a1cf-7e09fbdfcec9.png'

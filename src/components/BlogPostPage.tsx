@@ -152,7 +152,7 @@ export function BlogPostPage() {
 <h3 id="5-should-i-run-payroll-through-hmrc-or-software" tabindex="-1">5. Should I run payroll through HMRC or software?</h3>
 <p>Use HMRC-recognised software like QuickBooks, Xero, or BrightPay. Or let your accountant handle it — they'll ensure all filings (RTI, EPS) are done on time.</p>`,
           slug: 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26',
-          created_at: '2025-01-06',
+          created_at: '05-08-2025',
           author: 'Tax Advisory Team',
           category: 'Tax Planning',
           excerpt: 'Take home more of your money. If you\'re a director of a limited company in London, how you pay yourself matters. Here\'s how to balance salary and dividends in 2025/26 for maximum tax efficiency.',
@@ -283,13 +283,13 @@ export function BlogPostPage() {
 <h3 id="6-can-i-claim-expenses-if-i-lost-the-receipt" tabindex="-1">6. Can I claim expenses if I lost the receipt?</h3>
 <p>HMRC may allow some expenses without a receipt if you have a clear audit trail, but it's always safer to have documented evidence. Use apps to scan and store receipts as soon as you get them.</p>`,
           slug: '8-common-accounting-mistakes-that-hurt-small-businesses',
-          created_at: '2024-12-01',
+          created_at: '30-06-2025',
           author: 'Accounting Team',
           category: 'Business Accounting',
           excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
           metaDescription: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',
           metaKeywords: 'accounting mistakes, small business accounting, HMRC compliance, VAT errors, bookkeeping mistakes, tax deadlines, business finances, UK accounting, record keeping, invoice management',
-          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
+          image: '/lovable-uploads/38bd3d15-3145-4d5c-a195-5412cdea9a8e.png'
         };
         setBlogPost(accountingMistakesPost);
       } else if (slug === '5-common-vat-return-mistakes-and-how-to-avoid-them') {
