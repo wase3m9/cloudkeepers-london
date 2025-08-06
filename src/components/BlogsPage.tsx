@@ -51,7 +51,7 @@ export function BlogsPage() {
           created_at: '30-06-2025',
           author: 'Accounting Team',
           category: 'Business Accounting',
-          image: '/lovable-uploads/38bd3d15-3145-4d5c-a195-5412cdea9a8e.png'
+          image: '/lovable-uploads/135bfbd5-ffb2-4881-8a5a-954f426e1a75.png'
         },
         {
           id: '4',
