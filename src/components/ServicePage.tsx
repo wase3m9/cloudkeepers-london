@@ -129,7 +129,7 @@ export function ServicePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <h1 className="text-4xl font-bold mb-8">{niche.name} Services in London</h1>
+            <h1 className="text-4xl font-bold mb-8">Accounting Services in London</h1>
             
             <div className="prose lg:prose-lg mb-12">
               <p className="text-lg text-gray-700 mb-6">
