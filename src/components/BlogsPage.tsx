@@ -34,6 +34,16 @@ export function BlogsPage() {
       // For now, adding dummy data
       const dummyPosts: BlogPost[] = [
         {
+          id: '7',
+          title: 'The Most Tax-Efficient Way for London Directors to Pay Themselves in 2025/26',
+          excerpt: 'Take home more of your money. If you\'re a director of a limited company in London, how you pay yourself matters. Here\'s how to balance salary and dividends in 2025/26 for maximum tax efficiency.',
+          slug: 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26',
+          created_at: '2025-01-06',
+          author: 'Tax Advisory Team',
+          category: 'Tax Planning',
+          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
+        },
+        {
           id: '6',
           title: '8 Common Accounting Mistakes That Hurt Small Businesses',
           excerpt: 'Avoid HMRC fines and cash flow issues. Discover 8 accounting mistakes small business owners often make — plus practical tips to prevent them.',

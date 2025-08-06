@@ -42,7 +42,126 @@ export function BlogPostPage() {
     };
     const fetchBlogPost = async () => {
       setLoading(true);
-      if (slug === '8-common-accounting-mistakes-that-hurt-small-businesses') {
+      if (slug === 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26') {
+        const londonDirectorsPost: BlogPost = {
+          id: '7',
+          title: 'The Most Tax-Efficient Way for London Directors to Pay Themselves in 2025/26',
+          content: `<h1 id="the-most-tax-efficient-way-for-london-directors-to-pay-themselves-in-2025-26" tabindex="-1">The Most Tax-Efficient Way for London Directors to Pay Themselves in 2025/26</h1>
+<p>Take home more of your money.</p>
+<p>If you're a director of a limited company in London, how you pay yourself matters. Here's how to balance salary and dividends in 2025/26 for maximum tax efficiency — without triggering unnecessary HMRC issues.</p>
+
+<h2 id="table-of-contents" tabindex="-1">Table of Contents</h2>
+<ul>
+<li><a href="#why-salary-vs-dividends-matters-in-london">Why Salary vs Dividends Matters in London</a></li>
+<li><a href="#2025-26-tax-allowances-and-thresholds">2025/26 Tax Allowances and Thresholds</a></li>
+<li><a href="#most-efficient-salary-for-a-london-director">Most Efficient Salary for a London Director</a></li>
+<li><a href="#how-dividends-work-and-what-to-watch-out-for">How Dividends Work (and What to Watch Out For)</a></li>
+<li><a href="#salary-dividends-a-smart-combination">Salary + Dividends: A Smart Combination</a></li>
+<li><a href="#example-take-home-breakdown">Example Take-Home Breakdown</a></li>
+<li><a href="#final-thoughts">Final Thoughts</a></li>
+<li><a href="#faqs">FAQs</a></li>
+</ul>
+
+<h2 id="why-salary-vs-dividends-matters-in-london" tabindex="-1">Why Salary vs Dividends Matters in London</h2>
+<p>Living costs in London are high — and so is the tax burden if you get it wrong. As a limited company director, you're in control of how you're paid. Choosing the right mix of salary and dividends can mean thousands saved annually in tax and National Insurance.</p>
+
+<h2 id="2025-26-tax-allowances-and-thresholds" tabindex="-1">2025/26 Tax Allowances and Thresholds</h2>
+<p>Here are the key UK figures you need to know for the 2025/26 tax year:</p>
+<ul>
+<li><strong>Personal Allowance:</strong> £12,570</li>
+<li><strong>National Insurance (Primary Threshold):</strong> £12,570</li>
+<li><strong>Lower Earnings Limit:</strong> £6,396</li>
+<li><strong>Dividend Allowance:</strong> £500</li>
+<li><strong>Corporation Tax:</strong> 19% (for profits under £50k)</li>
+</ul>
+
+<h2 id="most-efficient-salary-for-a-london-director" tabindex="-1">Most Efficient Salary for a London Director</h2>
+<h3 id="option-1-12570-per-year-104750month" tabindex="-1">Option 1: £12,570 per year (£1,047.50/month)</h3>
+<ul>
+<li>No Income Tax</li>
+<li>No employee NI</li>
+<li>Minimal employer NI (claimable through Employment Allowance if eligible)</li>
+<li>Qualifies for state pension and benefits</li>
+</ul>
+<p>✅ <strong>Best for most directors who want to stay in the system and run payroll</strong></p>
+
+<h3 id="option-2-6396-per-year-533month" tabindex="-1">Option 2: £6,396 per year (£533/month)</h3>
+<ul>
+<li>Below National Insurance threshold</li>
+<li>No payroll reporting required monthly</li>
+<li>Still qualifies for NI credits</li>
+</ul>
+<p>✅ <strong>Ideal if you want to avoid PAYE submissions or claim no Employment Allowance</strong></p>
+
+<h2 id="how-dividends-work-and-what-to-watch-out-for" tabindex="-1">How Dividends Work (and What to Watch Out For)</h2>
+<p>Dividends are paid from post-tax profits — so they must be backed by retained earnings.</p>
+<p>For 2025/26:</p>
+<ul>
+<li>First £500 of dividends are tax-free</li>
+<li>Up to £37,700 taxed at 8.75%</li>
+<li>Higher rates apply above this</li>
+</ul>
+<p>🚨 <strong>HMRC is tightening rules around illegal dividends — always ensure accounts show sufficient retained profits before declaring.</strong></p>
+
+<h2 id="salary-dividends-a-smart-combination" tabindex="-1">Salary + Dividends: A Smart Combination</h2>
+<p>Most directors in London follow this model:</p>
+<ol>
+<li>Pay themselves £12,570 in salary</li>
+<li>Top up with dividends (ideally under £50,270 total income)</li>
+</ol>
+<p>This keeps Income Tax and NI low, while taking advantage of the £500 dividend allowance and lower dividend tax rate.</p>
+
+<h2 id="example-take-home-breakdown" tabindex="-1">Example Take-Home Breakdown</h2>
+<p><strong>Scenario:</strong> London-based director takes:</p>
+<ul>
+<li><strong>Salary:</strong> £12,570</li>
+<li><strong>Dividends:</strong> £37,700</li>
+<li><strong>Total Income:</strong> £50,270</li>
+</ul>
+<p><strong>Approximate Taxes:</strong></p>
+<ul>
+<li><strong>Income Tax:</strong> £0</li>
+<li><strong>Dividend Tax:</strong> £3,271.88</li>
+<li><strong>Net Take-Home:</strong> £46,998.12</li>
+</ul>
+<p><em>(Assumes full personal and dividend allowances used)</em></p>
+
+<h2 id="final-thoughts" tabindex="-1">Final Thoughts</h2>
+<p>The best pay structure in 2025/26 still combines a low salary with tax-efficient dividends — but always check your business profits and whether you're eligible for Employment Allowance.</p>
+<p>London directors have additional factors like high living costs, potential mortgage applications, and IR35 contracts to consider — so speak to an accountant if you're unsure.</p>
+<p>At Cloudkeepers, we specialise in helping London-based directors maximise take-home pay while staying fully compliant.</p>
+
+<blockquote>
+<p>"Working with the outstanding Cloudkeepers team is like having a full-time in-house accountant and training manager in own office. Absolutely superb! They have made accounting so easy for us, top team!" - S Watts, Finance Manager</p>
+</blockquote>
+
+<h2 id="faqs" tabindex="-1">FAQs: Paying Yourself Tax-Efficiently in 2025/26</h2>
+
+<h3 id="1-can-i-just-take-dividends-and-no-salary" tabindex="-1">1. Can I just take dividends and no salary?</h3>
+<p>Technically yes, but you'd miss out on National Insurance credits and may draw HMRC scrutiny. A small salary is usually safer and smarter.</p>
+
+<h3 id="2-when-do-i-need-to-pay-tax-on-dividends" tabindex="-1">2. When do I need to pay tax on dividends?</h3>
+<p>Only after your dividend income exceeds the £500 allowance. Tax is due via Self Assessment by 31 January following the tax year.</p>
+
+<h3 id="3-what-if-my-company-didnt-make-a-profit" tabindex="-1">3. What if my company didn't make a profit?</h3>
+<p>You can't pay dividends if there are no retained profits. Consider a small salary only until the business is profitable.</p>
+
+<h3 id="4-is-this-structure-okay-for-mortgage-applications" tabindex="-1">4. Is this structure okay for mortgage applications?</h3>
+<p>Most lenders accept salary + dividend payslips and company accounts. Speak to a mortgage broker familiar with limited company directors.</p>
+
+<h3 id="5-should-i-run-payroll-through-hmrc-or-software" tabindex="-1">5. Should I run payroll through HMRC or software?</h3>
+<p>Use HMRC-recognised software like QuickBooks, Xero, or BrightPay. Or let your accountant handle it — they'll ensure all filings (RTI, EPS) are done on time.</p>`,
+          slug: 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26',
+          created_at: '2025-01-06',
+          author: 'Tax Advisory Team',
+          category: 'Tax Planning',
+          excerpt: 'Take home more of your money. If you\'re a director of a limited company in London, how you pay yourself matters. Here\'s how to balance salary and dividends in 2025/26 for maximum tax efficiency.',
+          metaDescription: 'The most tax-efficient way for London directors to pay themselves in 2025/26. Learn how to balance salary and dividends for maximum tax efficiency without triggering HMRC issues.',
+          metaKeywords: 'London directors salary, dividend tax efficiency, 2025/26 tax planning, limited company directors, salary vs dividends, tax efficient pay, UK director remuneration, corporation tax, National Insurance',
+          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
+        };
+        setBlogPost(londonDirectorsPost);
+      } else if (slug === '8-common-accounting-mistakes-that-hurt-small-businesses') {
         const accountingMistakesPost: BlogPost = {
           id: '6',
           title: '8 Common Accounting Mistakes That Hurt Small Businesses',
