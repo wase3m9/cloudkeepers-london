@@ -158,7 +158,7 @@ export function BlogPostPage() {
           excerpt: 'Take home more of your money. If you\'re a director of a limited company in London, how you pay yourself matters. Here\'s how to balance salary and dividends in 2025/26 for maximum tax efficiency.',
           metaDescription: 'The most tax-efficient way for London directors to pay themselves in 2025/26. Learn how to balance salary and dividends for maximum tax efficiency without triggering HMRC issues.',
           metaKeywords: 'London directors salary, dividend tax efficiency, 2025/26 tax planning, limited company directors, salary vs dividends, tax efficient pay, UK director remuneration, corporation tax, National Insurance',
-          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
+          image: '/lovable-uploads/60de679b-af90-4434-8a7e-7edb66100147.png'
         };
         setBlogPost(londonDirectorsPost);
       } else if (slug === '8-common-accounting-mistakes-that-hurt-small-businesses') {
