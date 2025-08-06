@@ -60,81 +60,147 @@ export const generateMainContent = async (openai: OpenAI, city: string, service:
   try {
     console.log(`Generating main content for ${service} in ${city}`);
     const contentPrompt = `
-Create detailed content for ${service} services in ${city}. Follow this exact structure and formatting:
+Create comprehensive, detailed content for ${service} services in ${city}. Target approximately 1800 words total. Follow this exact structure and formatting:
 
 # ${service} Services in ${city}
 
-[Write a compelling introduction about our expertise in ${service} and presence in ${city}, focusing on local business needs]
+[Write a compelling 200-word introduction about our expertise in ${service} and strong presence in ${city}. Focus on local business needs, community involvement, and how we understand the unique challenges facing businesses in ${city}. Mention our track record and commitment to helping local businesses thrive.]
 
 ## Our Expertise in ${service}
 
-[Write about our specialized knowledge in ${service}, mentioning specific qualifications and experience]
+[Write a comprehensive 250-word section about our specialized knowledge in ${service}. Include specific qualifications, certifications (ACCA, ACA, CIMA), years of experience, team expertise, continuing education, and industry recognition. Mention our approach to staying current with regulations and best practices.]
 
 ## Local ${service} Services in ${city}
 
-[Write about our local presence and understanding of ${city}'s business environment]
+[Write a detailed 200-word section about our local presence and deep understanding of ${city}'s business environment. Include insights about local business trends, economic factors, common challenges businesses face in the area, and how our local knowledge benefits clients.]
 
 ## How We Help ${city} Businesses
 
 ### Comprehensive Financial Solutions
-[Write about our complete range of financial services]
+[Write about our complete range of financial services, from basic bookkeeping to complex financial restructuring]
 
 ### Industry-Specific Expertise
-[Write about our experience with different business sectors]
+[Write about our experience with different business sectors: retail, hospitality, construction, professional services, e-commerce, etc.]
 
 ### Technology-Driven Approach
-[Write about our use of modern accounting software and tools]
+[Write about our use of modern accounting software like Xero, QuickBooks, Sage, cloud-based solutions, and digital transformation]
 
 ### Dedicated Support Team
-[Write about our customer service and support]
+[Write about our customer service, response times, and dedicated account management]
 
-## Our Core ${service} Services
+### Compliance and Regulatory Support
+[Write about staying up-to-date with UK tax laws, VAT regulations, and statutory requirements]
 
-1. Monthly Bookkeeping and Accounting
-   - [List 3-4 specific features]
+### Strategic Business Planning
+[Write about our advisory services, business planning, and growth strategies]
 
-2. Tax Planning and Compliance
-   - [List 3-4 specific features]
+## Industry-Specific Solutions in ${city}
 
-3. Business Advisory
-   - [List 3-4 specific features]
+[Write a 200-word section covering how we serve different industries. Include specific examples for retail businesses, restaurants, construction companies, professional services, e-commerce, and manufacturing. Explain unique challenges and solutions for each sector.]
 
-4. Financial Reporting
-   - [List 3-4 specific features]
+## Our Complete Service Portfolio
+
+1. **Monthly Bookkeeping and Accounting**
+   - Real-time cloud-based bookkeeping
+   - Bank reconciliation and cash flow management
+   - Purchase and sales ledger management
+   - Monthly management reports and KPI dashboards
+
+2. **Tax Planning and Compliance**
+   - Corporation tax preparation and filing
+   - Self-assessment for directors and sole traders
+   - VAT returns and Making Tax Digital compliance
+   - Tax planning strategies to minimize liabilities
+
+3. **Business Advisory and Consulting**
+   - Strategic business planning and forecasting
+   - Cash flow analysis and working capital optimization
+   - Business restructuring and expansion planning
+   - Performance benchmarking and KPI development
+
+4. **Financial Reporting and Analysis**
+   - Annual accounts preparation and filing
+   - Management accounts and board reporting
+   - Budget preparation and variance analysis
+   - Financial modeling and scenario planning
+
+5. **Payroll Services**
+   - Complete payroll processing and administration
+   - PAYE and National Insurance calculations
+   - Auto-enrolment pension compliance
+   - Payroll reporting and analytics
+
+6. **VAT and Tax Services**
+   - VAT registration and compliance
+   - Making Tax Digital implementation
+   - Tax investigations and dispute resolution
+   - R&D tax credits and other reliefs
+
+7. **Startup and Growth Support**
+   - Company formation and registration
+   - Business plan development
+   - Funding and investment support
+   - Scaling strategies for growing businesses
+
+8. **Compliance and Regulatory**
+   - Companies House filing
+   - Statutory audit coordination
+   - Regulatory compliance across all sectors
+   - Risk management and internal controls
+
+## Technology and Digital Solutions
+
+[Write a 100-word section about our technology partnerships with Xero, QuickBooks, Sage, Receipt Bank, and other fintech solutions. Explain how we leverage technology to provide efficient, accurate, and real-time financial information.]
+
+## Why Choose Our ${service} Services in ${city}
+
+[Write a 150-word section highlighting competitive advantages, local market knowledge, client testimonials themes, award recognition, and what sets us apart from other accounting firms in ${city}.]
 
 ${pricingSection}
 
 ## Frequently Asked Questions
 
 ### How quickly can you start working with my business?
-[Write a detailed answer about onboarding process and timeline]
+[Write a detailed answer about onboarding process, typical timelines, what information is needed, and how we ensure smooth transitions]
 
 ### What makes your ${service} services unique in ${city}?
-[Write about unique selling points and local expertise]
+[Write about unique selling points, local expertise, community involvement, and personalized approach]
 
 ### Do you work with specific industries?
-[Write about industry specializations and experience]
+[Write about industry specializations, sector expertise, and examples of businesses we've helped]
 
-### What accounting software do you use?
-[Write about technology stack and integration capabilities]
+### What accounting software do you use and support?
+[Write about technology stack, software partnerships, training, and integration capabilities]
 
-### How do you ensure data security?
-[Write about security measures and compliance]
+### How do you ensure data security and confidentiality?
+[Write about security measures, compliance standards, data protection protocols, and client confidentiality]
 
-### What support can I expect?
-[Write about communication channels and response times]`;
+### What level of support and communication can I expect?
+[Write about communication channels, response times, regular check-ins, and accessibility]
+
+### How do you handle Making Tax Digital and VAT compliance?
+[Write about MTD expertise, software integration, compliance processes, and ongoing support]
+
+### Can you help with business growth and expansion?
+[Write about advisory services, growth planning, funding support, and scaling strategies]
+
+### What are your fees and how do you structure pricing?
+[Write about transparent pricing, value-based approach, and how pricing reflects the comprehensive service provided]
+
+### Do you offer fixed-fee arrangements?
+[Write about pricing certainty, monthly packages, and how fixed fees benefit businesses with budgeting and cash flow]`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { 
           role: "system", 
-          content: "You are an expert accountant creating professional content for an accounting firm's website. Use clear, professional language and focus on value proposition. Format in proper markdown with clear section breaks and bullet points where appropriate."
+          content: "You are an expert accountant creating comprehensive, professional content for an accounting firm's website. Write detailed, valuable content that demonstrates expertise and builds trust. Use clear, professional language with specific examples and actionable insights. Format in proper markdown with clear section breaks and bullet points. Aim for approximately 1800 words total."
         },
         { role: "user", content: contentPrompt }
       ],
       temperature: 0.7,
-      max_tokens: 2000,
+      max_tokens: 7000,
     });
 
     return response.choices[0]?.message?.content || `# ${service} Services in ${city}\n\nWe provide expert ${service} services tailored to ${city} businesses.`;
