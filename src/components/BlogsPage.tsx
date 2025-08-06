@@ -41,7 +41,7 @@ export function BlogsPage() {
           created_at: '05-08-2025',
           author: 'Tax Advisory Team',
           category: 'Tax Planning',
-          image: '/lovable-uploads/60de679b-af90-4434-8a7e-7edb66100147.png'
+          image: '/lovable-uploads/627552b5-0dbe-4298-ad20-0dfab96746b7.png'
         },
         {
           id: '6',
