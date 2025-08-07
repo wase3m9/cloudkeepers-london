@@ -89,23 +89,21 @@ export function LeadForm() {
   }
 
   return (
-    <form id="lead-form" onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 p-4 sm:p-6 bg-white rounded-lg shadow-lg">
-      <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Get Your FREE Consultation</h3>
+    <form id="lead-form" onSubmit={handleSubmit} className="space-y-4 p-6 bg-white rounded-lg shadow-lg">
+      <h3 className="text-2xl font-bold text-center mb-6">Get Your FREE Consultation</h3>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           placeholder="First Name"
           value={formData.firstName}
           onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
           required
-          className="min-h-[44px] text-base"
         />
         <Input
           placeholder="Last Name"
           value={formData.lastName}
           onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
           required
-          className="min-h-[44px] text-base"
         />
       </div>
       
@@ -115,7 +113,6 @@ export function LeadForm() {
         value={formData.email}
         onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
         required
-        className="min-h-[44px] text-base"
       />
       
       <Input
@@ -123,11 +120,10 @@ export function LeadForm() {
         placeholder="Company Website"
         value={formData.website}
         onChange={(e) => setFormData(prev => ({ ...prev, website: e.target.value }))}
-        className="min-h-[44px] text-base"
       />
 
       <select
-        className="w-full p-3 border border-gray-300 rounded-md min-h-[44px] text-base bg-white focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+        className="w-full p-2 border rounded"
         value={formData.companySize}
         onChange={(e) => setFormData(prev => ({ ...prev, companySize: e.target.value }))}
         required
@@ -140,7 +136,7 @@ export function LeadForm() {
       </select>
 
       <select
-        className="w-full p-3 border border-gray-300 rounded-md min-h-[44px] text-base bg-white focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+        className="w-full p-2 border rounded"
         value={formData.serviceInterest}
         onChange={(e) => setFormData(prev => ({ ...prev, serviceInterest: e.target.value }))}
         required
@@ -154,7 +150,7 @@ export function LeadForm() {
       </select>
 
       <select
-        className="w-full p-3 border border-gray-300 rounded-md min-h-[44px] text-base bg-white focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+        className="w-full p-2 border rounded"
         value={formData.currentSoftware}
         onChange={(e) => setFormData(prev => ({ ...prev, currentSoftware: e.target.value }))}
       >
@@ -168,13 +164,13 @@ export function LeadForm() {
 
       <Button 
         type="submit" 
-        className="w-full bg-blue-600 hover:bg-blue-700 min-h-[48px] text-base font-semibold"
+        className="w-full bg-blue-500 hover:bg-blue-600"
         disabled={loading}
       >
         {loading ? "Submitting..." : "Get Free Consultation"}
       </Button>
       
-      <p className="text-xs sm:text-sm text-gray-500 text-center mt-4 leading-relaxed">
+      <p className="text-xs text-gray-500 text-center mt-4">
         By submitting this form, you agree to our privacy policy and terms of service.
       </p>
     </form>
