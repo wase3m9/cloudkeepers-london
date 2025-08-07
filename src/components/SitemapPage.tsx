@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 export function SitemapPage() {
   const [niches, setNiches] = useState<any[]>([])
   const [locations, setLocations] = useState<any[]>([])
+  const [blogs, setBlogs] = useState<any[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,8 +17,17 @@ export function SitemapPage() {
         .from('locations')
         .select('*')
 
+      // Add static blog posts data
+      const blogPosts = [
+        { slug: 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26', created_at: '2025-08-05' },
+        { slug: '8-common-accounting-mistakes-that-hurt-small-businesses', created_at: '2025-06-30' },
+        { slug: '5-common-vat-return-mistakes-and-how-to-avoid-them', created_at: '2025-05-15' },
+        { slug: '7-essential-tax-deadlines-for-uk-small-businesses-in-2025', created_at: '2023-11-15' }
+      ]
+
       if (nichesData) setNiches(nichesData)
       if (locationsData) setLocations(locationsData)
+      setBlogs(blogPosts)
     }
 
     fetchData()
@@ -90,6 +100,17 @@ export function SitemapPage() {
       })
     })
 
+    // Add blog posts
+    blogs.forEach(blog => {
+      sitemap += `
+  <url>
+    <loc>${baseUrl}/blogs/${blog.slug}</loc>
+    <lastmod>${blog.created_at}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`
+    })
+
     sitemap += `
 </urlset>`
 
@@ -97,7 +118,7 @@ export function SitemapPage() {
   }
 
   useEffect(() => {
-    if (niches.length > 0 && locations.length > 0) {
+    if (niches.length > 0 && locations.length > 0 && blogs.length > 0) {
       const sitemapContent = generateSitemap()
       
       // Create a blob and download link for the sitemap
@@ -107,14 +128,14 @@ export function SitemapPage() {
       // You would typically serve this from a static file or API endpoint
       console.log('Sitemap generated:', sitemapContent)
     }
-  }, [niches, locations])
+  }, [niches, locations, blogs])
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">XML Sitemap</h1>
       <div className="bg-gray-100 p-4 rounded-lg">
         <pre className="text-sm overflow-x-auto">
-          {niches.length > 0 && locations.length > 0 ? generateSitemap() : 'Loading sitemap...'}
+          {niches.length > 0 && locations.length > 0 && blogs.length > 0 ? generateSitemap() : 'Loading sitemap...'}
         </pre>
       </div>
     </div>

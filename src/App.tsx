@@ -10,6 +10,7 @@ import { ResourcesPage } from './components/ResourcesPage'
 import { CalculatorsPage } from './components/CalculatorsPage'
 import { AccountingDatesPage } from './components/AccountingDatesPage'
 import { SitemapPage } from './components/SitemapPage'
+import { XMLSitemap } from './components/XMLSitemap'
 import { Toaster } from './components/ui/toaster'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/calculators" element={<CalculatorsPage />} />
         <Route path="/calculators/:slug" element={<DynamicPage />} />
         <Route path="/sitemap" element={<SitemapPage />} />
+        <Route path="/sitemap.xml" element={<XMLSitemap />} />
       </Routes>
       <Toaster />
     </Router>

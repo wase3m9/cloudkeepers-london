@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { Building2, MapPin, Users2 } from 'lucide-react'
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from './ui/breadcrumb'
 
 export function ServicePage() {
   const { slug } = useParams()
@@ -115,6 +116,24 @@ export function ServicePage() {
   const metaTitle = serviceMeta.title;
   const metaDescription = serviceMeta.description;
 
+  // Service Schema
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": `${niche.name} Services`,
+    "description": niche.description,
+    "provider": {
+      "@type": "Organization",
+      "name": "Cloudkeepers Accountants",
+      "url": "https://cloud-keepers.co.uk"
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": "London, UK"
+    },
+    "serviceType": niche.name
+  };
+
   return (
     <>
       <Helmet>
@@ -122,14 +141,31 @@ export function ServicePage() {
         <meta name="description" content={metaDescription} />
         <meta name="keywords" content={serviceMeta.keywords} />
         <link rel="canonical" href={`https://cloud-keepers.co.uk/services/${niche.slug}`} />
+        <script type="application/ld+json">
+          {JSON.stringify(serviceSchema)}
+        </script>
       </Helmet>
 
       <Header niches={niches} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{niche.name} Services</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <h1 className="text-4xl font-bold mb-8">Accounting Services in London</h1>
+            <h1 className="text-4xl font-bold mb-8">{niche.name} Services in London</h1>
             
             <div className="prose lg:prose-lg mb-12">
               <p className="text-lg text-gray-700 mb-6">
@@ -163,6 +199,22 @@ export function ServicePage() {
                 We provide professional {niche.name.toLowerCase()} services to businesses across London and surrounding areas. 
                 Click on your location to learn more about our local services:
               </p>
+              
+              {/* Related Services */}
+              <div className="bg-blue-50 p-6 rounded-lg mb-8">
+                <h3 className="text-xl font-semibold mb-4">Related Services</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {niches.filter(n => n.id !== niche.id).slice(0, 6).map((relatedNiche) => (
+                    <Link
+                      key={relatedNiche.id}
+                      to={`/services/${relatedNiche.slug}`}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline"
+                    >
+                      {relatedNiche.name} Services
+                    </Link>
+                  ))}
+                </div>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {locations.map((location) => (
                   <Link

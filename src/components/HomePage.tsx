@@ -175,7 +175,7 @@ export function HomePage() {
       <Header niches={niches} />
 
       {/* Hero Section */}
-      <div className="relative h-[600px] bg-[url('/lovable-uploads/6a8cee13-1645-48da-b9c9-a975b4aaf629.png')] bg-cover bg-center">
+      <div className="relative h-[600px] bg-[url('/lovable-uploads/6a8cee13-1645-48da-b9c9-a975b4aaf629.png')] bg-cover bg-center" role="img" aria-label="Professional London accounting office with modern technology">
         <div className="absolute inset-0 bg-black/60">
           <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
             <div className="text-white max-w-2xl animate-fade-in">

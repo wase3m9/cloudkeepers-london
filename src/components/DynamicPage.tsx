@@ -8,6 +8,7 @@ import { Footer } from './Footer'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { MainContent } from './MainContent'
 import { FAQSection } from './FAQSection'
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from './ui/breadcrumb'
 
 export function DynamicPage() {
   const { city = 'london', service = 'accounting' } = useParams()
@@ -85,11 +86,33 @@ export function DynamicPage() {
       <Helmet>
         <title>{content.title}</title>
         <meta name="description" content={content.description} />
+        <link rel="canonical" href={`https://cloud-keepers.co.uk/${city}/${service}`} />
       </Helmet>
 
       <Header niches={niches} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to={`/services/${service}`}>{service} Services</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{city}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        
         <div className="mb-8">
           <Link
             to={`/services/${service}`}
