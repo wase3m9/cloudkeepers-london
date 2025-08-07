@@ -167,6 +167,33 @@ export function HomePage() {
         <meta name="description" content="Expert accountant London services offering cloud-based support. Professional accountant in London area - Xero & QuickBooks certified. Local accountant near me for small businesses." />
         <meta name="keywords" content="accountant London, accounting firm London, small business accountant London, professional accountant in London, best accountant London, local accountant near me, affordable accountant London" />
         <link rel="canonical" href="https://cloud-keepers.co.uk/" />
+        <meta property="og:title" content="London's Leading Accountants - Cloudkeepers | Expert Accounting Services" />
+        <meta property="og:description" content="Professional accounting services in London. Xero & QuickBooks specialists, tax planning, bookkeeping, VAT returns. Get your free consultation today!" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://cloud-keepers.co.uk" />
+        <meta property="og:image" content="/lovable-uploads/378eac30-6784-49c8-979b-e25168617a65.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Cloudkeepers Accountants - Professional London Accounting Services" />
+        <meta property="og:site_name" content="Cloudkeepers Accountants" />
+        <meta property="og:locale" content="en_GB" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="London's Leading Accountants - Cloudkeepers | Expert Accounting Services" />
+        <meta name="twitter:description" content="Professional accounting services in London. Xero & QuickBooks specialists, tax planning, bookkeeping, VAT returns. Get your free consultation today!" />
+        <meta name="twitter:image" content="/lovable-uploads/378eac30-6784-49c8-979b-e25168617a65.png" />
+        <meta name="twitter:image:alt" content="Cloudkeepers Accountants - Professional London Accounting Services" />
+        
+        {/* Additional SEO meta tags */}
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+        <meta name="author" content="Cloudkeepers Accountants" />
+        <meta name="coverage" content="London, UK" />
+        <meta name="distribution" content="local" />
+        <meta name="rating" content="general" />
+        <link rel="canonical" href="https://cloud-keepers.co.uk/" />
+        
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
@@ -175,13 +202,13 @@ export function HomePage() {
       <Header niches={niches} />
 
       {/* Hero Section */}
-      <div className="relative h-[600px] bg-[url('/lovable-uploads/6a8cee13-1645-48da-b9c9-a975b4aaf629.png')] bg-cover bg-center" role="img" aria-label="Professional London accounting office with modern technology">
+      <div className="relative h-[500px] sm:h-[600px] bg-[url('/lovable-uploads/6a8cee13-1645-48da-b9c9-a975b4aaf629.png')] bg-cover bg-center" role="img" aria-label="Professional London accounting office with modern technology">
         <div className="absolute inset-0 bg-black/60">
-          <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
             <div className="text-white max-w-2xl animate-fade-in">
-              <h1 className="text-5xl font-bold mb-6">London's Leading Accountants - Cloudkeepers Accounting Services</h1>
-              <p className="text-xl mb-8">Expert Accountant London Services | Xero and QuickBooks Specialists | Local Accounting Firm in London</p>
-              <Link 
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">London's Leading Accountants - Cloudkeepers Accounting Services</h1>
+              <p className="text-lg sm:text-xl mb-6 sm:mb-8 leading-relaxed">Expert Accountant London Services | Xero and QuickBooks Specialists | Local Accounting Firm in London</p>
+              <Link
                 to="#contact" 
                 onClick={handleConsultationClick}
                 className="bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center"
@@ -197,19 +224,19 @@ export function HomePage() {
       <div className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {niches.map((niche) => (
               <Link
                 key={niche.id}
                 to={`/services/${niche.slug}`}
-                className="group bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow hover:scale-105 transform duration-200"
+                className="group bg-white rounded-lg shadow-sm p-6 sm:p-8 hover:shadow-md transition-all duration-300 hover:scale-105 transform min-h-[200px] flex flex-col"
               >
-                <div className="text-blue-600 group-hover:text-blue-700 transition-colors">
+                <div className="text-blue-600 group-hover:text-blue-700 transition-colors mb-4">
                   {serviceIcons[niche.name as keyof typeof serviceIcons] || <CloudIcon className="w-12 h-12 group-hover:animate-jiggle" />}
                 </div>
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">{niche.name}</h3>
-                <p className="text-gray-600">{niche.description}</p>
-                <span className="inline-flex items-center text-blue-600 mt-4 group-hover:text-blue-700">
+                <h3 className="text-xl sm:text-2xl font-semibold mb-3 group-hover:text-blue-600 transition-colors flex-grow">{niche.name}</h3>
+                <p className="text-gray-600 mb-4 leading-relaxed">{niche.description}</p>
+                <span className="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700 min-h-[24px]">
                   Learn more <ArrowRight className="ml-2 w-4 h-4" />
                 </span>
               </Link>

@@ -27,32 +27,38 @@ export function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
-        <title>Contact Us | Professional Accounting Services</title>
-        <meta name="description" content="Get in touch with our team of accounting experts. We're here to help with all your accounting and tax needs." />
-        <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="expires" content="0" />
-        <meta http-equiv="pragma" content="no-cache" />
+        <title>Contact Cloudkeepers Accountants London | Get Free Consultation</title>
+        <meta name="description" content="Contact London's leading accountants for professional accounting services. Free consultation, expert tax advice, bookkeeping & VAT services. Call today!" />
+        <meta name="keywords" content="contact accountant London, accounting services contact, free consultation accountant, London tax advisor contact, bookkeeping services London" />
+        <link rel="canonical" href="https://cloud-keepers.co.uk/contact" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Contact Cloudkeepers Accountants London | Get Free Consultation" />
+        <meta property="og:description" content="Contact London's leading accountants for professional accounting services. Free consultation, expert tax advice, bookkeeping & VAT services." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://cloud-keepers.co.uk/contact" />
+        <meta property="og:image" content="/lovable-uploads/378eac30-6784-49c8-979b-e25168617a65.png" />
       </Helmet>
 
       <Header niches={niches} />
 
-      <div className="flex-grow py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-            <p className="text-xl text-gray-600">
-              Get in touch with our team of experts. We're here to help with all your accounting needs.
+      <div className="flex-grow py-12 sm:py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6">Contact London's Leading Accountants</h1>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Get in touch with our team of expert accountants. We're here to help with all your accounting needs in London.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Our Contact Information</h2>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-3">
-                  <Mail className="w-5 h-5 text-blue-600 mt-1" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Our Contact Information</h2>
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">Email</h3>
+                    <h3 className="font-semibold text-base sm:text-lg">Email</h3>
                     <p className="text-gray-600">
                       <a href={`mailto:${emailAddress}`} className="hover:text-blue-600 transition-colors">
                         {emailAddress}
@@ -60,11 +66,15 @@ export function ContactPage() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Phone className="w-5 h-5 text-blue-600 mt-1" />
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold">Phone</h3>
-                    <p className="text-gray-600">020 3553 8444</p>
+                    <h3 className="font-semibold text-base sm:text-lg">Phone</h3>
+                    <p className="text-gray-600">
+                      <a href="tel:+442035538444" className="hover:text-blue-600 transition-colors">
+                        020 3553 8444
+                      </a>
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
