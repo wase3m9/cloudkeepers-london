@@ -71,7 +71,7 @@ export function ContactPage() {
                   <Clock className="w-5 h-5 text-blue-600 mt-1" />
                   <div>
                     <h3 className="font-semibold">Office Hours</h3>
-                    <p className="text-gray-600">Monday - Friday: 9:30 AM - 6:30 PM</p>
+                    <p className="text-gray-600">Monday - Friday: 9.00 am - 6.00 pm</p>
                     <p className="text-gray-600">Extended hours available upon request</p>
                   </div>
                 </div>
