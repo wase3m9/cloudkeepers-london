@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { HomePage } from './components/HomePage'
 import { ServicePage } from './components/ServicePage'
 import { ContactPage } from './components/ContactPage'
@@ -29,6 +29,7 @@ function App() {
         <Route path="/calculators/:slug" element={<DynamicPage />} />
         <Route path="/sitemap" element={<SitemapPage />} />
         <Route path="/sitemap.xml" element={<XMLSitemap />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster />
     </Router>
