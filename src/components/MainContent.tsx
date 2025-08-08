@@ -153,11 +153,11 @@ export function MainContent({ content }: MainContentProps) {
         <ReactMarkdown
           components={{
             h1: ({ children }) => (
-              <div className="text-center mb-12">
+              <div className="mb-12">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F97316] mb-6 leading-tight">
                   {children}
                 </h1>
-                <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8">
+                <p className="text-gray-600 text-lg md:text-xl max-w-3xl mb-8">
                   Transform your business with our professional accounting services tailored specifically for your needs.
                 </p>
                 <Button 
@@ -169,7 +169,7 @@ export function MainContent({ content }: MainContentProps) {
               </div>
             ),
             h2: ({ children }) => (
-              <h2 className="text-3xl font-semibold text-[#F97316] mt-16 mb-8 text-center">
+              <h2 className="text-3xl font-semibold text-[#F97316] mt-16 mb-8">
                 {children}
               </h2>
             ),
@@ -179,7 +179,7 @@ export function MainContent({ content }: MainContentProps) {
               </h3>
             ),
             p: ({ children }) => (
-              <p className="text-gray-600 leading-relaxed mb-8 text-left max-w-3xl mx-auto">
+              <p className="text-gray-600 leading-relaxed mb-8 text-left max-w-3xl">
                 {children}
               </p>
             ),
@@ -190,10 +190,10 @@ export function MainContent({ content }: MainContentProps) {
       </div>
 
       <div className="bg-white rounded-3xl p-8 md:p-12 lg:p-16">
-        <h2 className="text-3xl font-bold mb-12 text-[#F97316] text-center">Our Core Services</h2>
+        <h2 className="text-3xl font-bold mb-12 text-[#F97316]">Our Core Services</h2>
         <CoreServices />
 
-        <h2 className="text-3xl font-bold mb-12 text-[#F97316] text-center mt-20">Our Packages</h2>
+        <h2 className="text-3xl font-bold mb-12 text-[#F97316] mt-20">Our Packages</h2>
         <PricingSection />
 
         <CTASection />
