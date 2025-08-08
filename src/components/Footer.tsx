@@ -53,7 +53,7 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-2">
-              <p>020 3553 8444</p>
+              <p>020 7118 9799</p>
               <p className="flex items-center">
                 <Mail className="w-4 h-4 mr-2" />
                 <a href={`mailto:${emailAddress}`} className="hover:text-blue-400 transition-colors">

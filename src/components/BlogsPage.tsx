@@ -92,7 +92,7 @@ export function BlogsPage() {
     "logo": "https://cloudkeepers.co.uk/logo.png",
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+44 020 3553 8444",
+      "telephone": "+44 020 7118 9799",
       "contactType": "Customer Service"
     }
   };
@@ -127,7 +127,7 @@ export function BlogsPage() {
     "url": "https://cloudkeepers.co.uk",
     "logo": "https://cloudkeepers.co.uk/logo.png",
     "description": "Cloud Keepers is a London-based accounting and finance agency helping modern businesses with bookkeeping, tax, and financial tools.",
-    "telephone": "+44 020 3553 8444",
+    "telephone": "+44 020 7118 9799",
     "priceRange": "££",
     "address": {
       "@type": "PostalAddress",

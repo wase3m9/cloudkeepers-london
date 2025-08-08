@@ -64,7 +64,7 @@ export function ContactPage() {
                   <Phone className="w-5 h-5 text-blue-600 mt-1" />
                   <div>
                     <h3 className="font-semibold">Phone</h3>
-                    <p className="text-gray-600">020 3553 8444</p>
+                    <p className="text-gray-600">020 7118 9799</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
