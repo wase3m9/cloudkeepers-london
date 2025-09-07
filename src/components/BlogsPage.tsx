@@ -83,66 +83,125 @@ export function BlogsPage() {
     fetchBlogPosts()
   }, [])
 
-  // Organization Schema
-  const organizationSchema = {
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Cloud Keepers",
-    "url": "https://cloudkeepers.co.uk",
-    "logo": "https://cloudkeepers.co.uk/logo.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+44 020 7118 9799",
-      "contactType": "Customer Service"
-    }
-  };
-
-  // Blog listing schema
-  const blogListingSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": blogPosts.map((post, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "item": {
-        "@type": "BlogPosting",
-        "headline": post.title,
-        "url": `https://cloudkeepers.co.uk/blogs/${post.slug}`,
-        "author": {
-          "@type": "Person",
-          "name": post.author
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://cloud-keepers.co.uk/#org",
+        "name": "Cloudkeepers Accountants",
+        "url": "https://cloud-keepers.co.uk/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cloud-keepers.co.uk/logo.png",
+          "contentUrl": "https://cloud-keepers.co.uk/logo.png"
         },
-        "datePublished": post.created_at,
-        "description": post.excerpt,
-        "image": post.image || "https://cloudkeepers.co.uk/og-image.png"
+        "brand": { "@type": "Brand", "name": "Cloudkeepers Accountants" },
+        "founder": { "@type": "Person", "name": "Waseem Choudhary" },
+        "sameAs": [
+          "https://www.linkedin.com/company/cloudkeepers-accountants",
+          "https://twitter.com/cloudkeepers"
+        ],
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "hello@cloud-keepers.co.uk",
+          "telephone": "+44-020-7118-9799",
+          "areaServed": "GB",
+          "availableLanguage": ["en-GB"]
+        }],
+        "knowsAbout": [
+          "Accounting services for small businesses",
+          "Tax planning and preparation",
+          "Bookkeeping and cloud accounting",
+          "VAT returns and compliance",
+          "Payroll services",
+          "Self assessment tax returns",
+          "Limited company accounting"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cloud-keepers.co.uk/#website",
+        "url": "https://cloud-keepers.co.uk/",
+        "name": "Cloudkeepers Accountants",
+        "publisher": { "@id": "https://cloud-keepers.co.uk/#org" },
+        "inLanguage": "en-GB",
+        "isFamilyFriendly": true,
+        "description": "Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://cloud-keepers.co.uk/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Blog",
+        "@id": "https://cloud-keepers.co.uk/#blog",
+        "name": "Cloudkeepers Accounting Blog",
+        "url": "https://cloud-keepers.co.uk/blogs",
+        "publisher": { "@id": "https://cloud-keepers.co.uk/#org" },
+        "inLanguage": "en-GB",
+        "about": [
+          "UK tax advice and updates",
+          "Small business accounting tips", 
+          "VAT and self assessment guidance",
+          "Cloud accounting best practices"
+        ],
+        "hasPart": blogPosts.map(post => ({
+          "@type": "BlogPosting",
+          "headline": post.title,
+          "url": `https://cloud-keepers.co.uk/blogs/${post.slug}`,
+          "author": {
+            "@type": "Person",
+            "name": post.author
+          },
+          "datePublished": post.created_at,
+          "description": post.excerpt,
+          "image": post.image || "https://cloud-keepers.co.uk/og-image.png"
+        }))
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://cloud-keepers.co.uk/#faqs",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you offer fixed-price accounting services?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, we provide transparent fixed-price packages for bookkeeping, tax returns, and annual accounts to help you budget effectively."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you help with Making Tax Digital compliance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Absolutely. We're Xero and QuickBooks certified and help businesses comply with Making Tax Digital requirements for VAT and income tax."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work with cloud accounting software?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, we specialize in cloud-based accounting using Xero, QuickBooks, and other leading platforms for real-time financial visibility."
+            }
+          },
+          {
+            "@type": "Question", 
+            "name": "How quickly can you prepare my self assessment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most self assessments are completed within 5-7 working days of receiving all required documents, well before the January deadline."
+            }
+          }
+        ]
       }
-    }))
-  };
-
-  // Professional Service Schema
-  const professionalServiceSchema = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Cloud Keepers",
-    "url": "https://cloudkeepers.co.uk",
-    "logo": "https://cloudkeepers.co.uk/logo.png",
-    "description": "Cloud Keepers is a London-based accounting and finance agency helping modern businesses with bookkeeping, tax, and financial tools.",
-    "telephone": "+44 020 7118 9799",
-    "priceRange": "££",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "London",
-      "addressCountry": "GB"
-    },
-    "serviceType": [
-      "Cloud Bookkeeping",
-      "HMRC Tax Returns",
-      "Payroll Services",
-      "Company Formation",
-      "Tax Planning",
-      "VAT Returns"
-    ]
-  };
+    ],
+    "dateModified": "2025-01-12"
+  }
 
   return (
     <>
@@ -156,14 +215,8 @@ export function BlogsPage() {
         <meta property="og:url" content="https://cloudkeepers.co.uk/blogs" />
         <link rel="canonical" href="https://cloudkeepers.co.uk/blogs" />
         
-        {/* Organization Schema */}
-        <script type="application/ld+json">{JSON.stringify(organizationSchema)}</script>
-        
-        {/* Professional Service Schema */}
-        <script type="application/ld+json">{JSON.stringify(professionalServiceSchema)}</script>
-        
-        {/* Blog listing Schema */}
-        <script type="application/ld+json">{JSON.stringify(blogListingSchema)}</script>
+        {/* Comprehensive Schema */}
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>
 
       <Header niches={niches} />

@@ -55,109 +55,165 @@ export function HomePage() {
     "@graph": [
       {
         "@type": "Organization",
+        "@id": "https://cloud-keepers.co.uk/#org",
         "name": "Cloudkeepers Accountants",
-        "description": "Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready.",
-        "url": "https://cloud-keepers.co.uk",
-        "logo": "https://cloud-keepers.co.uk/logo.png",
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+44-1234-567890",
-          "contactType": "Customer Service",
-          "areaServed": "GB",
-          "availableLanguage": "English"
+        "url": "https://cloud-keepers.co.uk/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cloud-keepers.co.uk/logo.png",
+          "contentUrl": "https://cloud-keepers.co.uk/logo.png"
         },
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "GB"
-        },
+        "brand": { "@type": "Brand", "name": "Cloudkeepers Accountants" },
+        "founder": { "@type": "Person", "name": "Waseem Choudhary" },
         "sameAs": [
           "https://www.linkedin.com/company/cloudkeepers-accountants",
           "https://twitter.com/cloudkeepers"
         ],
-        "services": [
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "hello@cloud-keepers.co.uk",
+          "telephone": "+44-020-7118-9799",
+          "areaServed": "GB",
+          "availableLanguage": ["en-GB"]
+        }],
+        "knowsAbout": [
+          "Accounting services for small businesses",
+          "Tax planning and preparation",
+          "Bookkeeping and cloud accounting",
+          "VAT returns and compliance",
+          "Payroll services",
+          "Self assessment tax returns",
+          "Limited company accounting"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cloud-keepers.co.uk/#website",
+        "url": "https://cloud-keepers.co.uk/",
+        "name": "Cloudkeepers Accountants",
+        "publisher": { "@id": "https://cloud-keepers.co.uk/#org" },
+        "inLanguage": "en-GB",
+        "isFamilyFriendly": true,
+        "description": "Expert UK accountants offering cloud-based support. Xero & QuickBooks certified. Helping small businesses stay compliant and tax digital ready.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://cloud-keepers.co.uk/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://cloud-keepers.co.uk/#service",
+        "name": "Accounting & Tax Services",
+        "provider": { "@id": "https://cloud-keepers.co.uk/#org" },
+        "serviceType": [
+          "Limited Company Accounting",
+          "Self Assessment Tax Returns", 
+          "Bookkeeping Services",
+          "VAT Returns",
+          "Payroll Services",
+          "Tax Planning"
+        ],
+        "areaServed": { "@type": "Country", "name": "United Kingdom" },
+        "audience": {
+          "@type": "BusinessAudience",
+          "name": "Small businesses, limited companies, and sole traders"
+        },
+        "offers": { "@id": "https://cloud-keepers.co.uk/#catalog" },
+        "url": "https://cloud-keepers.co.uk/services"
+      },
+      {
+        "@type": "OfferCatalog",
+        "@id": "https://cloud-keepers.co.uk/#catalog",
+        "name": "Accounting Service Packages",
+        "itemListElement": [
           {
-            "@type": "Service",
-            "name": "Limited Company Accounting",
-            "description": "Professional accounting services for limited companies"
+            "@type": "Offer",
+            "name": "Essential Bookkeeping",
+            "price": "150",
+            "priceCurrency": "GBP",
+            "url": "https://cloud-keepers.co.uk/services/bookkeeping",
+            "category": "Bookkeeping",
+            "description": "Monthly bookkeeping, bank reconciliation, and basic financial reports.",
+            "eligibleCustomerType": "Business"
           },
           {
-            "@type": "Service", 
+            "@type": "Offer",
             "name": "Self Assessment",
-            "description": "Self assessment tax return preparation and filing"
+            "price": "200",
+            "priceCurrency": "GBP",
+            "url": "https://cloud-keepers.co.uk/services/self-assessment",
+            "category": "Tax Returns",
+            "description": "Complete self assessment preparation and HMRC submission.",
+            "eligibleCustomerType": "Individual"
           },
           {
-            "@type": "Service",
-            "name": "Bookkeeping",
-            "description": "Cloud-based bookkeeping services using Xero and QuickBooks"
-          },
-          {
-            "@type": "Service",
-            "name": "VAT Returns",
-            "description": "VAT return preparation and submission services"
-          },
-          {
-            "@type": "Service",
-            "name": "Payroll",
-            "description": "Complete payroll management services"
+            "@type": "Offer",
+            "name": "Limited Company Package",
+            "price": "500",
+            "priceCurrency": "GBP",
+            "url": "https://cloud-keepers.co.uk/services/limited-company-accounting",
+            "category": "Company Accounting",
+            "description": "Annual accounts, corporation tax, and Companies House filing.",
+            "eligibleCustomerType": "Business"
           }
         ]
       },
       {
-        "@type": "LocalBusiness",
-        "@id": "https://cloud-keepers.co.uk/#localbusiness",
-        "name": "Cloudkeepers Accountants London",
-        "description": "Professional accountant London services offering cloud-based accounting support. Expert accounting firm in London for small businesses.",
-        "url": "https://cloud-keepers.co.uk",
-        "priceRange": "££",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "London",
-          "addressCountry": "GB"
-        },
-        "areaServed": [
+        "@type": "Blog",
+        "@id": "https://cloud-keepers.co.uk/#blog",
+        "name": "Cloudkeepers Accounting Blog",
+        "url": "https://cloud-keepers.co.uk/blogs",
+        "publisher": { "@id": "https://cloud-keepers.co.uk/#org" },
+        "inLanguage": "en-GB",
+        "about": [
+          "UK tax advice and updates",
+          "Small business accounting tips",
+          "VAT and self assessment guidance",
+          "Cloud accounting best practices"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://cloud-keepers.co.uk/#faqs",
+        "mainEntity": [
           {
-            "@type": "City",
-            "name": "London"
+            "@type": "Question",
+            "name": "Do you offer fixed-price accounting services?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, we provide transparent fixed-price packages for bookkeeping, tax returns, and annual accounts to help you budget effectively."
+            }
           },
           {
-            "@type": "Country",
-            "name": "United Kingdom"
-          }
-        ],
-        "openingHours": "Mo-Fr 09:30-18:30",
-        "telephone": "+44-1234-567890",
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Accounting Services London",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Self Assessment Tax Return London",
-                "description": "Professional self assessment accountant London services"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "VAT Return Accountant London",
-                "description": "Expert VAT returns help London - Making Tax Digital accountant"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Payroll Services London",
-                "description": "Professional payroll accountant London and PAYE services"
-              }
+            "@type": "Question",
+            "name": "Can you help with Making Tax Digital compliance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Absolutely. We're Xero and QuickBooks certified and help businesses comply with Making Tax Digital requirements for VAT and income tax."
             }
-          ]
-        }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work with cloud accounting software?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, we specialize in cloud-based accounting using Xero, QuickBooks, and other leading platforms for real-time financial visibility."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly can you prepare my self assessment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most self assessments are completed within 5-7 working days of receiving all required documents, well before the January deadline."
+            }
+          }
+        ]
       }
-    ]
+    ],
+    "dateModified": "2025-01-12"
   }
 
   return (
