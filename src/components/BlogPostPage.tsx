@@ -1014,109 +1014,196 @@ Allocate time for preparing statements, reviewing them with directors and accoun
   }, [slug]);
 
   const generateSchemaOrgData = () => {
-    if (!blogPost) return null;
-    const schemaData = {
+    if (!blogPost) return {};
+    
+    // Calculate reading time (approximate 200 words per minute)
+    const wordCount = blogPost.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+    const readingTime = Math.ceil(wordCount / 200);
+    
+    return {
       "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": `https://cloudkeepers.co.uk/blogs/${blogPost.slug}`
-      },
-      "headline": blogPost.title,
-      "description": blogPost.metaDescription || blogPost.excerpt,
-      "image": {
-        "@type": "ImageObject",
-        "url": blogPost.image ? `https://cloudkeepers.co.uk${blogPost.image}` : "https://cloudkeepers.co.uk/og-image.png",
-        "width": 1200,
-        "height": 630
-      },
-      "author": {
-        "@type": "Person",
-        "name": blogPost.author
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Cloudkeepers Accountants",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://cloudkeepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png",
-          "width": 300,
-          "height": 60
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://cloud-keepers.co.uk/#org",
+          "name": "Cloudkeepers Accountants",
+          "url": "https://cloud-keepers.co.uk/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://cloud-keepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}#webpage`,
+          "url": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}`,
+          "name": blogPost.title,
+          "isPartOf": { "@id": "https://cloud-keepers.co.uk/#website" },
+          "inLanguage": "en-GB",
+          "description": blogPost.metaDescription || blogPost.excerpt,
+          "datePublished": blogPost.created_at,
+          "dateModified": blogPost.created_at,
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": blogPost.image ? `https://cloud-keepers.co.uk${blogPost.image}` : "https://cloud-keepers.co.uk/og-image.png",
+            "width": 1600,
+            "height": 900
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://cloud-keepers.co.uk/#website",
+          "url": "https://cloud-keepers.co.uk/",
+          "name": "Cloudkeepers Accountants",
+          "publisher": { "@id": "https://cloud-keepers.co.uk/#org" },
+          "inLanguage": "en-GB"
+        },
+        {
+          "@type": "BlogPosting",
+          "@id": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}#article`,
+          "mainEntityOfPage": { "@id": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}#webpage` },
+          "headline": blogPost.title,
+          "description": blogPost.metaDescription || blogPost.excerpt,
+          "articleSection": blogPost.category,
+          "keywords": blogPost.metaKeywords?.split(', ') || [],
+          "about": [
+            { "@type": "Thing", "name": "UK Tax Planning" },
+            { "@type": "Thing", "name": "Small Business Accounting" }
+          ],
+          "mentions": [
+            { "@type": "Thing", "name": "HMRC Compliance" },
+            { "@type": "Thing", "name": "Making Tax Digital" }
+          ],
+          "image": {
+            "@type": "ImageObject",
+            "url": blogPost.image ? `https://cloud-keepers.co.uk${blogPost.image}` : "https://cloud-keepers.co.uk/og-image.png",
+            "width": 1600,
+            "height": 900
+          },
+          "author": {
+            "@type": "Organization",
+            "@id": "https://cloud-keepers.co.uk/#org",
+            "name": "Cloudkeepers Accountants"
+          },
+          "publisher": { "@id": "https://cloud-keepers.co.uk/#org" },
+          "datePublished": blogPost.created_at,
+          "dateModified": blogPost.created_at,
+          "inLanguage": "en-GB",
+          "isAccessibleForFree": true,
+          "wordCount": wordCount,
+          "timeRequired": `PT${readingTime}M`,
+          "url": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}`
         }
-      },
-      "datePublished": blogPost.created_at,
-      "dateModified": blogPost.created_at,
-      "wordCount": blogPost.content ? blogPost.content.replace(/<[^>]*>/g, '').split(' ').length : 0,
-      "articleSection": blogPost.category,
-      "keywords": blogPost.metaKeywords,
-      "inLanguage": "en-GB",
-      "isAccessibleForFree": true
+      ]
     };
-    return JSON.stringify(schemaData);
   };
 
-  // Organization Schema for better SEO
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Cloudkeepers Accountants",
-    "url": "https://cloudkeepers.co.uk",
-    "logo": "https://cloudkeepers.co.uk/lovable-uploads/9492f1ae-26c7-4526-ab35-99ecdf1fa626.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+44 020 7118 9799",
-      "contactType": "Customer Service"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "London",
-      "addressCountry": "GB"
-    },
-    "sameAs": [
-      "https://www.linkedin.com/company/cloudkeepers",
-      "https://twitter.com/cloudkeepers"
-    ]
+  const generateBreadcrumbSchema = () => {
+    if (!blogPost) return {};
+    
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "@id": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}#breadcrumbs`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://cloud-keepers.co.uk/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://cloud-keepers.co.uk/blogs"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": blogPost.title,
+          "item": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}`
+        }
+      ]
+    };
   };
 
-  // FAQ Schema for the blog post
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What are the most common accounting errors in small businesses?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The most frequent errors include mixing business and personal expenses, poor record-keeping, misclassifying transactions, missing tax deadlines, and underestimating the importance of professional advice."
+  const generateFAQSchema = () => {
+    if (!blogPost || !blogPost.content.includes('id="faqs"')) return {};
+    
+    // Extract FAQ sections from content if they exist
+    const faqData = [];
+    
+    // For the directors pay post
+    if (blogPost.slug === 'the-most-tax-efficient-way-for-london-directors-to-pay-themselves-2025-26') {
+      faqData.push(
+        {
+          "@type": "Question",
+          "name": "Can I just take dividends and no salary?",
+          "acceptedAnswer": { 
+            "@type": "Answer", 
+            "text": "Technically yes, but you'd miss out on National Insurance credits and may draw HMRC scrutiny. A small salary is usually safer and smarter." 
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When do I need to pay tax on dividends?",
+          "acceptedAnswer": { 
+            "@type": "Answer", 
+            "text": "Only after your dividend income exceeds the £500 allowance. Tax is due via Self Assessment by 31 January following the tax year." 
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my company didn't make a profit?",
+          "acceptedAnswer": { 
+            "@type": "Answer", 
+            "text": "You can't pay dividends if there are no retained profits. Consider a small salary only until the business is profitable." 
+          }
         }
-      },
-      {
-        "@type": "Question", 
-        "name": "How can I avoid accounting mistakes if I manage my own books?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Use reliable accounting software, keep records updated weekly, reconcile your bank accounts monthly, and consider booking a quarterly check-in with a qualified accountant."
+      );
+    }
+    
+    // For the accounting mistakes post
+    if (blogPost.slug === '8-common-accounting-mistakes-that-hurt-small-businesses') {
+      faqData.push(
+        {
+          "@type": "Question",
+          "name": "What are the most common accounting errors in small businesses?",
+          "acceptedAnswer": { 
+            "@type": "Answer", 
+            "text": "The most frequent errors include mixing business and personal expenses, poor record-keeping, misclassifying transactions, missing tax deadlines, and underestimating the importance of professional advice." 
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I avoid accounting mistakes if I manage my own books?",
+          "acceptedAnswer": { 
+            "@type": "Answer", 
+            "text": "Use reliable accounting software, keep records updated weekly, reconcile your bank accounts monthly, and consider booking a quarterly check-in with a qualified accountant." 
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I miss a VAT deadline?",
+          "acceptedAnswer": { 
+            "@type": "Answer", 
+            "text": "Missing a VAT deadline can result in late submission penalties and interest on unpaid amounts. Consistent lateness may also increase the likelihood of an HMRC audit." 
+          }
         }
-      },
-      {
-        "@type": "Question",
-        "name": "What happens if I miss a VAT deadline?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Missing a VAT deadline can result in late submission penalties and interest on unpaid amounts. Consistent lateness may also increase the likelihood of an HMRC audit."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "When should I hire an accountant for my small business?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Ideally, before you hit the VAT threshold or begin trading. However, many small businesses benefit from part-time or quarterly support early on — especially at year-end or when preparing for funding."
-        }
-      }
-    ]
+      );
+    }
+    
+    if (faqData.length === 0) return {};
+    
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": `https://cloud-keepers.co.uk/blogs/${blogPost.slug}#faqs`,
+      "mainEntity": faqData
+    };
   };
+
 
   if (loading) {
     return <>
@@ -1184,17 +1271,15 @@ Allocate time for preparing statements, reviewing them with directors and accoun
         <meta httpEquiv="content-language" content="en-GB" />
         <link rel="canonical" href={`https://cloudkeepers.co.uk/blogs/${blogPost?.slug}`} />
         
-        {/* Structured Data */}
+        {/* Comprehensive JSON-LD Schema */}
         <script type="application/ld+json">
-          {generateSchemaOrgData()}
+          {JSON.stringify(generateSchemaOrgData())}
         </script>
-        
         <script type="application/ld+json">
-          {JSON.stringify(organizationSchema)}
+          {JSON.stringify(generateBreadcrumbSchema())}
         </script>
-        
         <script type="application/ld+json">
-          {JSON.stringify(faqSchema)}
+          {JSON.stringify(generateFAQSchema())}
         </script>
       </Helmet>
 
